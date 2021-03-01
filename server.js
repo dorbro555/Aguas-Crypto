@@ -31,8 +31,7 @@ app.get('/api/ohlc', (req, res) => {
   axios.get('https://api.cryptowat.ch/markets/kraken/ethusd/ohlc')
   .then(res => res.data)
   .then((candles) => {
-    console.log('got a request')
-    res.json(candles.result['300'])
+    res.json(candles.result['14400'])
   })
 });
 

@@ -3,30 +3,42 @@ import CanvasJSReact from './assets/canvasjs.stock.react'
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSStockChart = CanvasJSReact.CanvasJSStockChart;
 
-const { RESTClient } = require('cw-sdk-node')
-
-
-var dataPoints = [];
-
 class Chart extends Component {
   constructor(props) {
     super(props);
     this.state = { dataPoints1: [], dataPoints2: [], dataPoints3: [], isLoaded: false };
+    this.calculateSMA = this.calculateSMA.bind(this)
+  }
+
+  calculateSMA(dps, period){
+    if(dps === undefined || dps.length == 0) return null
+    period = period || 15;
+    console.log("in sma the dps are " + dps)
+    let closes = dps.map((dataPoint) => dataPoint.y[3]),
+        sumReducer = (acc, curVal) =>  acc + curVal,
+        results = []
+    for (let i = 0; i < period; i++){
+      results.push({  x: dps[i].x, y: null})
+    }
+    for(let i = period-1; i < closes.length; i++){
+      let avg = closes.slice(i-period+1, i).reduce(sumReducer) / period
+      results.push({ x: dps[i].x, y: avg})
+    }
+    return results
   }
 
   componentDidMount(){
     fetch('/api/ohlc')
     .then(res => res.json())
 		.then(result => {
-      console.log(result)
       var dps1 = [], dps2 = [], dps3 = [];
 			for (var i = 0; i < result.length; i++) {
 				dps1.push({
-					x: new Date(result[i][0]),
+					x: new Date(result[i][0]*1000),
 					y: result[i].slice(1, 5)
 				});
-        dps2.push({x: new Date(result[i][0]), y: result[i][6]})
-        dps3.push({x: new Date(result[i][0]), y: result[i][4]})
+        dps2.push({x: new Date(result[i][0]*1000), y: result[i][6]})
+        dps3.push({x: new Date(result[i][0]*1000), y: result[i][4]})
 
       }
       this.setState({
@@ -39,6 +51,7 @@ class Chart extends Component {
 	}
 
   render() {
+
     const options = {
       theme: "light2",
       title:{
@@ -75,6 +88,10 @@ class Chart extends Component {
           yValueFormatString: "$#,###.##",
           type: "candlestick",
           dataPoints : this.state.dataPoints1
+        },{
+          name: "SMA",
+          type: "line",
+          dataPoints : this.calculateSMA(this.state.dataPoints1, 50)
         }]
       },{
         height: 100,
