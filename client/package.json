@@ -13,10 +13,12 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "css-build": "sass --no-source-map src/sass/mystyles.scss src/css/index.css",
+    "css-watch": "yarn css-build -- --watch",
+    "start": "react-scripts start && yarn css-watch"
   },
   "proxy": "http://localhost:5000",
   "eslintConfig": {
@@ -36,5 +38,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "bulma": "^0.9.2",
+    "sass": "^1.32.8"
   }
 }

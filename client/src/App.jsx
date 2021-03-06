@@ -6,8 +6,13 @@ import Chart from './Chart'
 function App() {
   return (
     <div className="App">
-      <Chart/>
-      
+    <div className='columns'>
+      <div className='column is-5'>
+        <Chart/>
+
+      </div>
+    </div>
+
     </div>
   );
 }

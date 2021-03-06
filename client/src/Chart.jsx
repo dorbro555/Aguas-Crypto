@@ -51,7 +51,7 @@ class Chart extends Component {
 	}
 
   render() {
-
+    const showSMA = true
     const options = {
       theme: "light2",
       title:{
@@ -78,7 +78,11 @@ class Chart extends Component {
         axisY: {
           title: "Litecoin Price",
           prefix: "$",
-          tickLength: 0
+          tickLength: 0,
+          dataPointMinWidth: 200,
+          scaleBreaks: {
+            autoCalculate: true
+          }
         },
         toolTip: {
           shared: true
