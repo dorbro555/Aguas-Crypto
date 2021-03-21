@@ -27,11 +27,11 @@ app.get('/api/exchanges', (req, res) => {
   })
 });
 
-app.get('/api/ohlc', (req, res) => {
-  axios.get('https://api.cryptowat.ch/markets/kraken/ethusd/ohlc')
+app.get('/api/ohlc/:pair', (req, res) => {
+  axios.get(`https://api.cryptowat.ch/markets/kraken/${req.params.pair}usd/ohlc`)
   .then(res => res.data)
   .then((candles) => {
-    res.json(candles.result['14400'])
+    res.json(candles.result)
   })
 });
 
