@@ -17,10 +17,10 @@ class Chart extends Component {
     const options = {
       theme: "light2",
       title:{
-        text:"Ethereum Price (ETH)"
+        text:"Atom Price (ATOM)"
       },
       subtitles: [{
-        text: "Ethereum Price (ETH)"
+        text: "Atom Price (ATOM)"
       }],
       charts: [
         {
@@ -39,7 +39,7 @@ class Chart extends Component {
             }
           },
           axisY2: {
-            title: "Litecoin Price",
+            title: "Price",
             prefix: "$",
             tickLength: 0,
             scaleBreaks: {
@@ -137,7 +137,7 @@ class Chart extends Component {
         price = dps1.slice(-range).concat(paddedWindow),
         volume = dps2.slice(-range),
         sma = calculateSMA(price),
-        ichimokuCloud = calculateIchimokuClouds(dps1.slice(-range))
+        ichimokuCloud = calculateIchimokuClouds(price)
 
     this.setState({
       isLoaded: true,

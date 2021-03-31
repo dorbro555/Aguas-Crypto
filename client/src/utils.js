@@ -18,7 +18,6 @@ function calculateSMA(dps, period){
     })
   }
   results = rawResults.map((avg, i) => {
-
     if(!dps[i+period-1].y){
       return {
         x: dps[i+period-1].x,
@@ -50,17 +49,23 @@ function calculateIchimokuClouds(dps, period){
   if (dps === undefined || dps.length == 0) return null
   period = period || 3600
 
-  let highs = dps.map((dataPoint) => dataPoint.y[1]),
-      lows = dps.map((dataPoint) => dataPoint.y[2]),
+  let highs = dps.map((dataPoint) => {if(!dataPoint.y) return null; else return dataPoint.y[1]}),
+      lows = dps.map((dataPoint) => {if(!dataPoint.y) return null; else return dataPoint.y[2]}),
       conversionPeriod = 9,
       basePeriod = 26,
       spanPeriod = 52,
       displacement = 26
 
-  var results = IchimokuCloud.calculate({high: highs, low: lows, conversionPeriod: conversionPeriod, basePeriod: basePeriod, spanPeriod: spanPeriod, displacement: displacement})
+  var results = IchimokuCloud.calculate({high: highs,
+                                         low: lows,
+                                         conversionPeriod,
+                                         basePeriod,
+                                         spanPeriod,
+                                         displacement})
+                              .slice(0, -displacement)
   console.log(results)
   results = results.map((dp, idx) => {return {
-    x: dps[idx+spanPeriod-1].x,
+    x: dps[idx+spanPeriod+displacement-1].x,
     y: [dp.spanB, dp.spanA]
   }})
   //add data points that are placed (displacement) in future
@@ -81,12 +86,12 @@ function calculateFutureDates(recentDate, timeframe, period){
     recentDate += (timeframe*1000)
     newDates.push(recentDate)
   }
-  console.log(newDates.map((date, i) => {
-    return {
-      x: new Date(date),
-      y: null
-    }
-  }))
+  // console.log(newDates.map((date, i) => {
+  //   return {
+  //     x: new Date(date),
+  //     y: null
+  //   }
+  // }))
   return newDates.map((date, i) => {
     return {
       x: new Date(date),
