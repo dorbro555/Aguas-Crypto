@@ -1,15 +1,14 @@
 import logo from './logo.svg';
 import './App.css';
 
-import Chart from './Chart'
+import Charts from './Charts'
 
 function App() {
   return (
     <div className="App">
     <div className='columns'>
-      <div className='column is-5'>
-        <Chart/>
-
+      <div className='column is-10'>
+        <Charts/>
       </div>
     </div>
 
