@@ -66,16 +66,19 @@ function calculateIchimokuClouds(dps, period){
   console.log(results)
   results = results.map((dp, idx) => {return {
     x: dps[idx+spanPeriod+displacement-1].x,
-    y: [dp.spanB, dp.spanA]
+    senkou: dp.spanA >= dp.spanB ? [dp.spanA, dp.spanB] : null,
+    redSenkou: dp.spanB > dp.spanA ? [dp.spanA , dp.spanB]:null,
+    xBase: dps[idx+spanPeriod-1].x,
+    base: dp.base,
+    conversion: dp.conversion
   }})
-  //add data points that are placed (displacement) in future
-  // for(var j = 0; j < displacement; j++){
-  //   results.push({
-  //     x: new Date(dps[dps.length-1].valueOf + (window * 1000)),
-  //     y:
-  //   })
-  // }
-  return results
+
+  return {
+    senkou: results.map(dp => {return {x: dp.x, y: dp.senkou}}),
+    redSenkou: results.map(dp => {return {x: dp.x, y: dp.redSenkou}}),
+    baseLine: results.map(dp => {return {x: dp.xBase, y: dp.base}}),
+    conversionLine: results.map(dp => {return {x: dp.xBase, y: dp.conversion}})
+  }
 }
 
 function calculateFutureDates(recentDate, timeframe, period){

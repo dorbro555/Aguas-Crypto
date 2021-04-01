@@ -8,7 +8,17 @@ var CanvasJSStockChart = CanvasJSReact.CanvasJSStockChart;
 class Chart extends Component {
   constructor(props) {
     super(props);
-    this.state = { dataPoints1: [], dataPoints2: [], dataPoints3: [], isLoaded: false };
+    this.state = {
+      dataPoints1: [],
+      dataPoints2: [],
+      price: [],
+      volume: [],
+      sma: [],
+      ichimokuCloud: [],
+      baseLine: [],
+      conversionLine: [],
+      isLoaded: false
+    };
   }
 
   render() {
@@ -63,13 +73,38 @@ class Chart extends Component {
             type: "line",
             visible: showSMA,
             axisYType: "secondary",
+            markerType: 'none',
             dataPoints : this.state.sma
+          },
+          {
+            name: "Conversion Line",
+            type: "line",
+            axisYType: "secondary",
+            markerType: 'none',
+            dataPoints : this.state.conversionLine
+          },
+          {
+            name: "Base Line",
+            type: "line",
+            axisYType: "secondary",
+            markerType: 'none',
+            dataPoints : this.state.baseLine
           },
           {
             name: 'Senkou',
             type: "rangeSplineArea",
             axisYType: 'secondary',
-            dataPoints: this.state.ichimokuCloud
+            markerType: 'none',
+            color: 'green',
+            dataPoints: this.state.ichimokuCloud.greenSenkou
+          },
+          {
+            name: 'Red Senkou',
+            type: "rangeSplineArea",
+            axisYType: 'secondary',
+            markerType: 'none',
+            color: 'red',
+            dataPoints: this.state.ichimokuCloud.redSenkou
           }]
         },
         {
@@ -146,7 +181,12 @@ class Chart extends Component {
       price,
       volume,
       sma,
-      ichimokuCloud
+      ichimokuCloud: {
+        greenSenkou: ichimokuCloud.senkou,
+        redSenkou: ichimokuCloud.redSenkou
+      },
+      baseLine: ichimokuCloud.baseLine,
+      conversionLine: ichimokuCloud.conversionLine
     })
   }
 }
