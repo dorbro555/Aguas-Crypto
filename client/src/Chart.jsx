@@ -17,6 +17,7 @@ class Chart extends Component {
       ichimokuCloud: [],
       baseLine: [],
       conversionLine: [],
+      indicators: {},
       isLoaded: false
     };
   }
@@ -32,7 +33,7 @@ class Chart extends Component {
       subtitles: [{
         text: "Atom Price (ATOM)"
       }],
-      height:550,
+      height:650,
       charts: [
         {
           axisX: {
@@ -144,10 +145,25 @@ class Chart extends Component {
           data: [
             {
               axisYType: "secondary",
-              dataPoints: this.state.indicator
+              dataPoints: this.state.indicators.senkouIndicator,
             }
           ]
-        }
+        },{
+            title:{
+              text: "TK Cross"
+            },
+            height: 100,
+            axisY2: {
+              maximum: 1
+            },
+            dataPointMinWidth: 3,
+            data: [
+              {
+                axisYType: "secondary",
+                dataPoints: this.state.indicators.tkIndicator,
+              }
+            ]
+          }
       ],
       navigator: {
         enabled: false
@@ -158,7 +174,7 @@ class Chart extends Component {
     };
     const containerProps = {
       width: "100%",
-      height: "550px",
+      height: "650px",
       margin: "auto"
     };
     return (
@@ -212,7 +228,10 @@ class Chart extends Component {
       },
       baseLine: ichimokuCloud.baseLine,
       conversionLine: ichimokuCloud.conversionLine,
-      indicator: ichimokuCloud.senkouIndicator,
+      indicators: {
+        senkouIndicator: ichimokuCloud.senkouIndicator,
+        tkIndicator: ichimokuCloud.tkIndicator
+      },
     })
   }
 }
