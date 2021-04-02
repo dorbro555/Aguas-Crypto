@@ -45,9 +45,8 @@ function calculateRSI(dps, period){
   return null
 }
 
-function calculateIchimokuClouds(dps, period){
+function calculateIchimokuClouds(dps){
   if (dps === undefined || dps.length == 0) return null
-  period = period || 3600
 
   let highs = dps.map((dataPoint) => {if(!dataPoint.y) return null; else return dataPoint.y[1]}),
       lows = dps.map((dataPoint) => {if(!dataPoint.y) return null; else return dataPoint.y[2]}),
@@ -63,12 +62,11 @@ function calculateIchimokuClouds(dps, period){
                                          spanPeriod,
                                          displacement})
                               .slice(0, -displacement)
-  console.log(results)
   results = results.map((dp, idx) => {return {
     x: dps[idx+spanPeriod+displacement-1].x,
     senkou: dp.spanA >= dp.spanB ? [dp.spanA, dp.spanB] : null,
     redSenkou: dp.spanB > dp.spanA ? [dp.spanA , dp.spanB]:null,
-    xBase: dps[idx+spanPeriod-1].x,
+    xBase: dps[idx+spanPeriod-2].x,
     base: dp.base,
     conversion: dp.conversion
   }})
@@ -76,8 +74,8 @@ function calculateIchimokuClouds(dps, period){
   return {
     senkou: results.map(dp => {return {x: dp.x, y: dp.senkou}}),
     redSenkou: results.map(dp => {return {x: dp.x, y: dp.redSenkou}}),
-    baseLine: results.map(dp => {return {x: dp.xBase, y: dp.base}}),
-    conversionLine: results.map(dp => {return {x: dp.xBase, y: dp.conversion}})
+    baseLine: results.slice(displacement+1).map(dp => {return {x: dp.xBase, y: dp.base}}),
+    conversionLine: results.slice(displacement+1).map(dp => {return {x: dp.xBase, y: dp.conversion}})
   }
 }
 

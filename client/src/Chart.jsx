@@ -22,7 +22,7 @@ class Chart extends Component {
   }
 
   render() {
-    const showSMA = true
+    const showSMA = false
     const range = 100
     const options = {
       theme: "light2",
@@ -159,25 +159,28 @@ class Chart extends Component {
   componentDidMount(){
     let result = this.props.tf,
         range = 100
-    var dps1 = [], dps2 = []
+    var dps1 = [], dps2 = [], dates = []
     for (var i = 0; i < result.length; i++) {
+      var readableDate = new Date(result[i][0]*1000)
+      dates.push(readableDate)
       dps1.push({
-        x: new Date(result[i][0]*1000),
+        x: readableDate,
         y: result[i].slice(1, 5)
       });
-      dps2.push({x: new Date(result[i][0]*1000), y: result[i][6]})
+      dps2.push({x: readableDate, y: result[i][6]})
     }
     let recentDate = result[result.length-1][0]*1000,
         paddedWindow = calculateFutureDates(recentDate, this.props.timeframe),
         price = dps1.slice(-range).concat(paddedWindow),
         volume = dps2.slice(-range),
         sma = calculateSMA(price),
-        ichimokuCloud = calculateIchimokuClouds(price)
+        ichimokuCloud = calculateIchimokuClouds(dps1.slice(-(range+78)).concat(paddedWindow))
 
     this.setState({
       isLoaded: true,
       dataPoints1: dps1,
       dataPoints2: dps2,
+      dates: dates,
       price,
       volume,
       sma,
