@@ -16,11 +16,9 @@ class Charts extends Component {
         {
           this.state.isLoaded &&
           <div className='columns is-multiline'>
-            <div className='column is-4'>
               {timeframes.map( (val,idx) => {
                 return <Chart key={idx} tf={this.state.data[val]} timeframe={val}/>
               })}
-            </div>
           </div>
         }
       </div>

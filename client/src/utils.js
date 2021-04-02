@@ -45,11 +45,12 @@ function calculateRSI(dps, period){
   return null
 }
 
-function calculateIchimokuClouds(dps){
+function calculateIchimokuClouds(dps, range){
   if (dps === undefined || dps.length == 0) return null
 
   let highs = dps.map((dataPoint) => {if(!dataPoint.y) return null; else return dataPoint.y[1]}),
       lows = dps.map((dataPoint) => {if(!dataPoint.y) return null; else return dataPoint.y[2]}),
+      closes = dps.map((dataPoint) => {if(!dataPoint.y) return null; else return dataPoint.y[3]}),
       conversionPeriod = 9,
       basePeriod = 26,
       spanPeriod = 52,
@@ -62,6 +63,8 @@ function calculateIchimokuClouds(dps){
                                          spanPeriod,
                                          displacement})
                               .slice(0, -displacement)
+
+
   results = results.map((dp, idx) => {return {
     x: dps[idx+spanPeriod+displacement-1].x,
     senkou: dp.spanA >= dp.spanB ? [dp.spanA, dp.spanB] : null,
@@ -72,14 +75,17 @@ function calculateIchimokuClouds(dps){
     conversion: dp.conversion,
     tkIndicator: dp.conversion > dp.base ? 'green' : 'red'
   }})
+  let chikou = closes.slice(range, -displacement).map((dp, i) => {if(!dp) return null; else return {x: dps[i+spanPeriod+displacement-3].x, y: dp}})
 
   return {
     senkou: results.map(dp => {return {x: dp.x, y: dp.senkou}}),
     redSenkou: results.map(dp => {return {x: dp.x, y: dp.redSenkou}}),
     baseLine: results.slice(displacement+1).map(dp => {return {x: dp.xBase, y: dp.base}}),
     conversionLine: results.slice(displacement+1).map(dp => {return {x: dp.xBase, y: dp.conversion}}),
+    chikou: chikou,
     senkouIndicator: results.map(dp => {return {x: dp.x, y: 1, color: dp.senkouIndicator}}),
-    tkIndicator: results.slice(displacement+1).map(dp => {return {x: dp.xBase, y: 1, color: dp.tkIndicator}})
+    tkIndicator: results.slice(displacement+1).map(dp => {return {x: dp.xBase, y: 1, color: dp.tkIndicator}}),
+    chikouActionIndicator: chikou.map((dp, i) => {return {x: dp.x, y: 1, color: (dp.y > closes[i+range-displacement] ? 'green': 'red')}}),
   }
 }
 

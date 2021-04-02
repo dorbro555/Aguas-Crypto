@@ -33,7 +33,7 @@ class Chart extends Component {
       subtitles: [{
         text: "Atom Price (ATOM)"
       }],
-      height:650,
+      height:750,
       charts: [
         {
           axisX: {
@@ -91,6 +91,13 @@ class Chart extends Component {
             axisYType: "secondary",
             markerType: 'none',
             dataPoints : this.state.baseLine
+          },
+          {
+            name: "Chikou",
+            type: "line",
+            axisYType: "secondary",
+            markerType: 'none',
+            dataPoints : this.state.chikou
           },
           {
             name: 'Senkou',
@@ -163,7 +170,23 @@ class Chart extends Component {
                 dataPoints: this.state.indicators.tkIndicator,
               }
             ]
-          }
+          },
+          {
+              title:{
+                text: "Chikou/Action"
+              },
+              height: 100,
+              axisY2: {
+                maximum: 1
+              },
+              dataPointMinWidth: 3,
+              data: [
+                {
+                  axisYType: "secondary",
+                  dataPoints: this.state.indicators.chikouActionIndicator,
+                }
+              ]
+            }
       ],
       navigator: {
         enabled: false
@@ -174,7 +197,7 @@ class Chart extends Component {
     };
     const containerProps = {
       width: "100%",
-      height: "650px",
+      height: "750px",
       margin: "auto"
     };
     return (
@@ -212,7 +235,8 @@ class Chart extends Component {
         price = dps1.slice(-range).concat(paddedWindow),
         volume = dps2.slice(-range),
         sma = calculateSMA(price),
-        ichimokuCloud = calculateIchimokuClouds(dps1.slice(-(range+78)).concat(paddedWindow))
+        ichimokuCloud = calculateIchimokuClouds(dps1.slice(-(range+78)).concat(paddedWindow), range)
+    console.log(ichimokuCloud.chikou)
 
     this.setState({
       isLoaded: true,
@@ -228,9 +252,11 @@ class Chart extends Component {
       },
       baseLine: ichimokuCloud.baseLine,
       conversionLine: ichimokuCloud.conversionLine,
+      chikou: ichimokuCloud.chikou,
       indicators: {
         senkouIndicator: ichimokuCloud.senkouIndicator,
-        tkIndicator: ichimokuCloud.tkIndicator
+        tkIndicator: ichimokuCloud.tkIndicator,
+        chikouActionIndicator: ichimokuCloud.chikouActionIndicator
       },
     })
   }
