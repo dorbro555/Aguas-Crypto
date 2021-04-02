@@ -66,6 +66,7 @@ function calculateIchimokuClouds(dps){
     x: dps[idx+spanPeriod+displacement-1].x,
     senkou: dp.spanA >= dp.spanB ? [dp.spanA, dp.spanB] : null,
     redSenkou: dp.spanB > dp.spanA ? [dp.spanA , dp.spanB]:null,
+    senkouIndicator: dp.spanA >= dp.spanB ? 'green' : 'red',
     xBase: dps[idx+spanPeriod-2].x,
     base: dp.base,
     conversion: dp.conversion
@@ -75,7 +76,8 @@ function calculateIchimokuClouds(dps){
     senkou: results.map(dp => {return {x: dp.x, y: dp.senkou}}),
     redSenkou: results.map(dp => {return {x: dp.x, y: dp.redSenkou}}),
     baseLine: results.slice(displacement+1).map(dp => {return {x: dp.xBase, y: dp.base}}),
-    conversionLine: results.slice(displacement+1).map(dp => {return {x: dp.xBase, y: dp.conversion}})
+    conversionLine: results.slice(displacement+1).map(dp => {return {x: dp.xBase, y: dp.conversion}}),
+    senkouIndicator: results.map(dp => {return {x: dp.x, y: 1, color: dp.senkouIndicator}})
   }
 }
 

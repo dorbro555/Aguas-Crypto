@@ -32,6 +32,7 @@ class Chart extends Component {
       subtitles: [{
         text: "Atom Price (ATOM)"
       }],
+      height:550,
       charts: [
         {
           axisX: {
@@ -130,7 +131,24 @@ class Chart extends Component {
             axisYType: "secondary",
             dataPoints : this.state.volume
           }]
-        }],
+        },
+        {
+          title:{
+            text: "Cloud Color"
+          },
+          height: 100,
+          axisY2: {
+            maximum: 1
+          },
+          dataPointMinWidth: 3,
+          data: [
+            {
+              axisYType: "secondary",
+              dataPoints: this.state.indicator
+            }
+          ]
+        }
+      ],
       navigator: {
         enabled: false
       },
@@ -140,17 +158,21 @@ class Chart extends Component {
     };
     const containerProps = {
       width: "100%",
-      height: "450px",
+      height: "550px",
       margin: "auto"
     };
     return (
-      <div>
-        <div>
-          {
-            this.state.isLoaded &&
-            <CanvasJSStockChart containerProps={containerProps} options = {options}
-              /* onRef = {ref => this.chart = ref} */
-            />}
+      <div className='column is-4'>
+        <div className='card'>
+          <div className='card-image'>
+            <figure className='image'>
+            {
+              this.state.isLoaded &&
+              <CanvasJSStockChart containerProps={containerProps} options = {options}
+                /* onRef = {ref => this.chart = ref} */
+              />}
+            </figure>
+          </div>
         </div>
       </div>
     );
@@ -189,7 +211,8 @@ class Chart extends Component {
         redSenkou: ichimokuCloud.redSenkou
       },
       baseLine: ichimokuCloud.baseLine,
-      conversionLine: ichimokuCloud.conversionLine
+      conversionLine: ichimokuCloud.conversionLine,
+      indicator: ichimokuCloud.senkouIndicator,
     })
   }
 }
