@@ -31,9 +31,9 @@ class Chart extends Component {
         text:"Atom Price (ATOM)"
       },
       subtitles: [{
-        text: "Atom Price (ATOM)"
+        text: (this.props.timeframe / 60) + ' min'
       }],
-      height:900,
+      height:1000,
       charts: [
         {
           axisX: {
@@ -203,7 +203,23 @@ class Chart extends Component {
                   dataPoints: this.state.indicators.chikouActionIndicator,
                 }
               ]
-            }
+            },
+            {
+                title:{
+                  text: "Action/Base"
+                },
+                height: 100,
+                axisY2: {
+                  maximum: 1
+                },
+                dataPointMinWidth: 3,
+                data: [
+                  {
+                    axisYType: "secondary",
+                    dataPoints: this.state.indicators.KenBaseIndicator,
+                  }
+                ]
+              },
 
       ],
       navigator: {
@@ -215,7 +231,7 @@ class Chart extends Component {
     };
     const containerProps = {
       width: "100%",
-      height: "900px",
+      height: "1000px",
       margin: "auto"
     };
     return (
@@ -254,7 +270,7 @@ class Chart extends Component {
         volume = dps2.slice(-range),
         sma = calculateSMA(price),
         ichimokuCloud = calculateIchimokuClouds(dps1.slice(-(range+78)).concat(paddedWindow), range)
-    console.log(ichimokuCloud.chikou)
+    console.log(ichimokuCloud.actionBaseLineIndicator)
 
     this.setState({
       isLoaded: true,
@@ -276,6 +292,7 @@ class Chart extends Component {
         tkIndicator: ichimokuCloud.tkIndicator,
         chikouActionIndicator: ichimokuCloud.chikouActionIndicator,
         cloudActionIndicator: ichimokuCloud.cloudActionIndicator,
+        KenBaseIndicator: ichimokuCloud.actionBaseLineIndicator ,
       },
     })
   }

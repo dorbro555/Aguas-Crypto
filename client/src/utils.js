@@ -78,7 +78,8 @@ function calculateIchimokuClouds(dps, range){
       base: dp.base,
       conversion: dp.conversion,
       xSenkouIndicator: dps[price_displacement-displacement].x,
-      tkIndicator: dp.conversion > dp.base ? 'green' : 'red'
+      tkIndicator: dp.conversion > dp.base ? 'green' : 'red',
+      KenBaseIndicator: closes[price_displacement-displacement-1] > dp.base ? 'green' : 'red',
     }})
   let chikou = closes.slice(range, -displacement)
                      .map((dp, i) => {
@@ -97,6 +98,7 @@ function calculateIchimokuClouds(dps, range){
     chikou: chikou,
     senkouIndicator: results.map(dp => {return {x: dp.xSenkouIndicator, y: 1, color: dp.senkouIndicator}}).slice(displacement),
     tkIndicator: results.slice(displacement+1).map(dp => {return {x: dp.xBase, y: 1, color: dp.tkIndicator}}),
+    actionBaseLineIndicator: results.slice(displacement+2).map(dp => {return {x:dp.xBase, y: 1, color: dp.KenBaseIndicator}}),
     cloudActionIndicator: results.slice(1).map((dp, i)=> {return {x: dp.x, y: dp.cloudActionIndicator.val, color:dp.cloudActionIndicator.color, dp:dp.cloudActionIndicator}}).slice(0,-displacement),
     chikouActionIndicator: chikou.map((dp, i) => {return {x: dp.xChikouIndicator, y: 1, color: (dp.y > closes[i+range-displacement] ? 'green': 'red')}}),
   }
