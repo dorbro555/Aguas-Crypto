@@ -73,8 +73,7 @@ function calculateIchimokuClouds(dps, range){
       senkou: dp.spanA >= dp.spanB ? [dp.spanA, dp.spanB] : null,
       redSenkou: dp.spanB > dp.spanA ? [dp.spanA , dp.spanB]:null,
       senkouIndicator: dp.spanA >= dp.spanB ? 'green' : 'red',
-      cloudActionIndicator:  ((dp.spanB < dp.spanA)&&(dp.spanA < closes[price_displacement])
-                                    ||(closes[price_displacement] < dp.spanA)&&(dp.spanA < dp.spanB)),
+      cloudActionIndicator:  cloudActionIndicatorHelper(closes[price_displacement], dp.spanA, dp.spanB),
       xBase: dps[idx+spanPeriod-2].x,
       base: dp.base,
       conversion: dp.conversion,
@@ -86,6 +85,7 @@ function calculateIchimokuClouds(dps, range){
                        if(!dp) return null;
                        else return {
                          x: dps[i+spanPeriod+displacement-3].x,
+                         xChikouIndicator: dps[i+spanPeriod+basePeriod+displacement-4].x,
                          y: dp,
                        }})
 
@@ -97,13 +97,15 @@ function calculateIchimokuClouds(dps, range){
     chikou: chikou,
     senkouIndicator: results.map(dp => {return {x: dp.xSenkouIndicator, y: 1, color: dp.senkouIndicator}}).slice(displacement),
     tkIndicator: results.slice(displacement+1).map(dp => {return {x: dp.xBase, y: 1, color: dp.tkIndicator}}),
-    cloudActionIndicator: results.slice(1).map((dp, i)=> {return {x: dp.x, y: dp.cloudActionIndicator ? 1 : 0, color:dp.senkouIndicator}}).slice(0,-displacement),
-    chikouActionIndicator: chikou.map((dp, i) => {return {x: dp.x, y: 1, color: (dp.y > closes[i+range-displacement] ? 'green': 'red')}}),
+    cloudActionIndicator: results.slice(1).map((dp, i)=> {return {x: dp.x, y: dp.cloudActionIndicator.val, color:dp.cloudActionIndicator.color, dp:dp.cloudActionIndicator}}).slice(0,-displacement),
+    chikouActionIndicator: chikou.map((dp, i) => {return {x: dp.xChikouIndicator, y: 1, color: (dp.y > closes[i+range-displacement] ? 'green': 'red')}}),
   }
 }
 
-function cloudActionIndicatorHelper(){
-
+function cloudActionIndicatorHelper(price, spanA, spanB){
+  if(price > Math.max(spanA, spanB)) return {val: 1, color: 'green'}
+  else if(price < Math.min(spanB, spanA)) return {val: 1, color: 'red'}
+  else return {val: 0, color: ''}
 }
 
 function calculateFutureDates(recentDate, timeframe, period){
