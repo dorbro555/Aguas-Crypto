@@ -65,17 +65,29 @@ function calculateIchimokuClouds(dps, range){
                               .slice(0, -displacement)
 
 
-  results = results.map((dp, idx) => {return {
-    x: dps[idx+spanPeriod+displacement-1].x,
-    senkou: dp.spanA >= dp.spanB ? [dp.spanA, dp.spanB] : null,
-    redSenkou: dp.spanB > dp.spanA ? [dp.spanA , dp.spanB]:null,
-    senkouIndicator: dp.spanA >= dp.spanB ? 'green' : 'red',
-    xBase: dps[idx+spanPeriod-2].x,
-    base: dp.base,
-    conversion: dp.conversion,
-    tkIndicator: dp.conversion > dp.base ? 'green' : 'red'
-  }})
-  let chikou = closes.slice(range, -displacement).map((dp, i) => {if(!dp) return null; else return {x: dps[i+spanPeriod+displacement-3].x, y: dp}})
+  results = results.map((dp, idx) => {
+    let price_displacement=idx+spanPeriod+displacement-1
+    return {
+      x: dps[price_displacement].x,
+      action: closes[price_displacement],
+      senkou: dp.spanA >= dp.spanB ? [dp.spanA, dp.spanB] : null,
+      redSenkou: dp.spanB > dp.spanA ? [dp.spanA , dp.spanB]:null,
+      senkouIndicator: dp.spanA >= dp.spanB ? 'green' : 'red',
+      cloudActionIndicator: {value: !((dp.spanA <= closes[price_displacement+1] && closes[price_displacement+1] <= dp.spanB)||(dp.spanB <= closes[price_displacement+1] && closes[price_displacement+1] <= dp.spanA)),
+                              },
+      xBase: dps[idx+spanPeriod-2].x,
+      base: dp.base,
+      conversion: dp.conversion,
+      xSenkouIndicator: dps[price_displacement-displacement].x,
+      tkIndicator: dp.conversion > dp.base ? 'green' : 'red'
+    }})
+  let chikou = closes.slice(range, -displacement)
+                     .map((dp, i) => {
+                       if(!dp) return null;
+                       else return {
+                         x: dps[i+spanPeriod+displacement-3].x,
+                         y: dp,
+                       }})
 
   return {
     senkou: results.map(dp => {return {x: dp.x, y: dp.senkou}}),
@@ -83,10 +95,15 @@ function calculateIchimokuClouds(dps, range){
     baseLine: results.slice(displacement+1).map(dp => {return {x: dp.xBase, y: dp.base}}),
     conversionLine: results.slice(displacement+1).map(dp => {return {x: dp.xBase, y: dp.conversion}}),
     chikou: chikou,
-    senkouIndicator: results.map(dp => {return {x: dp.x, y: 1, color: dp.senkouIndicator}}),
+    senkouIndicator: results.map(dp => {return {x: dp.xSenkouIndicator, y: 1, color: dp.senkouIndicator}}).slice(displacement),
     tkIndicator: results.slice(displacement+1).map(dp => {return {x: dp.xBase, y: 1, color: dp.tkIndicator}}),
+    cloudActionIndicator: results.slice(1).map((dp, i)=> {return {x: dp.x, y: dp.cloudActionIndicator.value ? 1 : 0, color:'green'}}),
     chikouActionIndicator: chikou.map((dp, i) => {return {x: dp.x, y: 1, color: (dp.y > closes[i+range-displacement] ? 'green': 'red')}}),
   }
+}
+
+function cloudActionIndicatorHelper(){
+
 }
 
 function calculateFutureDates(recentDate, timeframe, period){
