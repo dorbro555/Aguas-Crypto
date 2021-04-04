@@ -33,7 +33,7 @@ class Chart extends Component {
       subtitles: [{
         text: "Atom Price (ATOM)"
       }],
-      height:750,
+      height:900,
       charts: [
         {
           axisX: {
@@ -140,7 +140,7 @@ class Chart extends Component {
             dataPoints : this.state.volume
           }]
         },
-        {
+          {
           title:{
             text: "Cloud Color"
           },
@@ -155,7 +155,24 @@ class Chart extends Component {
               dataPoints: this.state.indicators.senkouIndicator,
             }
           ]
-        },{
+        },
+        {
+            title:{
+              text: "Cloud/Action"
+            },
+            height: 100,
+            axisY2: {
+              maximum: 1
+            },
+            dataPointMinWidth: 3,
+            data: [
+              {
+                axisYType: "secondary",
+                dataPoints: this.state.indicators.cloudActionIndicator,
+              }
+            ]
+          },
+        {
             title:{
               text: "TK Cross"
             },
@@ -187,6 +204,7 @@ class Chart extends Component {
                 }
               ]
             }
+
       ],
       navigator: {
         enabled: false
@@ -197,7 +215,7 @@ class Chart extends Component {
     };
     const containerProps = {
       width: "100%",
-      height: "750px",
+      height: "900px",
       margin: "auto"
     };
     return (
@@ -256,7 +274,8 @@ class Chart extends Component {
       indicators: {
         senkouIndicator: ichimokuCloud.senkouIndicator,
         tkIndicator: ichimokuCloud.tkIndicator,
-        chikouActionIndicator: ichimokuCloud.chikouActionIndicator
+        chikouActionIndicator: ichimokuCloud.chikouActionIndicator,
+        cloudActionIndicator: ichimokuCloud.cloudActionIndicator,
       },
     })
   }

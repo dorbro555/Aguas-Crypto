@@ -73,8 +73,8 @@ function calculateIchimokuClouds(dps, range){
       senkou: dp.spanA >= dp.spanB ? [dp.spanA, dp.spanB] : null,
       redSenkou: dp.spanB > dp.spanA ? [dp.spanA , dp.spanB]:null,
       senkouIndicator: dp.spanA >= dp.spanB ? 'green' : 'red',
-      cloudActionIndicator: {value: !((dp.spanA <= closes[price_displacement+1] && closes[price_displacement+1] <= dp.spanB)||(dp.spanB <= closes[price_displacement+1] && closes[price_displacement+1] <= dp.spanA)),
-                              },
+      cloudActionIndicator:  ((dp.spanB < dp.spanA)&&(dp.spanA < closes[price_displacement])
+                                    ||(closes[price_displacement] < dp.spanA)&&(dp.spanA < dp.spanB)),
       xBase: dps[idx+spanPeriod-2].x,
       base: dp.base,
       conversion: dp.conversion,
@@ -97,7 +97,7 @@ function calculateIchimokuClouds(dps, range){
     chikou: chikou,
     senkouIndicator: results.map(dp => {return {x: dp.xSenkouIndicator, y: 1, color: dp.senkouIndicator}}).slice(displacement),
     tkIndicator: results.slice(displacement+1).map(dp => {return {x: dp.xBase, y: 1, color: dp.tkIndicator}}),
-    cloudActionIndicator: results.slice(1).map((dp, i)=> {return {x: dp.x, y: dp.cloudActionIndicator.value ? 1 : 0, color:'green'}}),
+    cloudActionIndicator: results.slice(1).map((dp, i)=> {return {x: dp.x, y: dp.cloudActionIndicator ? 1 : 0, color:dp.senkouIndicator}}).slice(0,-displacement),
     chikouActionIndicator: chikou.map((dp, i) => {return {x: dp.x, y: 1, color: (dp.y > closes[i+range-displacement] ? 'green': 'red')}}),
   }
 }
