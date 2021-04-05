@@ -1,5 +1,8 @@
 import {SMA, RSI, IchimokuCloud, BollingerBands} from 'technicalindicators' ;
 
+const green = '#07df3d'
+const red = '#f00000'
+
 function calculateSMA(dps, period){
   if(dps === undefined || dps.length == 0) return null
   period = period || 15
@@ -72,14 +75,14 @@ function calculateIchimokuClouds(dps, range){
       action: closes[price_displacement],
       senkou: dp.spanA >= dp.spanB ? [dp.spanA, dp.spanB] : null,
       redSenkou: dp.spanB > dp.spanA ? [dp.spanA , dp.spanB]:null,
-      senkouIndicator: dp.spanA >= dp.spanB ? 'green' : 'red',
+      senkouIndicator: dp.spanA >= dp.spanB ? green : red,
       cloudActionIndicator:  cloudActionIndicatorHelper(closes[price_displacement], dp.spanA, dp.spanB),
       xBase: dps[idx+spanPeriod-2].x,
       base: dp.base,
       conversion: dp.conversion,
       xSenkouIndicator: dps[price_displacement-displacement].x,
-      tkIndicator: dp.conversion > dp.base ? 'green' : 'red',
-      KenBaseIndicator: closes[price_displacement-displacement-1] > dp.base ? 'green' : 'red',
+      tkIndicator: dp.conversion > dp.base ? green : red,
+      KenBaseIndicator: closes[price_displacement-displacement-1] > dp.base ? green : red,
     }})
   let chikou = closes.slice(range, -displacement)
                      .map((dp, i) => {
@@ -100,13 +103,13 @@ function calculateIchimokuClouds(dps, range){
     tkIndicator: results.slice(displacement+1).map(dp => {return {x: dp.xBase, y: 1, color: dp.tkIndicator}}),
     actionBaseLineIndicator: results.slice(displacement+2).map(dp => {return {x:dp.xBase, y: 1, color: dp.KenBaseIndicator}}),
     cloudActionIndicator: results.slice(1).map((dp, i)=> {return {x: dp.x, y: dp.cloudActionIndicator.val, color:dp.cloudActionIndicator.color, dp:dp.cloudActionIndicator}}).slice(0,-displacement),
-    chikouActionIndicator: chikou.map((dp, i) => {return {x: dp.xChikouIndicator, y: 1, color: (dp.y > closes[i+range-displacement] ? 'green': 'red')}}),
+    chikouActionIndicator: chikou.map((dp, i) => {return {x: dp.xChikouIndicator, y: 1, color: (dp.y > closes[i+range-displacement] ? green: red)}}),
   }
 }
 
 function cloudActionIndicatorHelper(price, spanA, spanB){
-  if(price > Math.max(spanA, spanB)) return {val: 1, color: 'green'}
-  else if(price < Math.min(spanB, spanA)) return {val: 1, color: 'red'}
+  if(price > Math.max(spanA, spanB)) return {val: 1, color: green}
+  else if(price < Math.min(spanB, spanA)) return {val: 1, color: red}
   else return {val: 0, color: ''}
 }
 

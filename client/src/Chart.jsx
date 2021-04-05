@@ -28,7 +28,7 @@ class Chart extends Component {
     const showIchimoku = true
     const range = 100
     const options = {
-      theme: "light2",
+      theme: "dark2",
       title:{
         text:"Atom Price (ATOM)"
       },
@@ -78,6 +78,7 @@ class Chart extends Component {
             visible: showIchimoku,
             axisYType: "secondary",
             markerType: 'none',
+            color: '#d5589d',
             dataPoints : this.state.conversionLine
           },
           {
@@ -86,6 +87,7 @@ class Chart extends Component {
             visible: showIchimoku,
             axisYType: "secondary",
             markerType: 'none',
+            color: '#f59a38',
             dataPoints : this.state.baseLine
           },
           {
@@ -93,6 +95,7 @@ class Chart extends Component {
             type: "line",
             visible: showIchimoku,
             axisYType: "secondary",
+            color: '#725ce5',
             markerType: 'none',
             dataPoints : this.state.chikou
           },
@@ -102,7 +105,7 @@ class Chart extends Component {
             visible: showIchimoku,
             axisYType: 'secondary',
             markerType: 'none',
-            color: 'green',
+            color: '#07df3d',
             dataPoints: this.state.ichimokuCloud.greenSenkou
           },
           {
@@ -111,7 +114,7 @@ class Chart extends Component {
             visible: showIchimoku,
             axisYType: 'secondary',
             markerType: 'none',
-            color: 'red',
+            color: '#f00000',
             dataPoints: this.state.ichimokuCloud.redSenkou
           },
           {
@@ -119,7 +122,7 @@ class Chart extends Component {
             type: "rangeSplineArea",
             axisYType: 'secondary',
             markerType: 'none',
-            color: 'teal',
+            color: '#6272a4',
             fillOpacity: .1,
             dataPoints: this.state.bollingerBand.bands
           },
@@ -128,7 +131,7 @@ class Chart extends Component {
             type: "line",
             axisYType: "secondary",
             markerType: 'none',
-            color: '#69a7a6',
+            color: '#ffeedb',
             lineDashType: 'shortDash',
             dataPoints : this.state.bollingerBand.sma
           },
@@ -154,6 +157,7 @@ class Chart extends Component {
             name: "Volume",
             yValueFormatString: "$#,###.##",
             type: "column",
+            color: '#50fa7b',
             axisYType: "secondary",
             dataPoints : this.state.volume
           }]
