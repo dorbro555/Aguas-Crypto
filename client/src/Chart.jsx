@@ -73,14 +73,6 @@ class Chart extends Component {
             dataPoints : this.state.price
           },
           {
-            name: "SMA",
-            type: "line",
-            visible: showSMA,
-            axisYType: "secondary",
-            markerType: 'none',
-            dataPoints : this.state.sma
-          },
-          {
             name: "Conversion Line",
             type: "line",
             visible: showIchimoku,
@@ -130,6 +122,15 @@ class Chart extends Component {
             color: 'teal',
             fillOpacity: .1,
             dataPoints: this.state.bollingerBand.bands
+          },
+          {
+            name: "Bollinger Band SMA",
+            type: "line",
+            axisYType: "secondary",
+            markerType: 'none',
+            color: '#69a7a6',
+            lineDashType: 'shortDash',
+            dataPoints : this.state.bollingerBand.sma
           },
           ]
         },
@@ -238,14 +239,6 @@ class Chart extends Component {
                   }
                 ]
               },
-              // {
-              //   name: 'Bollinger Band',
-              //   type: "rangeSplineArea",
-              //   axisYType: 'secondary',
-              //   markerType: 'none',
-              //   color: 'technicalindicators',
-              //   dataPoints: this.state.bollingerBand.result
-              // },
 
       ],
       navigator: {
@@ -294,10 +287,9 @@ class Chart extends Component {
         paddedWindow = calculateFutureDates(recentDate, this.props.timeframe),
         price = dps1.slice(-range).concat(paddedWindow),
         volume = dps2.slice(-range),
-        sma = calculateSMA(price),
         ichimokuCloud = calculateIchimokuClouds(dps1.slice(-(range+78)).concat(paddedWindow), range),
         bollingerBand = calculateBBand(dps1.slice(-range-20))
-    console.log(bollingerBand)
+    // console.log(bollingerBand)
 
     this.setState({
       isLoaded: true,
@@ -306,7 +298,6 @@ class Chart extends Component {
       dates: dates,
       price,
       volume,
-      sma,
       ichimokuCloud: {
         greenSenkou: ichimokuCloud.senkou,
         redSenkou: ichimokuCloud.redSenkou

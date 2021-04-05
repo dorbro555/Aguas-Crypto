@@ -123,13 +123,14 @@ function calculateBBand(prices){
     return {
       x: prices[idx+period-1].x,
       bandValues: [dp.upper, dp.lower],
+      sma: dp.middle,
       // color: "",
     }
   })
 
   return {
     bands: results.map(dp => {return {x: dp.x, y: dp.bandValues}}),
-    // sma:,
+    sma: results.map(dp =>{return {x: dp.x, y: dp.sma}}),
   }
 }
 
