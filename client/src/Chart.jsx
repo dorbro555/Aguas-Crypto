@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import CanvasJSReact from './assets/canvasjs.stock.react'
-import {calculateSMA, calculateRSI, calculateIchimokuClouds, calculateFutureDates} from './utils' ;
+import {calculateSMA, calculateRSI, calculateIchimokuClouds, calculateFutureDates, calculateBBand} from './utils' ;
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSStockChart = CanvasJSReact.CanvasJSStockChart;
 
@@ -17,6 +17,7 @@ class Chart extends Component {
       ichimokuCloud: [],
       baseLine: [],
       conversionLine: [],
+      bollingerBand: [],
       indicators: {},
       isLoaded: false
     };
@@ -24,6 +25,7 @@ class Chart extends Component {
 
   render() {
     const showSMA = false
+    const showIchimoku = true
     const range = 100
     const options = {
       theme: "light2",
@@ -81,6 +83,7 @@ class Chart extends Component {
           {
             name: "Conversion Line",
             type: "line",
+            visible: showIchimoku,
             axisYType: "secondary",
             markerType: 'none',
             dataPoints : this.state.conversionLine
@@ -88,6 +91,7 @@ class Chart extends Component {
           {
             name: "Base Line",
             type: "line",
+            visible: showIchimoku,
             axisYType: "secondary",
             markerType: 'none',
             dataPoints : this.state.baseLine
@@ -95,6 +99,7 @@ class Chart extends Component {
           {
             name: "Chikou",
             type: "line",
+            visible: showIchimoku,
             axisYType: "secondary",
             markerType: 'none',
             dataPoints : this.state.chikou
@@ -102,6 +107,7 @@ class Chart extends Component {
           {
             name: 'Senkou',
             type: "rangeSplineArea",
+            visible: showIchimoku,
             axisYType: 'secondary',
             markerType: 'none',
             color: 'green',
@@ -110,11 +116,22 @@ class Chart extends Component {
           {
             name: 'Red Senkou',
             type: "rangeSplineArea",
+            visible: showIchimoku,
             axisYType: 'secondary',
             markerType: 'none',
             color: 'red',
             dataPoints: this.state.ichimokuCloud.redSenkou
-          }]
+          },
+          {
+            name: 'Bollinger Band',
+            type: "rangeSplineArea",
+            axisYType: 'secondary',
+            markerType: 'none',
+            color: 'teal',
+            fillOpacity: .1,
+            dataPoints: this.state.bollingerBand.bands
+          },
+          ]
         },
         {
           height: 100,
@@ -144,6 +161,7 @@ class Chart extends Component {
           title:{
             text: "Cloud Color"
           },
+          visible: showIchimoku,
           height: 100,
           axisY2: {
             maximum: 1
@@ -220,6 +238,14 @@ class Chart extends Component {
                   }
                 ]
               },
+              // {
+              //   name: 'Bollinger Band',
+              //   type: "rangeSplineArea",
+              //   axisYType: 'secondary',
+              //   markerType: 'none',
+              //   color: 'technicalindicators',
+              //   dataPoints: this.state.bollingerBand.result
+              // },
 
       ],
       navigator: {
@@ -269,8 +295,9 @@ class Chart extends Component {
         price = dps1.slice(-range).concat(paddedWindow),
         volume = dps2.slice(-range),
         sma = calculateSMA(price),
-        ichimokuCloud = calculateIchimokuClouds(dps1.slice(-(range+78)).concat(paddedWindow), range)
-    console.log(ichimokuCloud.actionBaseLineIndicator)
+        ichimokuCloud = calculateIchimokuClouds(dps1.slice(-(range+78)).concat(paddedWindow), range),
+        bollingerBand = calculateBBand(dps1.slice(-range-20))
+    console.log(bollingerBand)
 
     this.setState({
       isLoaded: true,
@@ -287,6 +314,7 @@ class Chart extends Component {
       baseLine: ichimokuCloud.baseLine,
       conversionLine: ichimokuCloud.conversionLine,
       chikou: ichimokuCloud.chikou,
+      bollingerBand: bollingerBand,
       indicators: {
         senkouIndicator: ichimokuCloud.senkouIndicator,
         tkIndicator: ichimokuCloud.tkIndicator,

@@ -1,4 +1,4 @@
-import {SMA, RSI, IchimokuCloud} from 'technicalindicators' ;
+import {SMA, RSI, IchimokuCloud, BollingerBands} from 'technicalindicators' ;
 
 function calculateSMA(dps, period){
   if(dps === undefined || dps.length == 0) return null
@@ -110,6 +110,29 @@ function cloudActionIndicatorHelper(price, spanA, spanB){
   else return {val: 0, color: ''}
 }
 
+function calculateBBand(prices){
+  let closes = prices.map(dp => dp.y[3]),
+      period = 20,
+      stdDev = 2,
+      results = BollingerBands.calculate({
+                            period: period,
+                            values: closes,
+                            stdDev: stdDev,
+  })
+  results = results.map((dp, idx) => {
+    return {
+      x: prices[idx+period-1].x,
+      bandValues: [dp.upper, dp.lower],
+      // color: "",
+    }
+  })
+
+  return {
+    bands: results.map(dp => {return {x: dp.x, y: dp.bandValues}}),
+    // sma:,
+  }
+}
+
 function calculateFutureDates(recentDate, timeframe, period){
   if(recentDate === undefined || timeframe === undefined) return null
   period = period || 26
@@ -132,4 +155,4 @@ function calculateFutureDates(recentDate, timeframe, period){
   })
 }
 
-export {calculateSMA, calculateRSI, calculateIchimokuClouds, calculateFutureDates}
+export {calculateSMA, calculateRSI, calculateIchimokuClouds, calculateBBand, calculateFutureDates}
