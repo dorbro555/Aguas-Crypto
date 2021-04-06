@@ -10,14 +10,15 @@ class Charts extends Component {
   render(){
     const pairs = ['atom']
     const AllTimeframes = ['60','180', '300', '900', '1800', '3600', '7200', '14400', '21600', '43200', '86400', '259200', '604800']
-    const timeframes = ['300', '1800', '7200']
+    const devtimeFrames = ['300', '1800', '7200', '14400', '86400']
+    const timeframes = ['86400', '14400', '300']
     return(
       <div>
         {
           this.state.isLoaded &&
           <div className='columns is-multiline'>
               {timeframes.map( (val,idx) => {
-                return <Chart key={idx} tf={this.state.data[val]} timeframe={val}/>
+                return <Chart key={idx} tf={this.state.data.windows[val]} timeframe={val}/>
               })}
           </div>
         }

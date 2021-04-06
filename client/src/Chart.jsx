@@ -18,6 +18,7 @@ class Chart extends Component {
       baseLine: [],
       conversionLine: [],
       bollingerBand: [],
+      rsi: [],
       indicators: {},
       isLoaded: false
     };
@@ -275,7 +276,7 @@ class Chart extends Component {
   }
 
   componentDidMount(){
-    let result = this.props.tf,
+    let result = this.props.tf.prices,
         range = 100
     var dps1 = [], dps2 = [], dates = []
     for (var i = 0; i < result.length; i++) {
