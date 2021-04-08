@@ -163,6 +163,23 @@ class Chart extends Component {
             dataPoints : this.state.volume
           }]
         },
+        {
+
+            height: 100,
+            axisY2: {
+              maximum: 100,
+              title:"RSI",
+            },
+            dataPointMinWidth: 3,
+            data: [
+              {
+                axisYType: "secondary",
+                type:'line',
+                dataPoints: this.state.rsi,
+              }
+            ]
+          },
+
           {
           title:{
             text: "Cloud Color"
@@ -293,8 +310,11 @@ class Chart extends Component {
         price = dps1.slice(-range).concat(paddedWindow),
         volume = dps2.slice(-range),
         ichimokuCloud = calculateIchimokuClouds(dps1.slice(-(range+78)).concat(paddedWindow), range),
-        bollingerBand = calculateBBand(dps1.slice(-range-20))
-    // console.log(bollingerBand)
+        bollingerBand = calculateBBand(dps1.slice(-range-20)),
+        rsi = this.props.tf.rsi.values.slice(-range).map(dp => {return {x: new Date(dp.x*1000), y: dp.y}})
+    // console.log(dates)
+    console.log(rsi)
+
 
     this.setState({
       isLoaded: true,
@@ -311,6 +331,7 @@ class Chart extends Component {
       conversionLine: ichimokuCloud.conversionLine,
       chikou: ichimokuCloud.chikou,
       bollingerBand: bollingerBand,
+      rsi: rsi,
       indicators: {
         senkouIndicator: ichimokuCloud.senkouIndicator,
         tkIndicator: ichimokuCloud.tkIndicator,

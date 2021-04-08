@@ -66,9 +66,7 @@ function calculateRsi(dates, closes){
   tulind.indicators.rsi.indicator([closes], [14], (err, results) => {
     values.push(results[0])
   })
-
-  values = values[0].map((dp, idx) => {return {x: new Date(dates[idx+start]*1000), y: dp}})
-
+  values = values[0].map((dp, idx) => {return {x: dates[idx+start], y: dp}})
 
   return {
     values: values

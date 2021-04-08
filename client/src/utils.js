@@ -36,21 +36,8 @@ function calculateSMA(dps, period){
   return nullArray.concat(results)
 }
 
-function calculateRSI(dps, period){
-  if(dps === undefined || dps.length == 0) return null
-  period = period || 14
-
-  let results = [],
-      closes = dps.map((datapoint) => datapoint.y[3]),
-      rsiResults = RSI.calculate({period: period, values: closes})
-
-  console.log(rsiResults)
-  return null
-}
-
 function calculateIchimokuClouds(dps, range){
   if (dps === undefined || dps.length == 0) return null
-
   let highs = dps.map((dataPoint) => {if(!dataPoint.y) return null; else return dataPoint.y[1]}),
       lows = dps.map((dataPoint) => {if(!dataPoint.y) return null; else return dataPoint.y[2]}),
       closes = dps.map((dataPoint) => {if(!dataPoint.y) return null; else return dataPoint.y[3]}),
@@ -159,4 +146,4 @@ function calculateFutureDates(recentDate, timeframe, period){
   })
 }
 
-export {calculateSMA, calculateRSI, calculateIchimokuClouds, calculateBBand, calculateFutureDates}
+export {calculateSMA, calculateIchimokuClouds, calculateBBand, calculateFutureDates}
