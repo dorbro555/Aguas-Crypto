@@ -36,7 +36,7 @@ class Chart extends Component {
       subtitles: [{
         text: (this.props.timeframe / 60) + ' min'
       }],
-      height:1000,
+      height:800,
       charts: [
         {
           axisX: {
@@ -139,12 +139,15 @@ class Chart extends Component {
           ]
         },
         {
-          height: 100,
+          height: 80,
           axisX: {
             crosshair: {
               enabled: true,
               snapToDataPoint: true
-            }
+            },
+            labelFormatter: function(e) {
+              return "";
+            },
           },
           axisY2: {
             title: "Volume",
@@ -184,8 +187,13 @@ class Chart extends Component {
           title:{
             text: "Cloud Color"
           },
+          axisX: {
+            labelFormatter: function(e) {
+              return "";
+            },
+          },
           visible: showIchimoku,
-          height: 100,
+          height: 60,
           axisY2: {
             maximum: 1
           },
@@ -201,7 +209,12 @@ class Chart extends Component {
             title:{
               text: "Cloud/Action"
             },
-            height: 100,
+            height: 60,
+            axisX: {
+              labelFormatter: function(e) {
+                return "";
+              },
+            },
             axisY2: {
               maximum: 1
             },
@@ -217,7 +230,12 @@ class Chart extends Component {
             title:{
               text: "TK Cross"
             },
-            height: 100,
+            axisX: {
+              labelFormatter: function(e) {
+                return "";
+              },
+            },
+            height: 60,
             axisY2: {
               maximum: 1
             },
@@ -233,7 +251,12 @@ class Chart extends Component {
               title:{
                 text: "Chikou/Action"
               },
-              height: 100,
+              height: 60,
+              axisX: {
+                labelFormatter: function(e) {
+                  return "";
+                },
+              },
               axisY2: {
                 maximum: 1
               },
@@ -249,7 +272,12 @@ class Chart extends Component {
                 title:{
                   text: "Action/Base"
                 },
-                height: 100,
+                axisX: {
+                  labelFormatter: function(e) {
+                    return "";
+                  },
+                },
+                height: 60,
                 axisY2: {
                   maximum: 1
                 },
@@ -272,7 +300,7 @@ class Chart extends Component {
     };
     const containerProps = {
       width: "100%",
-      height: "1000px",
+      height: "800px",
       margin: "auto"
     };
     return (
