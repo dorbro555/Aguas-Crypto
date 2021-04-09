@@ -41,12 +41,14 @@ app.get('/api/ohlc/:pair', (req, res) => {
           highs = ohlcs.map(dp => dp[2]),
           lows  = ohlcs.map(dp => dp[3]),
           closes = ohlcs.map(dp => dp[4]),
-          rsi = calculateRsi(dates, closes)
+          rsi = calculateRsi(dates, closes, 100),
+          psar = calculatePSar(dates, highs, lows, 100)
       return {
         timeframe: key,
         dates: dates,
         prices: ohlcs,
-        rsi: rsi
+        rsi: rsi,
+        psar: psar
       }
     })
 
@@ -60,13 +62,28 @@ app.get('/api/ohlc/:pair', (req, res) => {
   })
 });
 
-function calculateRsi(dates, closes){
+function calculateRsi(dates, closes, range){
   let values = [],
       start = tulind.indicators.rsi.start([14])
-  tulind.indicators.rsi.indicator([closes], [14], (err, results) => {
+      buffer = 50
+  tulind.indicators.rsi.indicator([closes.slice(-(range+start+buffer))], [14], (err, results) => {
     values.push(results[0])
   })
-  values = values[0].map((dp, idx) => {return {x: dates[idx+start], y: dp}})
+  values = values[0].map((dp, idx) => {return {x: dates.slice(-(range+start+buffer))[idx+start-1], y: dp}})
+
+  return {
+    values: values
+  }
+}
+
+function calculatePSar(dates, highs, lows, range){
+  let start = tulind.indicators.psar.start([0.025, 0.25])
+      values = []
+
+  tulind.indicators.psar.indicator([highs, lows], [0.025, 0.25], (err, results) => {
+    values = values.concat(results[0])
+  })
+  values = values.map((dp, idx) => {return {x: dates[idx+start-1], y: dp}})
 
   return {
     values: values

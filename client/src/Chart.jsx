@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import CanvasJSReact from './assets/canvasjs.stock.react'
-import {calculateSMA, calculateRSI, calculateIchimokuClouds, calculateFutureDates, calculateBBand} from './utils' ;
+import {calculateSMA, calculateRSI, calculateIchimokuClouds, calculateFutureDates, calculateBBand, formateTimeFrame} from './utils' ;
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSStockChart = CanvasJSReact.CanvasJSStockChart;
 
@@ -34,7 +34,7 @@ class Chart extends Component {
         text:"Atom Price (ATOM)"
       },
       subtitles: [{
-        text: (this.props.timeframe / 60) + ' min'
+        text: formateTimeFrame(this.props.timeframe)
       }],
       height:800,
       charts: [
@@ -136,6 +136,16 @@ class Chart extends Component {
             lineDashType: 'shortDash',
             dataPoints : this.state.bollingerBand.sma
           },
+          {
+            name: "PSar",
+            type: "line",
+            lineThickness: 0.1,
+            markerSize: 3,
+            axisYType: "secondary",
+            markerType: 'circle',
+            color: '#81c6f4',
+            dataPoints : this.state.psar
+          },
           ]
         },
         {
@@ -170,7 +180,8 @@ class Chart extends Component {
 
             height: 100,
             axisY2: {
-              maximum: 100,
+              maximum: 70,
+              minimum: 20,
               title:"RSI",
             },
             dataPointMinWidth: 3,
@@ -178,11 +189,11 @@ class Chart extends Component {
               {
                 axisYType: "secondary",
                 type:'line',
+                color: '#6272a4',
                 dataPoints: this.state.rsi,
               }
             ]
           },
-
           {
           title:{
             text: "Cloud Color"
@@ -226,37 +237,16 @@ class Chart extends Component {
               }
             ]
           },
-        {
-            title:{
-              text: "TK Cross"
-            },
-            axisX: {
-              labelFormatter: function(e) {
-                return "";
-              },
-            },
-            height: 60,
-            axisY2: {
-              maximum: 1
-            },
-            dataPointMinWidth: 3,
-            data: [
-              {
-                axisYType: "secondary",
-                dataPoints: this.state.indicators.tkIndicator,
-              }
-            ]
-          },
           {
               title:{
-                text: "Chikou/Action"
+                text: "TK Cross"
               },
-              height: 60,
               axisX: {
                 labelFormatter: function(e) {
                   return "";
                 },
               },
+              height: 60,
               axisY2: {
                 maximum: 1
               },
@@ -264,20 +254,20 @@ class Chart extends Component {
               data: [
                 {
                   axisYType: "secondary",
-                  dataPoints: this.state.indicators.chikouActionIndicator,
+                  dataPoints: this.state.indicators.tkIndicator,
                 }
               ]
             },
             {
                 title:{
-                  text: "Action/Base"
+                  text: "Chikou/Action"
                 },
+                height: 60,
                 axisX: {
                   labelFormatter: function(e) {
                     return "";
                   },
                 },
-                height: 60,
                 axisY2: {
                   maximum: 1
                 },
@@ -285,10 +275,31 @@ class Chart extends Component {
                 data: [
                   {
                     axisYType: "secondary",
-                    dataPoints: this.state.indicators.KenBaseIndicator,
+                    dataPoints: this.state.indicators.chikouActionIndicator,
                   }
                 ]
               },
+              {
+                  title:{
+                    text: "Action/Base"
+                  },
+                  axisX: {
+                    labelFormatter: function(e) {
+                      return "";
+                    },
+                  },
+                  height: 60,
+                  axisY2: {
+                    maximum: 1
+                  },
+                  dataPointMinWidth: 3,
+                  data: [
+                    {
+                      axisYType: "secondary",
+                      dataPoints: this.state.indicators.KenBaseIndicator,
+                    }
+                  ]
+                },
 
       ],
       navigator: {
@@ -339,9 +350,10 @@ class Chart extends Component {
         volume = dps2.slice(-range),
         ichimokuCloud = calculateIchimokuClouds(dps1.slice(-(range+78)).concat(paddedWindow), range),
         bollingerBand = calculateBBand(dps1.slice(-range-20)),
-        rsi = this.props.tf.rsi.values.slice(-range).map(dp => {return {x: new Date(dp.x*1000), y: dp.y}})
-    // console.log(dates)
-    console.log(rsi)
+        rsi = this.props.tf.rsi.values.slice(-range).map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
+        psar = this.props.tf.psar.values.slice(-range).map(dp => {return {x: new Date(dp.x*1000), y: dp.y}})
+
+        console.log(psar)
 
 
     this.setState({
@@ -360,6 +372,7 @@ class Chart extends Component {
       chikou: ichimokuCloud.chikou,
       bollingerBand: bollingerBand,
       rsi: rsi,
+      psar: psar,
       indicators: {
         senkouIndicator: ichimokuCloud.senkouIndicator,
         tkIndicator: ichimokuCloud.tkIndicator,
