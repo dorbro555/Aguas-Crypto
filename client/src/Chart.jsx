@@ -31,7 +31,7 @@ class Chart extends Component {
     const options = {
       theme: "dark2",
       title:{
-        text:"Atom Price (ATOM)"
+        text: `${this.props.activePair.toUpperCase()} Price`
       },
       subtitles: [{
         text: formateTimeFrame(this.props.timeframe)
@@ -353,7 +353,7 @@ class Chart extends Component {
         rsi = this.props.tf.rsi.values.slice(-range).map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
         psar = this.props.tf.psar.values.slice(-range).map(dp => {return {x: new Date(dp.x*1000), y: dp.y}})
 
-        console.log(psar)
+        // console.log(psar)
 
 
     this.setState({
