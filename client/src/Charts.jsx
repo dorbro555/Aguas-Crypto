@@ -16,7 +16,7 @@ class Charts extends Component {
         {
           this.props.windows &&
           <div className='columns is-multiline'>
-              {timeframes.map( (val,idx) => {
+              {AllTimeframes.map( (val,idx) => {
                 return <Chart key={idx} tf={this.props.windows[val]} timeframe={val} activePair={this.props.activePair}/>
               })}
           </div>

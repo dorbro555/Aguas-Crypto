@@ -162,14 +162,19 @@ class Chart extends Component {
           axisY2: {
             title: "Volume",
             prefix: "$",
-            tickLength: 0
+            tickLength: 0,
+            labelFormatter: function(e){
+              let unit = "M",
+                  value = e.value / 1000
+              if(value >= 1000){return value/1000 + "B"}
+              else{return e.value / 1000 + "M"}
+            },
           },
           toolTip: {
             shared: true
           },
           data: [{
             name: "Volume",
-            yValueFormatString: "$#,###.##",
             type: "column",
             color: '#50fa7b',
             axisYType: "secondary",
