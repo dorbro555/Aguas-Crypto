@@ -19,6 +19,7 @@ class Chart extends Component {
       conversionLine: [],
       bollingerBand: [],
       rsi: [],
+      psar: {},
       indicators: {},
       isLoaded: false
     };
@@ -146,7 +147,7 @@ class Chart extends Component {
             axisYType: "secondary",
             markerType: 'circle',
             color: '#81c6f4',
-            dataPoints : this.state.psar
+            dataPoints : this.state.psar.values
           },
           ]
         },
@@ -306,6 +307,27 @@ class Chart extends Component {
                     }
                   ]
                 },
+                {
+                    title:{
+                      text: "Psar/Action"
+                    },
+                    axisX: {
+                      labelFormatter: function(e) {
+                        return "";
+                      },
+                    },
+                    height: indicatorHeight,
+                    axisY2: {
+                      maximum: 1
+                    },
+                    dataPointMinWidth: dataPointMinWidth,
+                    data: [
+                      {
+                        axisYType: "secondary",
+                        dataPoints: this.state.psar.indicator,
+                      }
+                    ]
+                  },
 
       ],
       navigator: {
@@ -358,8 +380,8 @@ class Chart extends Component {
         bollingerBandSma = this.props.tf.bband.sma.map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
         bollingerBandBands = this.props.tf.bband.bands.map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
         rsi = this.props.tf.rsi.values.slice(-range).map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
-        psar = this.props.tf.psar.values.slice(-range).map(dp => {return {x: new Date(dp.x*1000), y: dp.y}})
-
+        psar = this.props.tf.psar.values.map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
+        psarIndicator = this.props.tf.psar.actionIndicator.map(dp => {return {x: new Date(dp.x*1000), y: 1, color: dp.color}})
         // console.log(bollingerBandSma, bollingerBandBands)
 
 
@@ -373,7 +395,7 @@ class Chart extends Component {
       ichimokuCloud: ichimokuCloud,
       bollingerBand: {sma: bollingerBandSma, bands: bollingerBandBands},
       rsi: rsi,
-      psar: psar,
+      psar: {values: psar, indicator: psarIndicator},
     })
   }
 }

@@ -11,6 +11,9 @@ const tulind = require('tulind');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+const green = '#07df3d'
+const red = '#f00000'
+
 const client = new RESTClient({
   creds: {
     apiKey: "NPB0Z2I1QFUJQZ7JYA0C" // your cw api key
@@ -80,15 +83,23 @@ function calculateRsi(dates, closes, range){
 
 function calculatePSar(dates, highs, lows, range){
   let start = tulind.indicators.psar.start([0.025, 0.25])
-      values = []
+      values = [],
+      results = [],
+      preciseDates = dates.slice(-(range+start)),
+      preciseHighs = highs.slice(-(range+start)),
+      preciseLows = lows.slice(-(range+start))
 
-  tulind.indicators.psar.indicator([highs, lows], [0.025, 0.25], (err, results) => {
+  tulind.indicators.psar.indicator([preciseHighs, preciseLows], [0.025, 0.25], (err, results) => {
     values = values.concat(results[0])
   })
-  values = values.map((dp, idx) => {return {x: dates[idx+start-1], y: dp}})
+  results = values.map((dp, idx) => {return {x: preciseDates[idx+start-1],
+                                             y: dp,
+                                             actionIndicator: dp < preciseHighs[idx+start-1] ? green : red}})
+
 
   return {
-    values: values
+    values: results.map(dp => {return {x: dp.x, y: dp.y}}),
+    actionIndicator: results.map(dp => {return {x: dp.x, y: 1, color: dp.actionIndicator}})
   }
 }
 
