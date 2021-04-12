@@ -17,7 +17,7 @@ class Chart extends Component {
       ichimokuCloud: [],
       baseLine: [],
       conversionLine: [],
-      bollingerBand: [],
+      bollingerBand: {},
       rsi: [],
       psar: {},
       indicators: {},
@@ -39,7 +39,7 @@ class Chart extends Component {
       subtitles: [{
         text: formateTimeFrame(this.props.timeframe) + ` ${this.props.activePair.toUpperCase()} Price`
       }],
-      height:765,
+      height:865,
       charts: [
         {
           axisX: {
@@ -188,8 +188,8 @@ class Chart extends Component {
 
             height: 100,
             axisY2: {
-              maximum: 80,
-              minimum: 20,
+              maximum: 70,
+              minimum: 30,
               title:"RSI",
             },
             dataPointMinWidth: dataPointMinWidth,
@@ -201,6 +201,23 @@ class Chart extends Component {
               }
             ]
           },
+          {
+
+              height: 100,
+              axisY2: {
+                maximum: 100,
+                minimum: 0,
+                title:"%B",
+              },
+              dataPointMinWidth: dataPointMinWidth,
+              data: [
+                {
+                  axisYType: "secondary",
+                  type:'line',
+                  dataPoints: this.state.bollingerBand.percent,
+                }
+              ]
+            },
           {
           title:{
             text: "Cloud Color"
@@ -339,7 +356,7 @@ class Chart extends Component {
     };
     const containerProps = {
       width: "100%",
-      height: "765px",
+      height: "865px",
       margin: "auto"
     };
     return (
@@ -379,6 +396,7 @@ class Chart extends Component {
         ichimokuCloud = calculateIchimokuClouds(dps1.slice(-(range+78)).concat(paddedWindow), range),
         bollingerBandSma = this.props.tf.bband.sma.map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
         bollingerBandBands = this.props.tf.bband.bands.map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
+        bollingerBandPercent = this.props.tf.bband.percent.map(dp => {return {x: new Date(dp.x*1000), y: dp.y, lineColor: dp.lineColor, color: dp.lineColor}}),
         rsi = this.props.tf.rsi.values.slice(-range).map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
         psar = this.props.tf.psar.values.map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
         psarIndicator = this.props.tf.psar.actionIndicator.map(dp => {return {x: new Date(dp.x*1000), y: 1, color: dp.color}})
@@ -393,7 +411,7 @@ class Chart extends Component {
       price,
       volume,
       ichimokuCloud: ichimokuCloud,
-      bollingerBand: {sma: bollingerBandSma, bands: bollingerBandBands},
+      bollingerBand: {sma: bollingerBandSma, bands: bollingerBandBands, percent: bollingerBandPercent},
       rsi: rsi,
       psar: {values: psar, indicator: psarIndicator},
     })
