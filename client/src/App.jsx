@@ -7,7 +7,7 @@ function App() {
   return (
     <div className="App">
     <div className='columns has-background-dark'>
-      <div className='column is-10'>
+      <div className='column is-12'>
         <MarketView/>
       </div>
     </div>

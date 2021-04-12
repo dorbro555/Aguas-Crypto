@@ -43,12 +43,14 @@ app.get('/api/ohlc/:pair', (req, res) => {
           closes = ohlcs.map(dp => dp[4]),
           rsi = calculateRsi(dates, closes, 100),
           psar = calculatePSar(dates, highs, lows, 100)
+          bband = calculateBollingerBand(dates, closes, 100)
       return {
         timeframe: key,
         dates: dates,
         prices: ohlcs,
         rsi: rsi,
-        psar: psar
+        psar: psar,
+        bband: bband,
       }
     })
 
@@ -87,6 +89,27 @@ function calculatePSar(dates, highs, lows, range){
 
   return {
     values: values
+  }
+}
+
+function calculateBollingerBand(dates, closes, range){
+  let period = 20,
+      stdDev = 2,
+      start = tulind.indicators.bbands.start([period, stdDev]),
+      preciseDates = dates.slice(-(range+start))
+      preciseCloses = closes.slice(-(range+start))
+      bands = [],
+      sma = []
+
+  tulind.indicators.bbands.indicator([preciseCloses], [period, stdDev], (err, results) => {
+    bands = results[0].map((dp, idx) => {return {x: preciseDates[idx+start], y: [dp, results[2][idx]]}})
+    sma = results[1].map((dp, idx) => {return {x: preciseDates[idx+start], y: dp}})
+  })
+  // values = values.map((dp, idx) => {return {x: dates[idx+start-1], y: dp}})
+
+  return {
+    bands: bands,
+    sma: sma
   }
 }
 

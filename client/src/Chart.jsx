@@ -28,15 +28,17 @@ class Chart extends Component {
     const showSMA = false
     const showIchimoku = true
     const range = 100
+    const dataPointMinWidth = 4
+    const indicatorHeight = 55
     const options = {
       theme: "dark2",
-      title:{
-        text: `${this.props.activePair.toUpperCase()} Price`
-      },
+      // title:{
+      //   text: formateTimeFrame(this.props.timeframe) + ` ${this.props.activePair.toUpperCase()} Price`
+      // },
       subtitles: [{
-        text: formateTimeFrame(this.props.timeframe)
+        text: formateTimeFrame(this.props.timeframe) + ` ${this.props.activePair.toUpperCase()} Price`
       }],
-      height:800,
+      height:765,
       charts: [
         {
           axisX: {
@@ -80,7 +82,7 @@ class Chart extends Component {
             axisYType: "secondary",
             markerType: 'none',
             color: '#d5589d',
-            dataPoints : this.state.conversionLine
+            dataPoints : this.state.ichimokuCloud.conversionLine
           },
           {
             name: "Base Line",
@@ -89,7 +91,7 @@ class Chart extends Component {
             axisYType: "secondary",
             markerType: 'none',
             color: '#f59a38',
-            dataPoints : this.state.baseLine
+            dataPoints : this.state.ichimokuCloud.baseLine
           },
           {
             name: "Chikou",
@@ -98,7 +100,7 @@ class Chart extends Component {
             axisYType: "secondary",
             color: '#725ce5',
             markerType: 'none',
-            dataPoints : this.state.chikou
+            dataPoints : this.state.ichimokuCloud.chikou
           },
           {
             name: 'Senkou',
@@ -107,7 +109,7 @@ class Chart extends Component {
             axisYType: 'secondary',
             markerType: 'none',
             color: '#07df3d',
-            dataPoints: this.state.ichimokuCloud.greenSenkou
+            dataPoints: this.state.ichimokuCloud.senkou
           },
           {
             name: 'Red Senkou',
@@ -148,53 +150,52 @@ class Chart extends Component {
           },
           ]
         },
-        {
-          height: 80,
-          axisX: {
-            crosshair: {
-              enabled: true,
-              snapToDataPoint: true
-            },
-            labelFormatter: function(e) {
-              return "";
-            },
-          },
-          axisY2: {
-            title: "Volume",
-            prefix: "$",
-            tickLength: 0,
-            labelFormatter: function(e){
-              let unit = "M",
-                  value = e.value / 1000
-              if(value >= 1000){return value/1000 + "B"}
-              else{return e.value / 1000 + "M"}
-            },
-          },
-          toolTip: {
-            shared: true
-          },
-          data: [{
-            name: "Volume",
-            type: "column",
-            color: '#50fa7b',
-            axisYType: "secondary",
-            dataPoints : this.state.volume
-          }]
-        },
+        // {
+        //   height: 80,
+        //   axisX: {
+        //     crosshair: {
+        //       enabled: true,
+        //       snapToDataPoint: true
+        //     },
+        //     labelFormatter: function(e) {
+        //       return "";
+        //     },
+        //   },
+        //   axisY2: {
+        //     title: "Volume",
+        //     prefix: "$",
+        //     tickLength: 0,
+        //     labelFormatter: function(e){
+        //       let unit = "M",
+        //           value = e.value / 1000
+        //       if(value >= 1000){return value/1000 + "B"}
+        //       else{return e.value / 1000 + "M"}
+        //     },
+        //   },
+        //   toolTip: {
+        //     shared: true
+        //   },
+        //   data: [{
+        //     name: "Volume",
+        //     type: "column",
+        //     color: '#50fa7b',
+        //     axisYType: "secondary",
+        //     dataPoints : this.state.volume
+        //   }]
+        // },
         {
 
             height: 100,
             axisY2: {
-              maximum: 70,
+              maximum: 80,
               minimum: 20,
               title:"RSI",
             },
-            dataPointMinWidth: 3,
+            dataPointMinWidth: dataPointMinWidth,
             data: [
               {
                 axisYType: "secondary",
                 type:'line',
-                color: '#6272a4',
                 dataPoints: this.state.rsi,
               }
             ]
@@ -209,15 +210,15 @@ class Chart extends Component {
             },
           },
           visible: showIchimoku,
-          height: 60,
+          height: indicatorHeight,
           axisY2: {
             maximum: 1
           },
-          dataPointMinWidth: 3,
+          dataPointMinWidth: dataPointMinWidth,
           data: [
             {
               axisYType: "secondary",
-              dataPoints: this.state.indicators.senkouIndicator,
+              dataPoints: this.state.ichimokuCloud.senkouIndicator,
             }
           ]
         },
@@ -225,7 +226,7 @@ class Chart extends Component {
             title:{
               text: "Cloud/Action"
             },
-            height: 60,
+            height: indicatorHeight,
             axisX: {
               labelFormatter: function(e) {
                 return "";
@@ -234,11 +235,11 @@ class Chart extends Component {
             axisY2: {
               maximum: 1
             },
-            dataPointMinWidth: 3,
+            dataPointMinWidth: dataPointMinWidth,
             data: [
               {
                 axisYType: "secondary",
-                dataPoints: this.state.indicators.cloudActionIndicator,
+                dataPoints: this.state.ichimokuCloud.cloudActionIndicator,
               }
             ]
           },
@@ -251,15 +252,15 @@ class Chart extends Component {
                   return "";
                 },
               },
-              height: 60,
+              height: indicatorHeight,
               axisY2: {
                 maximum: 1
               },
-              dataPointMinWidth: 3,
+              dataPointMinWidth: dataPointMinWidth,
               data: [
                 {
                   axisYType: "secondary",
-                  dataPoints: this.state.indicators.tkIndicator,
+                  dataPoints: this.state.ichimokuCloud.tkIndicator,
                 }
               ]
             },
@@ -267,7 +268,7 @@ class Chart extends Component {
                 title:{
                   text: "Chikou/Action"
                 },
-                height: 60,
+                height: indicatorHeight,
                 axisX: {
                   labelFormatter: function(e) {
                     return "";
@@ -276,11 +277,11 @@ class Chart extends Component {
                 axisY2: {
                   maximum: 1
                 },
-                dataPointMinWidth: 3,
+                dataPointMinWidth: dataPointMinWidth,
                 data: [
                   {
                     axisYType: "secondary",
-                    dataPoints: this.state.indicators.chikouActionIndicator,
+                    dataPoints: this.state.ichimokuCloud.chikouActionIndicator,
                   }
                 ]
               },
@@ -293,15 +294,15 @@ class Chart extends Component {
                       return "";
                     },
                   },
-                  height: 60,
+                  height: indicatorHeight,
                   axisY2: {
                     maximum: 1
                   },
-                  dataPointMinWidth: 3,
+                  dataPointMinWidth: dataPointMinWidth,
                   data: [
                     {
                       axisYType: "secondary",
-                      dataPoints: this.state.indicators.KenBaseIndicator,
+                      dataPoints: this.state.ichimokuCloud.actionBaseLineIndicator,
                     }
                   ]
                 },
@@ -316,7 +317,7 @@ class Chart extends Component {
     };
     const containerProps = {
       width: "100%",
-      height: "800px",
+      height: "765px",
       margin: "auto"
     };
     return (
@@ -354,11 +355,12 @@ class Chart extends Component {
         price = dps1.slice(-range).concat(paddedWindow),
         volume = dps2.slice(-range),
         ichimokuCloud = calculateIchimokuClouds(dps1.slice(-(range+78)).concat(paddedWindow), range),
-        bollingerBand = calculateBBand(dps1.slice(-range-20)),
+        bollingerBandSma = this.props.tf.bband.sma.map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
+        bollingerBandBands = this.props.tf.bband.bands.map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
         rsi = this.props.tf.rsi.values.slice(-range).map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
         psar = this.props.tf.psar.values.slice(-range).map(dp => {return {x: new Date(dp.x*1000), y: dp.y}})
 
-        // console.log(psar)
+        // console.log(bollingerBandSma, bollingerBandBands)
 
 
     this.setState({
@@ -368,23 +370,10 @@ class Chart extends Component {
       dates: dates,
       price,
       volume,
-      ichimokuCloud: {
-        greenSenkou: ichimokuCloud.senkou,
-        redSenkou: ichimokuCloud.redSenkou
-      },
-      baseLine: ichimokuCloud.baseLine,
-      conversionLine: ichimokuCloud.conversionLine,
-      chikou: ichimokuCloud.chikou,
-      bollingerBand: bollingerBand,
+      ichimokuCloud: ichimokuCloud,
+      bollingerBand: {sma: bollingerBandSma, bands: bollingerBandBands},
       rsi: rsi,
       psar: psar,
-      indicators: {
-        senkouIndicator: ichimokuCloud.senkouIndicator,
-        tkIndicator: ichimokuCloud.tkIndicator,
-        chikouActionIndicator: ichimokuCloud.chikouActionIndicator,
-        cloudActionIndicator: ichimokuCloud.cloudActionIndicator,
-        KenBaseIndicator: ichimokuCloud.actionBaseLineIndicator ,
-      },
     })
   }
 }
