@@ -13,6 +13,7 @@ client/*.lock
 
 # production
 /build
+/client/build
 /client/src/css
 
 # misc

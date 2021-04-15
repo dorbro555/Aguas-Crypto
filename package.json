@@ -9,7 +9,8 @@
     "client": "cd client && yarn start",
     "server": "npx nodemon server.js",
     "dev": "concurrently --kill-others-on-fail\"yarn server\" \"yarn client\"",
-    "production": "export PORT=6491; node server & yarn client"
+    "build-client": "cd client && yarn build",
+    "production": "node server.js"
   },
   "dependencies": {
     "axios": "^0.21.1",
