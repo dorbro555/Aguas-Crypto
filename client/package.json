@@ -1,6 +1,7 @@
 {
   "name": "trader",
   "version": "0.1.0",
+  "homepage": "https://www.ahernandez.dev/trade",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
@@ -21,7 +22,7 @@
     "css-watch": "yarn css-build -- --watch",
     "start": "react-scripts start && yarn css-watch"
   },
-  "proxy": "http://localhost:5000",
+  "proxy": "http://localhost:6341",
   "eslintConfig": {
     "extends": [
       "react-app",

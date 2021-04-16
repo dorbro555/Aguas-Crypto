@@ -14,7 +14,7 @@ class MarketView extends Component {
 
   setActivePair(pair){
     this.setState({data: []})
-    fetch(`/api/ohlc/${pair}`)
+    fetch(`https://www.ahernandez.dev/trade/api/ohlc/${pair}`)
     .then(res => res.json())
     .then(res => {
       console.log(res)
@@ -36,7 +36,7 @@ class MarketView extends Component {
   }
 
   componentDidMount(){
-    fetch(`/api/ohlc/atom`)
+    fetch(`https://www.ahernandez.dev/trade/api/ohlc/atom`)
     .then(res => res.json())
 		.then(res => {
       this.setState({
