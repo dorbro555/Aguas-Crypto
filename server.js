@@ -46,8 +46,9 @@ app.get('/api/ohlc/:pair', (req, res) => {
           lows  = ohlcs.map(dp => dp[3]),
           closes = ohlcs.map(dp => dp[4]),
           rsi = calculateRsi(dates, closes, 100),
-          psar = calculatePSar(dates, highs, lows, 100)
-          bband = calculateBollingerBand(dates, closes, 100)
+          psar = calculatePSar(dates, highs, lows, 100),
+          bband = calculateBollingerBand(dates, closes, 100),
+          ema = calculateEMA(dates, closes, 100)
       return {
         timeframe: key,
         dates: dates,
@@ -55,6 +56,7 @@ app.get('/api/ohlc/:pair', (req, res) => {
         rsi: rsi,
         psar: psar,
         bband: bband,
+        ema: ema
       }
     })
 
@@ -125,6 +127,22 @@ function calculateBollingerBand(dates, closes, range){
     bands: bands,
     sma: sma,
     percent: percent
+  }
+}
+
+function calculateEMA(dates, closes, range){
+  let period = 200,
+      start = tulind.indicators.ema.start([period]),
+      preciseDates = dates.slice(-(range+start))
+      preciseCloses = closes.slice(-(range+start)),
+      ema = []
+
+  tulind.indicators.ema.indicator([preciseCloses], [period], (err, results) => {
+    ema = results[0].map((dp, idx) => {return {x: preciseDates[idx+start], y: dp}})
+  })
+
+  return {
+    values : ema
   }
 }
 

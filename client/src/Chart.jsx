@@ -20,6 +20,7 @@ class Chart extends Component {
       bollingerBand: {},
       rsi: [],
       psar: {},
+      ema: [],
       indicators: {},
       isLoaded: false
     };
@@ -29,7 +30,7 @@ class Chart extends Component {
     const showSMA = false
     const showIchimoku = true
     const range = 100
-    const dataPointMinWidth = 4
+    const dataPointMinWidth = 6
     const indicatorHeight = 55
     const options = this.state.isLoaded ? {
       theme: "dark2",
@@ -102,6 +103,15 @@ class Chart extends Component {
             color: '#725ce5',
             markerType: 'none',
             dataPoints : this.state.ichimokuCloud.laggingSpan
+          },
+          {
+            name: "200 EMA",
+            type: "line",
+            visible: showIchimoku,
+            axisYType: "secondary",
+            color: '#7cf8e0',
+            markerType: 'none',
+            dataPoints : this.state.ema
           },
           {
             name: 'Senkou',
@@ -197,6 +207,7 @@ class Chart extends Component {
               {
                 axisYType: "secondary",
                 type:'line',
+                lineColor: '#6272a4',
                 dataPoints: this.state.rsi,
               }
             ]
@@ -379,7 +390,7 @@ class Chart extends Component {
 
   componentDidMount(){
     let result = this.props.tf.prices,
-        range = 100
+        range = 60
     var dps1 = [], dps2 = [], dates = []
     for (var i = 0; i < result.length; i++) {
       var readableDate = new Date(result[i][0]*1000)
@@ -398,8 +409,8 @@ class Chart extends Component {
         rsi = this.props.tf.rsi.values.slice(-range).map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
         psar = this.props.tf.psar.values.slice(-range).map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
         psarIndicator = this.props.tf.psar.actionIndicator.slice(-range).map(dp => {return {x: new Date(dp.x*1000), y: 1, color: dp.color}}),
-        ichimokuCloud = calculateIchimokuClouds(dps1.slice(-(range+78)), this.props.timeframe)
-    console.log(ichimokuCloud)
+        ichimokuCloud = calculateIchimokuClouds(dps1.slice(-(range+78)), this.props.timeframe),
+        ema = this.props.tf.ema.values.slice(-range).map(dp => {return {x: new Date(dp.x*1000), y: dp.y}})
 
 
     this.setState({
@@ -413,6 +424,7 @@ class Chart extends Component {
       bollingerBand: {sma: bollingerBandSma, bands: bollingerBandBands, percent: bollingerBandPercent},
       rsi: rsi,
       psar: {values: psar, indicator: psarIndicator},
+      ema:ema
     })
   }
 }
