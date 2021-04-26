@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import CanvasJSReact from './assets/canvasjs.stock.react'
-import {calculateSMA, calculateRSI, calculateIchimokuClouds, calculateFutureDates, calculateBBand, formateTimeFrame} from './utils' ;
+import {calculateSMA, calculateRSI, formateTimeFrame, calculateIchimokuClouds} from './utils' ;
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSStockChart = CanvasJSReact.CanvasJSStockChart;
 
@@ -31,7 +31,7 @@ class Chart extends Component {
     const range = 100
     const dataPointMinWidth = 4
     const indicatorHeight = 55
-    const options = {
+    const options = this.state.isLoaded ? {
       theme: "dark2",
       // title:{
       //   text: formateTimeFrame(this.props.timeframe) + ` ${this.props.activePair.toUpperCase()} Price`
@@ -101,7 +101,7 @@ class Chart extends Component {
             axisYType: "secondary",
             color: '#725ce5',
             markerType: 'none',
-            dataPoints : this.state.ichimokuCloud.chikou
+            dataPoints : this.state.ichimokuCloud.laggingSpan
           },
           {
             name: 'Senkou',
@@ -110,7 +110,7 @@ class Chart extends Component {
             axisYType: 'secondary',
             markerType: 'none',
             color: '#07df3d',
-            dataPoints: this.state.ichimokuCloud.senkou
+            dataPoints: this.state.ichimokuCloud.greenCloud
           },
           {
             name: 'Red Senkou',
@@ -119,7 +119,7 @@ class Chart extends Component {
             axisYType: 'secondary',
             markerType: 'none',
             color: '#f00000',
-            dataPoints: this.state.ichimokuCloud.redSenkou
+            dataPoints: this.state.ichimokuCloud.redCloud
           },
           {
             name: 'Bollinger Band',
@@ -236,7 +236,7 @@ class Chart extends Component {
           data: [
             {
               axisYType: "secondary",
-              dataPoints: this.state.ichimokuCloud.senkouIndicator,
+              dataPoints: this.state.ichimokuCloud.cloudIndicator,
             }
           ]
         },
@@ -278,7 +278,7 @@ class Chart extends Component {
               data: [
                 {
                   axisYType: "secondary",
-                  dataPoints: this.state.ichimokuCloud.tkIndicator,
+                  dataPoints: this.state.ichimokuCloud.tkCrossIndicator,
                 }
               ]
             },
@@ -353,7 +353,8 @@ class Chart extends Component {
       rangeSelector: {
         enabled: false
       }
-    };
+    }
+    : {}
     const containerProps = {
       width: "100%",
       height: "865px",
@@ -389,18 +390,16 @@ class Chart extends Component {
       });
       dps2.push({x: readableDate, y: result[i][6]})
     }
-    let recentDate = result[result.length-1][0]*1000,
-        paddedWindow = calculateFutureDates(recentDate, this.props.timeframe),
-        price = dps1.slice(-range).concat(paddedWindow),
+    let price = dps1.slice(-range),
         volume = dps2.slice(-range),
-        ichimokuCloud = calculateIchimokuClouds(dps1.slice(-(range+78)).concat(paddedWindow), range),
-        bollingerBandSma = this.props.tf.bband.sma.map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
-        bollingerBandBands = this.props.tf.bband.bands.map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
-        bollingerBandPercent = this.props.tf.bband.percent.map(dp => {return {x: new Date(dp.x*1000), y: dp.y, lineColor: dp.lineColor, color: dp.lineColor}}),
+        bollingerBandSma = this.props.tf.bband.sma.slice(-range).map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
+        bollingerBandBands = this.props.tf.bband.bands.slice(-range).map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
+        bollingerBandPercent = this.props.tf.bband.percent.slice(-range).map(dp => {return {x: new Date(dp.x*1000), y: dp.y, lineColor: dp.lineColor, color: dp.lineColor}}),
         rsi = this.props.tf.rsi.values.slice(-range).map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
-        psar = this.props.tf.psar.values.map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
-        psarIndicator = this.props.tf.psar.actionIndicator.map(dp => {return {x: new Date(dp.x*1000), y: 1, color: dp.color}})
-        // console.log(bollingerBandSma, bollingerBandBands)
+        psar = this.props.tf.psar.values.slice(-range).map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
+        psarIndicator = this.props.tf.psar.actionIndicator.slice(-range).map(dp => {return {x: new Date(dp.x*1000), y: 1, color: dp.color}}),
+        ichimokuCloud = calculateIchimokuClouds(dps1.slice(-(range+78)), this.props.timeframe)
+    console.log(ichimokuCloud)
 
 
     this.setState({
