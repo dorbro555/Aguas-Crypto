@@ -84,7 +84,7 @@ function calculateIchimokuClouds(dps, interval){
     cloudActionIndicator: results.map(dp => {return {x: dp.x.senkou, y: dp.cloudActionIndicator.val, color: dp.cloudActionIndicator.color}}),
     tkCrossIndicator: results.slice(basePeriod+2).map(dp => {return {x:dp.x.tk, y:1, color: dp.tkCrossIndicator}}),
     laggingSpan: results.slice(basePeriod+2).map(dp => {return {x: dp.x.tk, y: dp.price}}),
-    chikouActionIndicator: results.slice(basePeriod+2, -displacement).map(dp => {return {x: dp.x.tk, y: 1, color: dp.chikouActionIndicator}}) ,
+    chikouActionIndicator: results.slice(0, -displacement).map(dp => {return {x: dp.x.senkou, y: 1, color: dp.chikouActionIndicator}}) ,
     actionBaseLineIndicator: results.slice(basePeriod+2).map(dp => {return {x: dp.x.tk, y: 1, color: dp.actionBaseLineIndicator}}),
     price: results.map(dp => {return {x: dp.x.senkou, y: dp.price}})
   }
