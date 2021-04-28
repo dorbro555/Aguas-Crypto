@@ -36,11 +36,11 @@ class MarketView extends Component {
   }
 
   componentDidMount(){
-    fetch(`https://www.ahernandez.dev/trade/api/ohlc/atom`)
+    fetch(`https://www.ahernandez.dev/trade/api/ohlc/eth`)
     .then(res => res.json())
 		.then(res => {
       this.setState({
-        activePair: 'atom',
+        activePair: 'eth',
         data: res
       })
 		});
