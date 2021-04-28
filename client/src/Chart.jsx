@@ -40,7 +40,7 @@ class Chart extends Component {
       subtitles: [{
         text: formateTimeFrame(this.props.timeframe) + ` ${this.props.activePair.toUpperCase()} Price`
       }],
-      height:865,
+      height:810,
       charts: [
         {
           axisX: {
@@ -73,6 +73,7 @@ class Chart extends Component {
             name: "Price (in USD)",
             yValueFormatString: "$#,###.##",
             xValueFormatString: "MMM DD HH:mm",
+            xValueType: "dateTime",
             type: "candlestick",
             axisYType: "secondary",
             dataPoints : this.state.price
@@ -206,6 +207,7 @@ class Chart extends Component {
             data: [
               {
                 axisYType: "secondary",
+                xValueType: "dateTime",
                 type:'line',
                 lineColor: '#6272a4',
                 dataPoints: this.state.rsi,
@@ -224,6 +226,7 @@ class Chart extends Component {
               data: [
                 {
                   axisYType: "secondary",
+                  xValueType: "dateTime",
                   type:'line',
                   dataPoints: this.state.bollingerBand.percent,
                 }
@@ -247,6 +250,7 @@ class Chart extends Component {
           data: [
             {
               axisYType: "secondary",
+              xValueType: "dateTime",
               dataPoints: this.state.ichimokuCloud.cloudIndicator,
             }
           ]
@@ -267,6 +271,7 @@ class Chart extends Component {
             dataPointMinWidth: dataPointMinWidth,
             data: [
               {
+                xValueType: "dateTime",
                 axisYType: "secondary",
                 dataPoints: this.state.ichimokuCloud.cloudActionIndicator,
               }
@@ -289,6 +294,7 @@ class Chart extends Component {
               data: [
                 {
                   axisYType: "secondary",
+                  xValueType: "dateTime",
                   dataPoints: this.state.ichimokuCloud.tkCrossIndicator,
                 }
               ]
@@ -310,6 +316,7 @@ class Chart extends Component {
                 data: [
                   {
                     axisYType: "secondary",
+                    xValueType: "dateTime",
                     dataPoints: this.state.ichimokuCloud.chikouActionIndicator,
                   }
                 ]
@@ -331,32 +338,33 @@ class Chart extends Component {
                   data: [
                     {
                       axisYType: "secondary",
+                      xValueType: "dateTime",
                       dataPoints: this.state.ichimokuCloud.actionBaseLineIndicator,
                     }
                   ]
                 },
-                {
-                    title:{
-                      text: "Psar/Action"
-                    },
-                    axisX: {
-                      labelFormatter: function(e) {
-                        return "";
-                      },
-                    },
-                    height: indicatorHeight,
-                    axisY2: {
-                      maximum: 1
-                    },
-                    xValueType: "dateTime",
-                    dataPointMinWidth: dataPointMinWidth,
-                    data: [
-                      {
-                        axisYType: "secondary",
-                        dataPoints: this.state.psar.indicator,
-                      }
-                    ]
-                  },
+                // {
+                //     title:{
+                //       text: "Psar/Action"
+                //     },
+                //     axisX: {
+                //       labelFormatter: function(e) {
+                //         return "";
+                //       },
+                //     },
+                //     height: indicatorHeight,
+                //     axisY2: {
+                //       maximum: 1
+                //     },
+                //     xValueType: "dateTime",
+                //     dataPointMinWidth: dataPointMinWidth,
+                //     data: [
+                //       {
+                //         axisYType: "secondary",
+                //         dataPoints: this.state.psar.indicator,
+                //       }
+                //     ]
+                //   },
 
       ],
       navigator: {
@@ -369,7 +377,7 @@ class Chart extends Component {
     : {}
     const containerProps = {
       width: "100%",
-      height: "865px",
+      height: "810px",
       margin: "auto"
     };
     return (
@@ -394,7 +402,7 @@ class Chart extends Component {
         range = 60
     var dps1 = [], dps2 = [], dates = []
     for (var i = 0; i < result.length; i++) {
-      var readableDate = new Date(result[i][0]*1000)
+      var readableDate = result[i][0]*1000
       dates.push(readableDate)
       dps1.push({
         x: readableDate,
@@ -436,7 +444,7 @@ class Chart extends Component {
       ichimokuCloud: ichimokuCloud,
       bollingerBand: {sma: bollingerBandSma, bands: bollingerBandBands, percent: bollingerBandPercent},
       rsi: rsi,
-      psar: {values: psar, indicator: psarIndicator},
+      psar: {values: psar},
       ema:ema
     })
   }
