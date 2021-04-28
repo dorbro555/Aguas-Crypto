@@ -40,8 +40,8 @@ app.get('/api/ohlc/:pair', (req, res) => {
             rsi = utils.calculateRsi(dates, closes, 100),
             psar = utils.calculatePSar(dates, highs, lows, 100),
             bband = utils.calculateBollingerBand(dates, closes, 100)
-            // ema = utils.calculateEMA(dates, closes, 100),
-            // ichimokuCloud = utils.calculateIchimokuClouds(dates, highs, lows, closes, parseInt(key))
+            ema = utils.calculateEMA(dates, closes, 100),
+            ichimokuCloud = utils.calculateIchimokuClouds(dates, highs, lows, closes, parseInt(key))
         console.log('calculations made')
         return {
           timeframe: key,
@@ -50,8 +50,8 @@ app.get('/api/ohlc/:pair', (req, res) => {
           rsi: rsi,
           psar: psar,
           bband: bband,
-          // ema: ema,
-          // ichimokuCloud: ichimokuCloud,
+          ema: ema,
+          ichimokuCloud: ichimokuCloud,
         }
       })
 

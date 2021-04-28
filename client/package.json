@@ -22,7 +22,7 @@
     "css-watch": "yarn css-build -- --watch",
     "start": "react-scripts start && yarn css-watch"
   },
-  "proxy": "http://localhost:6341",
+  "proxy": "http://localhost:5000",
   "eslintConfig": {
     "extends": [
       "react-app",
