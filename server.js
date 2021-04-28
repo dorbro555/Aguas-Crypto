@@ -8,6 +8,7 @@ const port = process.env.PORT || 5000;
 const { RESTClient } = require('cw-sdk-node')
 const axios = require('axios')
 const tulind = require('tulind');
+const technicalindicators = require('technicalindicators');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -48,7 +49,8 @@ app.get('/api/ohlc/:pair', (req, res) => {
           rsi = calculateRsi(dates, closes, 100),
           psar = calculatePSar(dates, highs, lows, 100),
           bband = calculateBollingerBand(dates, closes, 100),
-          ema = calculateEMA(dates, closes, 100)
+          ema = calculateEMA(dates, closes, 100),
+          ichimokuCloud = calculateIchimokuClouds(dates, highs, lows, closes, parseInt(key))
       return {
         timeframe: key,
         dates: dates,
@@ -56,7 +58,8 @@ app.get('/api/ohlc/:pair', (req, res) => {
         rsi: rsi,
         psar: psar,
         bband: bband,
-        ema: ema
+        ema: ema,
+        ichimokuCloud: ichimokuCloud,
       }
     })
 
@@ -145,6 +148,83 @@ function calculateEMA(dates, closes, range){
     values : ema
   }
 }
+
+function calculateIchimokuClouds(dates, highs, lows, closes, interval){
+  let conversionPeriod = 9,
+      basePeriod = 26,
+      spanPeriod = 52,
+      displacement = 26,
+      range = 100,
+      start = spanPeriod+displacement,
+      preciseCloses = closes.slice(-(range+start)),
+      preciseHighs = highs.slice(-(range+start)),
+      preciseLows = lows.slice(-(range+start)),
+      preciseDates = dates.slice(-(range+start))
+
+  var results = technicalindicators.IchimokuCloud.calculate({high: preciseHighs,
+                                         low: preciseLows,
+                                         conversionPeriod,
+                                         basePeriod,
+                                         spanPeriod,
+                                         displacement})
+
+  let futureTimes = calculateIchimokuTimes(preciseDates[preciseDates.length-1], interval),
+      spanDisplacement = spanPeriod + (spanPeriod/2) - 2
+  results = results.map((dp, idx) => {
+    return {
+      x: {
+        senkou: (idx < preciseDates.length-spanDisplacement) ? preciseDates[idx+spanDisplacement] : futureTimes[idx-(preciseDates.length-spanDisplacement)],
+        tk: (idx < preciseDates.length-spanPeriod+1) ? preciseDates[idx+spanPeriod-2] : null,
+      },
+      y: dp,
+      greenCloud: dp.spanA >= dp.spanB ? [dp.spanA, dp.spanB] : null,
+      redCloud: dp.spanB > dp.spanA ? [dp.spanA , dp.spanB]:null,
+      cloudIndicator: dp.spanA >= dp.spanB ? green : red,
+      cloudActionIndicator: cloudActionIndicatorHelper(preciseCloses[idx+spanDisplacement+1], dp.spanA, dp.spanB),
+      price: preciseCloses[idx+spanDisplacement+1],
+      chikou: preciseCloses[idx+spanPeriod-2],
+      baseLine: dp.base,
+      conversionLine: dp.conversion,
+      tkCrossIndicator: dp.conversion > dp.base ? green : red,
+      chikouActionIndicator: preciseCloses[idx+spanDisplacement+1] > preciseCloses[idx+spanDisplacement-displacement+1] ? green : red,
+      actionBaseLineIndicator: preciseCloses[idx+spanDisplacement-displacement+1] > dp.base ? green : red,
+    }
+  })
+
+  return {
+    greenCloud:results.map(dp => {return {x: dp.x.senkou, y: dp.greenCloud}}),
+    redCloud: results.map(dp => {return {x: dp.x.senkou, y: dp.redCloud}}),
+    baseLine: results.slice(basePeriod+2).map(dp => {return {x: dp.x.tk, y: dp.baseLine}}),
+    conversionLine: results.slice(basePeriod+2).map(dp => {return {x: dp.x.tk, y: dp.conversionLine}}),
+    cloudIndicator: results.slice(basePeriod+2).map(dp => {return {x: dp.x.tk, y: 1, color: dp.cloudIndicator}}),
+    cloudActionIndicator: results.map(dp => {return {x: dp.x.senkou, y: dp.cloudActionIndicator.val, color: dp.cloudActionIndicator.color}}),
+    tkCrossIndicator: results.slice(basePeriod+2).map(dp => {return {x:dp.x.tk, y:1, color: dp.tkCrossIndicator}}),
+    laggingSpan: results.slice(basePeriod+2).map(dp => {return {x: dp.x.tk, y: dp.price}}),
+    chikouActionIndicator: results.slice(0, -displacement).map(dp => {return {x: dp.x.senkou, y: 1, color: dp.chikouActionIndicator}}) ,
+    actionBaseLineIndicator: results.slice(basePeriod+2).map(dp => {return {x: dp.x.tk, y: 1, color: dp.actionBaseLineIndicator}}),
+    price: results.map(dp => {return {x: dp.x.senkou, y: dp.price}})
+  }
+}
+
+function cloudActionIndicatorHelper(price, spanA, spanB){
+  if(price > Math.max(spanA, spanB)) return {val: 1, color: green}
+  else if(price < Math.min(spanB, spanA)) return {val: 1, color: red}
+  else return {val: 0, color: ''}
+}
+
+function calculateIchimokuTimes(startTime, interval, ichimokuPeriod, range){
+  if(startTime === undefined || interval === undefined) return null
+  ichimokuPeriod = ichimokuPeriod || 26
+  range = range || 100
+  let futureTimes = []
+  for(var i = 0; i < ichimokuPeriod; i++){
+    startTime += interval
+    futureTimes.push(startTime)
+  }
+
+  return futureTimes
+}
+
 
 app.post('/api/world', (req, res) => {
   console.log(req.body);
