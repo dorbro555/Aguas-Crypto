@@ -26,7 +26,6 @@ app.get('/api/hello', (req, res) => {
 app.get('/api/ohlc/:pair', (req, res) => {
   (async () => {
   	try {
-      console.log('request started')
   		const response = await got(`https://api.cryptowat.ch/markets/kraken/${req.params.pair}usd/ohlc`);
       let candles = JSON.parse(response.body)
       let results = candles.result
@@ -42,7 +41,6 @@ app.get('/api/ohlc/:pair', (req, res) => {
             bband = utils.calculateBollingerBand(dates, closes, 100)
             ema = utils.calculateEMA(dates, closes, 100),
             ichimokuCloud = utils.calculateIchimokuClouds(dates, highs, lows, closes, parseInt(key))
-        console.log('calculations made')
         return {
           timeframe: key,
           dates: dates,

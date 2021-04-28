@@ -11,7 +11,7 @@ function calculateRsi(dates, closes, range){
   tulind.indicators.rsi.indicator([closes.slice(-(range+start+buffer))], [14], (err, results) => {
     values.push(results[0])
   })
-  values = values[0].map((dp, idx) => {return {x: dates.slice(-(range+start+buffer))[idx+start-1], y: dp}})
+  values = values[0].map((dp, idx) => {return {x: dates.slice(-(range+start+buffer))[idx+start-1]*1000, y: dp}})
 
   return {
     values: values
@@ -29,7 +29,7 @@ function calculatePSar(dates, highs, lows, range){
   tulind.indicators.psar.indicator([preciseHighs, preciseLows], [0.025, 0.25], (err, results) => {
     values = values.concat(results[0])
   })
-  results = values.map((dp, idx) => {return {x: preciseDates[idx+start-1],
+  results = values.map((dp, idx) => {return {x: preciseDates[idx+start-1]*1000,
                                              y: dp,
                                              actionIndicator: dp < preciseHighs[idx+start-1] ? green : red}})
 
@@ -51,9 +51,9 @@ function calculateBollingerBand(dates, closes, range){
       percent = []
 
   tulind.indicators.bbands.indicator([preciseCloses], [period, stdDev], (err, results) => {
-    bands = results[0].map((dp, idx) => {return {x: preciseDates[idx+start], y: [dp, results[2][idx]]}})
-    sma = results[1].map((dp, idx) => {return {x: preciseDates[idx+start], y: dp}})
-    percent = bands.map((dp, idx) => {return {x: dp.x, y: ((preciseCloses[idx+start]-dp.y[0])/(dp.y[1]-dp.y[0]))*100, lineColor: '#6272a4'}})
+    bands = results[0].map((dp, idx) => {return {x: preciseDates[idx+start]*1000, y: [dp, results[2][idx]]}})
+    sma = results[1].map((dp, idx) => {return {x: preciseDates[idx+start]*1000, y: dp}})
+    percent = bands.map((dp, idx) => {return {x: dp.x, y: ((preciseCloses[idx+start]-dp.y[0])/(dp.y[1]-dp.y[0]))*100, lineColor: '#6272a4', color: '#6272a4'}})
   })
   // values = values.map((dp, idx) => {return {x: dates[idx+start-1], y: dp}})
 
@@ -72,7 +72,7 @@ function calculateEMA(dates, closes, range){
       ema = []
 
   tulind.indicators.ema.indicator([preciseCloses], [period], (err, results) => {
-    ema = results[0].map((dp, idx) => {return {x: preciseDates[idx+start], y: dp}})
+    ema = results[0].map((dp, idx) => {return {x: preciseDates[idx+start]*1000, y: dp}})
   })
 
   return {
@@ -104,8 +104,8 @@ function calculateIchimokuClouds(dates, highs, lows, closes, interval){
   results = results.map((dp, idx) => {
     return {
       x: {
-        senkou: (idx < preciseDates.length-spanDisplacement) ? preciseDates[idx+spanDisplacement] : futureTimes[idx-(preciseDates.length-spanDisplacement)],
-        tk: (idx < preciseDates.length-spanPeriod+1) ? preciseDates[idx+spanPeriod-2] : null,
+        senkou: (idx < preciseDates.length-spanDisplacement) ? preciseDates[idx+spanDisplacement]*1000 : futureTimes[idx-(preciseDates.length-spanDisplacement)]*1000,
+        tk: (idx < preciseDates.length-spanPeriod+1) ? preciseDates[idx+spanPeriod-2]*1000 : null,
       },
       y: dp,
       greenCloud: dp.spanA >= dp.spanB ? [dp.spanA, dp.spanB] : null,

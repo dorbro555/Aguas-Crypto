@@ -348,6 +348,7 @@ class Chart extends Component {
                     axisY2: {
                       maximum: 1
                     },
+                    xValueType: "dateTime",
                     dataPointMinWidth: dataPointMinWidth,
                     data: [
                       {
@@ -403,26 +404,26 @@ class Chart extends Component {
     }
     let price = dps1.slice(-range),
         volume = dps2.slice(-range),
-        bollingerBandSma = this.props.tf.bband.sma.slice(-range).map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
-        bollingerBandBands = this.props.tf.bband.bands.slice(-range).map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
-        bollingerBandPercent = this.props.tf.bband.percent.slice(-range).map(dp => {return {x: new Date(dp.x*1000), y: dp.y, lineColor: dp.lineColor, color: dp.lineColor}}),
-        rsi = this.props.tf.rsi.values.slice(-range).map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
-        psar = this.props.tf.psar.values.slice(-range).map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
-        psarIndicator = this.props.tf.psar.actionIndicator.slice(-range).map(dp => {return {x: new Date(dp.x*1000), y: 1, color: dp.color}}),
+        bollingerBandSma = this.props.tf.bband.sma.slice(-range),
+        bollingerBandBands = this.props.tf.bband.bands.slice(-range),
+        bollingerBandPercent = this.props.tf.bband.percent.slice(-range),
+        rsi = this.props.tf.rsi.values.slice(-range),
+        psar = this.props.tf.psar.values.slice(-range),
+        psarIndicator = this.props.tf.psar.actionIndicator.slice(-range),
         ichimokuCloud = {
-          greenCloud: this.props.tf.ichimokuCloud.greenCloud.map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
-          redCloud: this.props.tf.ichimokuCloud.redCloud.map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
-          baseLine: this.props.tf.ichimokuCloud.baseLine.map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
-          conversionLine: this.props.tf.ichimokuCloud.conversionLine.map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
-          cloudIndicator: this.props.tf.ichimokuCloud.cloudIndicator.map(dp => {return {x: new Date(dp.x*1000), y: dp.y, color: dp.color}}),
-          cloudActionIndicator: this.props.tf.ichimokuCloud.cloudActionIndicator.map(dp => {return {x: new Date(dp.x*1000), y: dp.y, color: dp.color}}),
-          tkCrossIndicator: this.props.tf.ichimokuCloud.tkCrossIndicator.map(dp => {return {x: new Date(dp.x*1000), y: dp.y, color: dp.color}}),
-          laggingSpan: this.props.tf.ichimokuCloud.laggingSpan.map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
-          chikouActionIndicator: this.props.tf.ichimokuCloud.chikouActionIndicator.map(dp => {return {x: new Date(dp.x*1000), y: dp.y, color: dp.color}}),
-          actionBaseLineIndicator: this.props.tf.ichimokuCloud.actionBaseLineIndicator.map(dp => {return {x: new Date(dp.x*1000), y: dp.y, color: dp.color}}),
-          price: this.props.tf.ichimokuCloud.price.map(dp => {return {x: new Date(dp.x*1000), y: dp.y}})
+          greenCloud: this.props.tf.ichimokuCloud.greenCloud,
+          redCloud: this.props.tf.ichimokuCloud.redCloud,
+          baseLine: this.props.tf.ichimokuCloud.baseLine,
+          conversionLine: this.props.tf.ichimokuCloud.conversionLine,
+          cloudIndicator: this.props.tf.ichimokuCloud.cloudIndicator,
+          cloudActionIndicator: this.props.tf.ichimokuCloud.cloudActionIndicator,
+          tkCrossIndicator: this.props.tf.ichimokuCloud.tkCrossIndicator,
+          laggingSpan: this.props.tf.ichimokuCloud.laggingSpan,
+          chikouActionIndicator: this.props.tf.ichimokuCloud.chikouActionIndicator,
+          actionBaseLineIndicator: this.props.tf.ichimokuCloud.actionBaseLineIndicator,
+          price: this.props.tf.ichimokuCloud.price
         },
-        ema = this.props.tf.ema.values.slice(-range).map(dp => {return {x: new Date(dp.x*1000), y: dp.y}})
+        ema = this.props.tf.ema.values.slice(-range)
 
 
     this.setState({
