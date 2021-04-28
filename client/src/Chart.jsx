@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import CanvasJSReact from './assets/canvasjs.stock.react'
-import {calculateSMA, calculateRSI, formateTimeFrame, calculateIchimokuClouds} from './utils' ;
+import {formateTimeFrame} from './utils' ;
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSStockChart = CanvasJSReact.CanvasJSStockChart;
 
@@ -29,7 +29,7 @@ class Chart extends Component {
   render() {
     const showSMA = false
     const showIchimoku = true
-    const range = 100
+    const range = 60
     const dataPointMinWidth = 6
     const indicatorHeight = 55
     const options = this.state.isLoaded ? {
@@ -409,7 +409,19 @@ class Chart extends Component {
         rsi = this.props.tf.rsi.values.slice(-range).map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
         psar = this.props.tf.psar.values.slice(-range).map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
         psarIndicator = this.props.tf.psar.actionIndicator.slice(-range).map(dp => {return {x: new Date(dp.x*1000), y: 1, color: dp.color}}),
-        ichimokuCloud = calculateIchimokuClouds(dps1.slice(-(range+78)), this.props.timeframe),
+        ichimokuCloud = {
+          greenCloud: this.props.tf.ichimokuCloud.greenCloud.map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
+          redCloud: this.props.tf.ichimokuCloud.redCloud.map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
+          baseLine: this.props.tf.ichimokuCloud.baseLine.map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
+          conversionLine: this.props.tf.ichimokuCloud.conversionLine.map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
+          cloudIndicator: this.props.tf.ichimokuCloud.cloudIndicator.map(dp => {return {x: new Date(dp.x*1000), y: dp.y, color: dp.color}}),
+          cloudActionIndicator: this.props.tf.ichimokuCloud.cloudActionIndicator.map(dp => {return {x: new Date(dp.x*1000), y: dp.y, color: dp.color}}),
+          tkCrossIndicator: this.props.tf.ichimokuCloud.tkCrossIndicator.map(dp => {return {x: new Date(dp.x*1000), y: dp.y, color: dp.color}}),
+          laggingSpan: this.props.tf.ichimokuCloud.laggingSpan.map(dp => {return {x: new Date(dp.x*1000), y: dp.y}}),
+          chikouActionIndicator: this.props.tf.ichimokuCloud.chikouActionIndicator.map(dp => {return {x: new Date(dp.x*1000), y: dp.y, color: dp.color}}),
+          actionBaseLineIndicator: this.props.tf.ichimokuCloud.actionBaseLineIndicator.map(dp => {return {x: new Date(dp.x*1000), y: dp.y, color: dp.color}}),
+          price: this.props.tf.ichimokuCloud.price.map(dp => {return {x: new Date(dp.x*1000), y: dp.y}})
+        },
         ema = this.props.tf.ema.values.slice(-range).map(dp => {return {x: new Date(dp.x*1000), y: dp.y}})
 
 
