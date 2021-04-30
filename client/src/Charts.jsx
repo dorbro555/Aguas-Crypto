@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Chart from './Chart'
-import PairButtons from './PairButtons'
 
 class Charts extends Component {
   constructor(props){
@@ -17,7 +16,9 @@ class Charts extends Component {
           this.props.windows &&
           <div className='columns is-multiline'>
               {AllTimeframes.map( (val,idx) => {
-                return <Chart key={idx} tf={this.props.windows[val]} timeframe={val} activePair={this.props.activePair}/>
+                return (
+                  <Chart key={idx} tf={this.props.windows[val]} timeframe={val} activePair={this.props.activePair}/>
+                )
               })}
           </div>
         }
