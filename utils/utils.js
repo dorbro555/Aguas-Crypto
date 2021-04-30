@@ -71,8 +71,8 @@ function calculateEMA(dates, closes, range){
       preciseCloses = closes.slice(-(range+start)),
       ema = []
 
-  tulind.indicators.ema.indicator([preciseCloses], [period], (err, results) => {
-    ema = results[0].map((dp, idx) => {return {x: preciseDates[idx+start]*1000, y: dp}})
+  tulind.indicators.ema.indicator([closes], [period], (err, results) => {
+    ema = results[0].slice(-(range+start)).map((dp, idx) => {return {x: preciseDates[idx+start]*1000, y: dp}})
   })
 
   return {
