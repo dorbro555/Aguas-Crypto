@@ -156,7 +156,7 @@ class LineChart extends Component {
             axisYType: "secondary",
             markerType: 'circle',
             color: '#81c6f4',
-            dataPoints : this.state.psar.values
+            dataPoints : this.state.psar
           },
           ]
         },
@@ -281,6 +281,7 @@ class LineChart extends Component {
         bollingerBandBands = this.props.tf.bband.bands.slice(-range),
         bollingerBandPercent = this.props.tf.bband.percent.slice(-range),
         rsi = this.props.tf.rsi.values.slice(-range),
+        psar = this.props.tf.psar.values.slice(-range),
         ichimokuCloud = this.props.tf.ichimokuCloud,
         ema = this.props.tf.ema.values.slice(-range)
 
@@ -295,6 +296,7 @@ class LineChart extends Component {
       ichimokuCloud: ichimokuCloud,
       bollingerBand: {sma: bollingerBandSma, bands: bollingerBandBands, percent: bollingerBandPercent},
       rsi: rsi,
+      psar: psar,
       ema:ema
     })
   }
