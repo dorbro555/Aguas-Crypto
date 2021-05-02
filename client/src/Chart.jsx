@@ -3,6 +3,7 @@ import CanvasJSReact from './assets/canvasjs.stock.react'
 import {formateTimeFrame} from './utils' ;
 import LineChart from './LineChart'
 import IchimokuChartButton from './IchimokuChartButton'
+import InfoHeader from './InfoHeader'
 
 class Chart extends Component{
   constructor(props){
@@ -17,7 +18,8 @@ class Chart extends Component{
             <figure className='image'>
               <div>
                 <LineChart tf={this.props.tf} timeframe={this.props.timeframe} activePair={this.props.activePair}/>
-                <IchimokuChartButton tf={this.props.tf} timeframe={this.props.timeframe} activePair={this.props.activePair}/>
+                <InfoHeader tf={this.props.tf}/>
+                <IchimokuChartButton tf={this.props.tf}/>
               </div>
             </figure>
           </div>

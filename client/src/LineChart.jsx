@@ -37,7 +37,7 @@ class LineChart extends Component {
       subtitles: [{
         text: formateTimeFrame(this.props.timeframe) + ` ${this.props.activePair.toUpperCase()} Price`
       }],
-      height:535,
+      height:435,
       charts: [
         {
           axisX: {
@@ -197,26 +197,6 @@ class LineChart extends Component {
 
             height: 100,
             axisY2: {
-              maximum: 70,
-              minimum: 30,
-              title:"RSI",
-            },
-            dataPointMinWidth: dataPointMinWidth,
-            interactivityEnabled: interactivityEnabled,
-            data: [
-              {
-                axisYType: "secondary",
-                xValueType: "dateTime",
-                type:'line',
-                lineColor: '#6272a4',
-                dataPoints: this.state.rsi,
-              }
-            ]
-        },
-        {
-
-            height: 100,
-            axisY2: {
               maximum: 100,
               minimum: 0,
               title:"%B",
@@ -232,7 +212,6 @@ class LineChart extends Component {
               }
             ]
         },
-
       ],
       navigator: {
         enabled: false
@@ -245,7 +224,7 @@ class LineChart extends Component {
 
     const containerProps = {
       width: "100%",
-      height: "535px",
+      height: "435px",
       margin: "auto"
     };
     return (
@@ -280,7 +259,6 @@ class LineChart extends Component {
         bollingerBandSma = this.props.tf.bband.sma.slice(-range),
         bollingerBandBands = this.props.tf.bband.bands.slice(-range),
         bollingerBandPercent = this.props.tf.bband.percent.slice(-range),
-        rsi = this.props.tf.rsi.values.slice(-range),
         psar = this.props.tf.psar.values.slice(-range),
         ichimokuCloud = this.props.tf.ichimokuCloud,
         ema = this.props.tf.ema.values.slice(-range)
@@ -295,7 +273,6 @@ class LineChart extends Component {
       volume,
       ichimokuCloud: ichimokuCloud,
       bollingerBand: {sma: bollingerBandSma, bands: bollingerBandBands, percent: bollingerBandPercent},
-      rsi: rsi,
       psar: psar,
       ema:ema
     })
