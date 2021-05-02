@@ -21,11 +21,13 @@ class IchimokuChartButton extends Component {
       <div>
         <div className='button is-black is-fullwidth' onClick={this.handleClick}>
           Ichimoku Clouds
-          <span className={ichimokuCloud.cloudIndicator[ichimokuCloud.cloudIndicator.length-1].color === '#07df3d'? 'button is-success':'button is-danger'}></span>
-          <span className={ichimokuCloud.cloudActionIndicator[ichimokuCloud.cloudActionIndicator.length-1].color === '#07df3d'? 'button is-success':'button is-danger'}></span>
-          <span className={ichimokuCloud.tkCrossIndicator[ichimokuCloud.tkCrossIndicator.length-1].color === '#07df3d'? 'button is-success':'button is-danger'}></span>
-          <span className={ichimokuCloud.cloudIndicator[ichimokuCloud.cloudIndicator.length-1].color === '#07df3d'? 'button is-success':'button is-danger'}></span>
-          <span className={ichimokuCloud.cloudIndicator[ichimokuCloud.cloudIndicator.length-1].color === '#07df3d'? 'button is-success':'button is-danger'}></span>
+          <div className='buttons are-small'>
+            <span className={ichimokuCloud.cloudIndicator[ichimokuCloud.cloudIndicator.length-1].color === '#07df3d'? 'button is-rounded is-success':'button is-rounded is-danger'}></span>
+            <span className={ichimokuCloud.cloudActionIndicator[ichimokuCloud.cloudActionIndicator.length-1].color === '#07df3d'? 'button is-rounded is-success':'button is-rounded is-danger'}></span>
+            <span className={ichimokuCloud.tkCrossIndicator[ichimokuCloud.tkCrossIndicator.length-1].color === '#07df3d'? 'button is-rounded is-success':'button is-rounded is-danger'}></span>
+            <span className={ichimokuCloud.cloudIndicator[ichimokuCloud.cloudIndicator.length-1].color === '#07df3d'? 'button is-rounded is-success':'button is-rounded is-danger'}></span>
+            <span className={ichimokuCloud.cloudIndicator[ichimokuCloud.cloudIndicator.length-1].color === '#07df3d'? 'button is-rounded is-success':'button is-rounded is-danger'}></span>
+          </div>
 
         </div>
         {

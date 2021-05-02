@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import CanvasJSReact from './assets/canvasjs.stock.react'
 var CanvasJSStockChart = CanvasJSReact.CanvasJSStockChart;
+var CanvasJS = CanvasJSReact.CanvasJS
 
 class IchimokuChart extends Component {
   constructor(props) {
@@ -112,11 +113,11 @@ class IchimokuChart extends Component {
               text: "Action/Base"
             },
             axisX: {
-              labelFormatter: function(e) {
-                return "";
+              labelFormatter: function (e) {
+				            return CanvasJS.formatDate( e.value, "DD MMM HH:mm");
               },
             },
-            height: indicatorHeight,
+            height: indicatorHeight+14,
             axisY2: {
               maximum: 1
             },
