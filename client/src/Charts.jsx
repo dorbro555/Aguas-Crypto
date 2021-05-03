@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Chart from './Chart'
+import ChartsRangeButton from './ChartsRangeButton'
 
 class Charts extends Component {
   constructor(props){
@@ -9,17 +9,19 @@ class Charts extends Component {
   render(){
     const AllTimeframes = ['60','180', '300', '900', '1800', '3600', '7200', '14400', '21600', '43200', '86400', '259200']
     const devtimeFrames = ['60', '180', '1800', '3600', '21600']
-    const timeframes = ['86400', '14400', '300']
+    const volatileRange = ['60','180', '300']
+    const shortRange = ['900', '1800', '3600']
+    const moderateRange = ['7200', '14400', '21600']
+    const LongRange = ['43200', '86400', '259200']
     return(
       <div>
         {
           this.props.windows &&
-          <div className='columns is-multiline'>
-              {AllTimeframes.map( (val,idx) => {
-                return (
-                  <Chart key={idx} tf={this.props.windows[val]} timeframe={val} activePair={this.props.activePair}/>
-                )
-              })}
+          <div>
+            <ChartsRangeButton range={volatileRange} title={'Volatile Range'} windows={this.props.windows} activePair={this.props.activePair}/>
+            <ChartsRangeButton range={shortRange} title={'Short Range'} windows={this.props.windows} activePair={this.props.activePair}/>
+            <ChartsRangeButton range={moderateRange} title={'Moderate Range'} windows={this.props.windows} activePair={this.props.activePair}/>
+            <ChartsRangeButton range={LongRange} title={'Long Range'} windows={this.props.windows} activePair={this.props.activePair}/>
           </div>
         }
       </div>
