@@ -35,7 +35,7 @@ class LineChart extends Component {
       //   text: formateTimeFrame(this.props.timeframe) + ` ${this.props.activePair.toUpperCase()} Price`
       // },
       subtitles: [{
-        text: formateTimeFrame(this.props.timeframe) + ` ${this.props.activePair.toUpperCase()} Price`
+        text: formateTimeFrame(this.props.timeframe) + ` ${this.props.activePair.toUpperCase()} Price: $${this.props.tf.prices[this.props.tf.prices.length-1][4]}`
       }],
       height:435,
       charts: [
