@@ -18,10 +18,12 @@ class Chart extends Component{
             <figure className='image'>
               <div>
                 <LineChart tf={this.props.tf} timeframe={this.props.timeframe} activePair={this.props.activePair}/>
-                <InfoHeader tf={this.props.tf}/>
-                <IchimokuChartButton tf={this.props.tf}/>
               </div>
             </figure>
+          </div>
+          <div className='content'>
+            <InfoHeader tf={this.props.tf}/>
+            <IchimokuChartButton tf={this.props.tf}/>
           </div>
         </div>
       </div>

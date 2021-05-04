@@ -32,7 +32,7 @@ class IchimokuChartButton extends Component {
         </div>
         {
           this.state.toggleOn &&
-          <IchimokuChart ichimokuCloud={ichimokuCloud} timeframe={this.props.timeframe} activePair={this.props.activePair}/>
+          <IchimokuChart ichimokuCloud={ichimokuCloud}/>
         }
       </div>
     )
