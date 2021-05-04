@@ -108,6 +108,7 @@ function calculateIchimokuClouds(dates, highs, lows, closes, interval){
         tk: (idx < preciseDates.length-spanPeriod+1) ? preciseDates[idx+spanPeriod-2]*1000 : null,
       },
       y: dp,
+      leadingSpans: [dp.spanA, dp.spanB],
       greenCloud: dp.spanA >= dp.spanB ? [dp.spanA, dp.spanB] : null,
       redCloud: dp.spanB > dp.spanA ? [dp.spanA , dp.spanB]:null,
       cloudIndicator: dp.spanA >= dp.spanB ? green : red,
@@ -123,7 +124,8 @@ function calculateIchimokuClouds(dates, highs, lows, closes, interval){
   })
 
   return {
-    greenCloud:results.map(dp => {return {x: dp.x.senkou, y: dp.greenCloud}}),
+    leadingSpans: results.map(dp => {return {x: dp.x.senkou, y: dp.leadingSpans}}),
+    greenCloud: results.map(dp => {return {x: dp.x.senkou, y: dp.greenCloud}}),
     redCloud: results.map(dp => {return {x: dp.x.senkou, y: dp.redCloud}}),
     baseLine: results.slice(basePeriod+2).map(dp => {return {x: dp.x.tk, y: dp.baseLine}}),
     conversionLine: results.slice(basePeriod+2).map(dp => {return {x: dp.x.tk, y: dp.conversionLine}}),
