@@ -41,6 +41,7 @@ app.get('/api/ohlc/:pair', (req, res) => {
             bband = utils.calculateBollingerBand(dates, closes, 100)
             ema = utils.calculateEMA(dates, closes, 100),
             ichimokuCloud = utils.calculateIchimokuClouds(dates, highs, lows, closes, parseInt(key))
+            conversionLinePercent = utils.calculateCLBB(bband, ichimokuCloud.conversionLine)
         return {
           timeframe: key,
           dates: dates,
@@ -50,6 +51,9 @@ app.get('/api/ohlc/:pair', (req, res) => {
           bband: bband,
           ema: ema,
           ichimokuCloud: ichimokuCloud,
+          percentages: {
+            conversionLinePercent: conversionLinePercent,
+          }
         }
       })
 
@@ -63,7 +67,7 @@ app.get('/api/ohlc/:pair', (req, res) => {
       })
   		//=> '<!doctype html> ...'
   	} catch (error) {
-  		console.log(error.response.body);
+  		console.log(error);
   		//=> 'Internal server error ...'
   	}
   })();

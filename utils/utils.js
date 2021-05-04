@@ -18,6 +18,19 @@ function calculateRsi(dates, closes, range){
   }
 }
 
+function calculateCLBB(bollingerBand, conversionLine){
+  let percent = bollingerBand.bands.slice(-conversionLine.length).map((dp, idx) => {
+    return {
+      x: dp.x,
+      y: (conversionLine[idx].y-dp.y[0])/(dp.y[1]-dp.y[0])*100
+    }
+  })
+
+
+
+  return percent
+}
+
 function calculatePSar(dates, highs, lows, range){
   let start = tulind.indicators.psar.start([0.025, 0.25])
       values = [],
@@ -165,4 +178,5 @@ module.exports = {
   calculateBollingerBand: calculateBollingerBand,
   calculateEMA: calculateEMA,
   calculateIchimokuClouds: calculateIchimokuClouds,
+  calculateCLBB: calculateCLBB,
 }

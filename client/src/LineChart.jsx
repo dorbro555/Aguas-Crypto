@@ -209,6 +209,13 @@ class LineChart extends Component {
                 xValueType: "dateTime",
                 type:'line',
                 dataPoints: this.state.bollingerBand.percent,
+              },
+              {
+                axisYType: "secondary",
+                xValueType: "dateTime",
+                type:'line',
+                color: '#d5589d',
+                dataPoints: this.state.conversionLinePercent,
               }
             ]
         },
@@ -261,7 +268,8 @@ class LineChart extends Component {
         bollingerBandPercent = this.props.tf.bband.percent.slice(-range),
         psar = this.props.tf.psar.values.slice(-range),
         ichimokuCloud = this.props.tf.ichimokuCloud,
-        ema = this.props.tf.ema.values.slice(-range)
+        ema = this.props.tf.ema.values.slice(-range),
+        conversionLinePercent = this.props.tf.percentages.conversionLinePercent.slice(-range)
 
 
     this.setState({
@@ -274,7 +282,8 @@ class LineChart extends Component {
       ichimokuCloud: ichimokuCloud,
       bollingerBand: {sma: bollingerBandSma, bands: bollingerBandBands, percent: bollingerBandPercent},
       psar: psar,
-      ema:ema
+      ema:ema,
+      conversionLinePercent: conversionLinePercent
     })
   }
 }
