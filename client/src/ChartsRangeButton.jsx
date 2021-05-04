@@ -4,9 +4,10 @@ import Chart from './Chart'
 class ChartsRangeButton extends Component {
   constructor(props){
     super(props)
+    let isToggled  = props.isToggled || false
 
     this.state = {
-      isToggled: false,
+      isToggled: isToggled,
     }
 
     this.handleClick = this.handleClick.bind(this)
