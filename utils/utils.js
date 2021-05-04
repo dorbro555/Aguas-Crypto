@@ -29,7 +29,7 @@ function calculatePSar(dates, highs, lows, range){
   tulind.indicators.psar.indicator([preciseHighs, preciseLows], [0.025, 0.25], (err, results) => {
     values = values.concat(results[0])
   })
-  results = values.map((dp, idx) => {return {x: preciseDates[idx+start-1]*1000,
+  results = values.map((dp, idx) => {return {x: preciseDates[idx+start]*1000,
                                              y: dp,
                                              actionIndicator: dp < preciseHighs[idx+start-1] ? green : red}})
 
@@ -105,7 +105,7 @@ function calculateIchimokuClouds(dates, highs, lows, closes, interval){
     return {
       x: {
         senkou: (idx < preciseDates.length-spanDisplacement) ? preciseDates[idx+spanDisplacement]*1000 : futureTimes[idx-(preciseDates.length-spanDisplacement)]*1000,
-        tk: (idx < preciseDates.length-spanPeriod+1) ? preciseDates[idx+spanPeriod-2]*1000 : null,
+        tk: (idx < preciseDates.length-spanPeriod+1) ? preciseDates[idx+spanPeriod-1]*1000 : null,
       },
       y: dp,
       leadingSpans: [dp.spanA, dp.spanB],

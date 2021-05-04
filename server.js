@@ -30,7 +30,7 @@ app.get('/api/ohlc/:pair', (req, res) => {
       let candles = JSON.parse(response.body)
       let results = candles.result
       windows = Object.keys(results).map((key, idx) => {
-        let ohlcs = results[key],
+        let ohlcs = results[key].slice(-200),//we slice twice the range, to provide extra data that may be needed to compute more accurate results
             dates = ohlcs.map(dp => dp[0]),
             opens = ohlcs.map(dp => dp[1]),
             highs = ohlcs.map(dp => dp[2]),
