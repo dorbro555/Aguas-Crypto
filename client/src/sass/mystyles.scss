@@ -1,2 +1,15 @@
 @charset "utf-8";
 @import "../../node_modules/bulma/bulma.sass";
+
+html, body {
+  margin:0;
+  height: 100%;
+}
+
+body {
+  background-color: #4a4a4a;
+}
+
+.pair-button {
+  background: linear-gradient(to right top, #4f6e6a, #d9f8fd)
+}
