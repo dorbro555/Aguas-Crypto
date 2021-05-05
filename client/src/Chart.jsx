@@ -21,7 +21,7 @@ class Chart extends Component{
               </div>
             </figure>
           </div>
-          <div className='content'>
+          <div className='content has-background-dark'>
             <InfoHeader tf={this.props.tf}/>
             <IchimokuChartButton tf={this.props.tf}/>
           </div>

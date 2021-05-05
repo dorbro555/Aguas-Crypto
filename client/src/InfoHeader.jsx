@@ -32,16 +32,16 @@ class InfoHeader extends Component {
         deltaEma = (this.state.ema-this.state.price)/this.state.price*100,
         isToggled = this.state.isToggled
     return (
-        <div className='button is-dark is-fullwidth' onClick={this.handleClick}>
-          <div className='columns is-multiline is-centered'>
-            <div className='mx-1' style={this.state.rsi < 70 && this.state.rsi > 30 ? {color: '#6272a4'} : {color: '#ffeedb'}}>RSI: {this.state.rsi.toFixed(2)}</div>
-            <div className='mx-1' style={{color: '#07df3d'}}>SpanA: {isToggled ? deltaSpanA.toFixed(2)+'%' : '$'+this.state.spanA.toFixed(2)}</div>
-            <div className='mx-1' style={{color: '#f00000'}}>SpanB: {isToggled ? deltaSpanB.toFixed(2)+'%' : '$'+this.state.spanB.toFixed(2)}</div>
-            <div className='mx-1' style={{color: '#f59a38'}}>BL: {isToggled ? deltaBaseLine.toFixed(2)+'%' : '$'+this.state.baseLine.toFixed(2)}</div>
-            <div className='mx-1' style={{color: '#d5589d'}}>CL: {isToggled ? deltaConversionLine.toFixed(2)+'%' : '$'+this.state.conversionLine.toFixed(2)}</div>
-            <div className='mx-1' style={{color: '#ffeedb'}}>SMA: {isToggled ? deltaSMA.toFixed(2)+'%' : '$'+this.state.sma.toFixed(2)}</div>
-            <div className='mx-1' style={{color: '#81c6f4'}}>Psar: {isToggled ? deltaPsar.toFixed(2)+'%' : '$'+this.state.psar.toFixed(2)}</div>
-            <div className='mx-1' style={{color: '#7cf8e0'}}>EMA: {isToggled ? deltaEma.toFixed(2)+'%' : '$'+this.state.ema.toFixed(2)}</div>
+        <div className='box has-background-dark mb-0' onClick={this.handleClick}>
+          <div className='columns is-multiline is-centered is-gapless is-mobile'>
+            <div className='column mx-1' style={this.state.rsi < 70 && this.state.rsi > 30 ? {color: '#6272a4'} : {color: '#ffeedb'}}>RSI: {this.state.rsi.toFixed(2)}</div>
+            <div className='column mx-1' style={{color: '#07df3d'}}>SpanA: {isToggled ? deltaSpanA.toFixed(2)+'%' : '$'+this.state.spanA.toFixed(2)}</div>
+            <div className='column mx-1' style={{color: '#f00000'}}>SpanB: {isToggled ? deltaSpanB.toFixed(2)+'%' : '$'+this.state.spanB.toFixed(2)}</div>
+            <div className='column mx-1' style={{color: '#f59a38'}}>BL: {isToggled ? deltaBaseLine.toFixed(2)+'%' : '$'+this.state.baseLine.toFixed(2)}</div>
+            <div className='column mx-1' style={{color: '#d5589d'}}>CL: {isToggled ? deltaConversionLine.toFixed(2)+'%' : '$'+this.state.conversionLine.toFixed(2)}</div>
+            <div className='column mx-1' style={{color: '#ffeedb'}}>SMA: {isToggled ? deltaSMA.toFixed(2)+'%' : '$'+this.state.sma.toFixed(2)}</div>
+            <div className='column mx-1' style={{color: '#81c6f4'}}>Psar: {isToggled ? deltaPsar.toFixed(2)+'%' : '$'+this.state.psar.toFixed(2)}</div>
+            <div className='column mx-1' style={{color: '#7cf8e0'}}>EMA: {isToggled ? deltaEma.toFixed(2)+'%' : '$'+this.state.ema.toFixed(2)}</div>
           </div>
         </div>
     )
