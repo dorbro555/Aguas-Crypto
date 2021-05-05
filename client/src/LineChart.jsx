@@ -37,7 +37,7 @@ class LineChart extends Component {
       subtitles: [{
         text: formateTimeFrame(this.props.timeframe) + ` ${this.props.activePair.toUpperCase()} Price: $${this.props.tf.prices[this.props.tf.prices.length-1][4]}`
       }],
-      height:435,
+      height:485,
       charts: [
         {
           axisX: {
@@ -197,7 +197,7 @@ class LineChart extends Component {
         // },
         {
 
-            height: 100,
+            height: 150,
             axisY2: {
               maximum: 100,
               minimum: 0,
@@ -280,7 +280,7 @@ class LineChart extends Component {
 
     const containerProps = {
       width: "100%",
-      height: "435px",
+      height: "485px",
       margin: "auto"
     };
     return (
