@@ -41,7 +41,13 @@ app.get('/api/ohlc/:pair', (req, res) => {
             bband = utils.calculateBollingerBand(dates, closes, 100)
             ema = utils.calculateEMA(dates, closes, 100),
             ichimokuCloud = utils.calculateIchimokuClouds(dates, highs, lows, closes, parseInt(key))
-            conversionLinePercent = utils.calculateCLBB(bband, ichimokuCloud.conversionLine)
+            conversionLinePercent = utils.calculateBBandPercentage(bband, ichimokuCloud.conversionLine.map(dp => dp.y))
+            baseLinePercent = utils.calculateBBandPercentage(bband, ichimokuCloud.baseLine.map(dp => dp.y))
+            ichimokuSpanAPercent = utils.calculateBBandPercentage(bband, ichimokuCloud.leadingSpans.slice(0, -26).map(dp => dp.y[0]))
+            ichimokuSpanBPercent = utils.calculateBBandPercentage(bband, ichimokuCloud.leadingSpans.slice(0, -26).map(dp => dp.y[1]))
+            psarPercent = utils.calculateBBandPercentage(bband, psar.values.map(dp => dp.y))
+            emaPercent = utils.calculateBBandPercentage(bband, ema.values.map(dp => dp.y))
+
         return {
           timeframe: key,
           dates: dates,
@@ -53,6 +59,12 @@ app.get('/api/ohlc/:pair', (req, res) => {
           ichimokuCloud: ichimokuCloud,
           percentages: {
             conversionLinePercent: conversionLinePercent,
+            baseLinePercent: baseLinePercent,
+            ichimokuSpanAPercent: ichimokuSpanAPercent,
+            ichimokuSpanBPercent: ichimokuSpanBPercent,
+            psarPercent: psarPercent,
+            emaPercent: emaPercent,
+
           }
         }
       })

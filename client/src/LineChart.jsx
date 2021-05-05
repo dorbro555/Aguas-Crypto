@@ -28,7 +28,7 @@ class LineChart extends Component {
   render() {
     const showIchimoku = true
     const dataPointMinWidth = 6
-    const interactivityEnabled = false
+    const interactivityEnabled = true
     const options = this.state.isLoaded ? {
       theme: "dark2",
       // title:{
@@ -208,6 +208,7 @@ class LineChart extends Component {
                 axisYType: "secondary",
                 xValueType: "dateTime",
                 type:'line',
+                maximum: 100,
                 dataPoints: this.state.bollingerBand.percent,
               },
               {
@@ -215,8 +216,52 @@ class LineChart extends Component {
                 xValueType: "dateTime",
                 type:'line',
                 color: '#d5589d',
+                maximum: 100,
                 dataPoints: this.state.conversionLinePercent,
-              }
+              },
+              {
+                axisYType: "secondary",
+                xValueType: "dateTime",
+                type:'line',
+                color: '#f59a38',
+                maximum: 100,
+                dataPoints: this.state.baseLinePercent,
+              },
+              {
+                axisYType: "secondary",
+                xValueType: "dateTime",
+                type:'line',
+                color: '#07df3d',
+                maximum: 100,
+                dataPoints: this.state.ichimokuSpanAPercent,
+              },
+              {
+                axisYType: "secondary",
+                xValueType: "dateTime",
+                type:'line',
+                color: '#f00000',
+                maximum: 100,
+                dataPoints: this.state.ichimokuSpanBPercent,
+              },
+              {
+                axisYType: "secondary",
+                xValueType: "dateTime",
+                type:'line',
+                lineThickness: 0.1,
+                markerSize: 4,
+                markerType: 'circle',
+                color: '#81c6f4',
+                maximum: 100,
+                dataPoints: this.state.psarPercent,
+              },
+              {
+                axisYType: "secondary",
+                xValueType: "dateTime",
+                type:'line',
+                color: '#7cf8e0',
+                maximum: 100,
+                dataPoints: this.state.emaPercent,
+              },
             ]
         },
       ],
@@ -269,8 +314,12 @@ class LineChart extends Component {
         psar = this.props.tf.psar.values.slice(-range),
         ichimokuCloud = this.props.tf.ichimokuCloud,
         ema = this.props.tf.ema.values.slice(-range),
-        conversionLinePercent = this.props.tf.percentages.conversionLinePercent.slice(-range)
-
+        conversionLinePercent = this.props.tf.percentages.conversionLinePercent.slice(-range),
+        baseLinePercent = this.props.tf.percentages.baseLinePercent.slice(-range),
+        ichimokuSpanAPercent = this.props.tf.percentages.ichimokuSpanAPercent.slice(-range),
+        ichimokuSpanBPercent = this.props.tf.percentages.ichimokuSpanBPercent.slice(-range),
+        psarPercent = this.props.tf.percentages.psarPercent.slice(-range),
+        emaPercent = this.props.tf.percentages.emaPercent.slice(-range)
 
     this.setState({
       isLoaded: true,
@@ -283,7 +332,12 @@ class LineChart extends Component {
       bollingerBand: {sma: bollingerBandSma, bands: bollingerBandBands, percent: bollingerBandPercent},
       psar: psar,
       ema:ema,
-      conversionLinePercent: conversionLinePercent
+      conversionLinePercent: conversionLinePercent,
+      baseLinePercent: baseLinePercent,
+      ichimokuSpanAPercent: ichimokuSpanAPercent,
+      ichimokuSpanBPercent: ichimokuSpanBPercent,
+      psarPercent: psarPercent,
+      emaPercent: emaPercent,
     })
   }
 }

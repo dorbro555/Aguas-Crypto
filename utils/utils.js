@@ -26,7 +26,27 @@ function calculateCLBB(bollingerBand, conversionLine){
     }
   })
 
+  return percent
+}
 
+function calculateBLBB(bollingerBand, baseLine){
+  let percent = bollingerBand.bands.slice(-baseLine.length).map((dp, idx) => {
+    return {
+      x: dp.x,
+      y: (baseLine[idx].y-dp.y[0])/(dp.y[1]-dp.y[0])*100
+    }
+  })
+
+  return percent
+}
+
+function calculateBBandPercentage(bollingerBand, data){
+  let percent = bollingerBand.bands.slice(-data.length).map((dp, idx) => {
+    return {
+      x: dp.x,
+      y: (data[idx]-dp.y[0])/(dp.y[1]-dp.y[0])*100
+    }
+  })
 
   return percent
 }
@@ -178,5 +198,5 @@ module.exports = {
   calculateBollingerBand: calculateBollingerBand,
   calculateEMA: calculateEMA,
   calculateIchimokuClouds: calculateIchimokuClouds,
-  calculateCLBB: calculateCLBB,
+  calculateBBandPercentage: calculateBBandPercentage,
 }
