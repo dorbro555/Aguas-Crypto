@@ -86,7 +86,7 @@ function calculateBollingerBand(dates, closes, range){
   tulind.indicators.bbands.indicator([preciseCloses], [period, stdDev], (err, results) => {
     bands = results[0].map((dp, idx) => {return {x: preciseDates[idx+start]*1000, y: [dp, results[2][idx]]}})
     sma = results[1].map((dp, idx) => {return {x: preciseDates[idx+start]*1000, y: dp}})
-    percent = bands.map((dp, idx) => {return {x: dp.x, y: ((preciseCloses[idx+start]-dp.y[0])/(dp.y[1]-dp.y[0]))*100, lineColor: '#6272a4', color: '#6272a4'}})
+    percent = bands.map((dp, idx) => {return {x: dp.x, y: ((preciseCloses[idx+start]-dp.y[0])/(dp.y[1]-dp.y[0]))*100}})
   })
   // values = values.map((dp, idx) => {return {x: dates[idx+start-1], y: dp}})
 

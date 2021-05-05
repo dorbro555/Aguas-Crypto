@@ -210,6 +210,8 @@ class LineChart extends Component {
                 axisYType: "secondary",
                 xValueType: "dateTime",
                 type:'line',
+                color: '#ffeedb',
+                lineDashType: 'shortDash',
                 maximum: 100,
                 dataPoints: this.state.bollingerBand.percent,
               },
