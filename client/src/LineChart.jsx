@@ -28,7 +28,7 @@ class LineChart extends Component {
   render() {
     const showIchimoku = true
     const dataPointMinWidth = 6
-    const interactivityEnabled = true
+    const interactivityEnabled = false
     const options = this.state.isLoaded ? {
       theme: "dark2",
       // title:{
@@ -74,6 +74,8 @@ class LineChart extends Component {
             xValueType: "dateTime",
             type: "candlestick",
             axisYType: "secondary",
+            risingColor: '#000000',
+            color:'#ff5555',
             dataPoints : this.state.price
           },
           {
@@ -302,7 +304,8 @@ class LineChart extends Component {
       dates.push(readableDate)
       dps1.push({
         x: readableDate,
-        y: result[i].slice(1, 5)
+        y: result[i].slice(1, 5),
+        color: result[i][1] < result[i][4] ? '#50fa7b' : '#ff5555'
       });
       dps2.push({x: readableDate, y: result[i][6]})
     }
