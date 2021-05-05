@@ -34,7 +34,7 @@ class InfoHeader extends Component {
     return (
         <div className='button is-dark is-fullwidth' onClick={this.handleClick}>
           <div className='columns is-multiline is-centered'>
-            <div className='mx-1' style={{color: '#6272a4'}}>RSI: {this.state.rsi.toFixed(2)}</div>
+            <div className='mx-1' style={this.state.rsi < 70 && this.state.rsi > 30 ? {color: '#6272a4'} : {color: '#ffeedb'}}>RSI: {this.state.rsi.toFixed(2)}</div>
             <div className='mx-1' style={{color: '#07df3d'}}>SpanA: {isToggled ? deltaSpanA.toFixed(2)+'%' : '$'+this.state.spanA.toFixed(2)}</div>
             <div className='mx-1' style={{color: '#f00000'}}>SpanB: {isToggled ? deltaSpanB.toFixed(2)+'%' : '$'+this.state.spanB.toFixed(2)}</div>
             <div className='mx-1' style={{color: '#f59a38'}}>BL: {isToggled ? deltaBaseLine.toFixed(2)+'%' : '$'+this.state.baseLine.toFixed(2)}</div>
