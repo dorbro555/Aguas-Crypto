@@ -19,14 +19,22 @@ class LineChart extends Component {
       bollingerBand: {},
       rsi: [],
       psar: {},
-      ema: [],
+      ema: {},
       indicators: {},
+      showIchimoku: this.props.showIchimoku,
       isLoaded: false
     };
+
+    this.handleClick = this.handleClick.bind(this)
+  }
+
+  handleClick(){
+    console.log('clicked!')
+    this.setState({showIchimoku: !this.state.showIchimoku})
   }
 
   render() {
-    const showIchimoku = true
+    const showIchimoku = this.state.showIchimoku
     const dataPointMinWidth = 6
     const interactivityEnabled = false
     const lineThickness = 1.2
@@ -83,7 +91,7 @@ class LineChart extends Component {
             name: "Conversion Line",
             type: "line",
             lineThickness: lineThickness,
-            visible: showIchimoku,
+            visible:this.props.showIchimoku,
             axisYType: "secondary",
             markerType: 'none',
             color: '#d5589d',
@@ -93,7 +101,7 @@ class LineChart extends Component {
             name: "Base Line",
             type: "line",
             lineThickness: lineThickness,
-            visible: showIchimoku,
+            visible:this.props.showIchimoku,
             axisYType: "secondary",
             markerType: 'none',
             color: '#f59a38',
@@ -103,27 +111,57 @@ class LineChart extends Component {
             name: "Chikou",
             type: "line",
             lineThickness: lineThickness,
-            visible: showIchimoku,
+            visible:this.props.showIchimoku,
             axisYType: "secondary",
             color: '#725ce5',
             markerType: 'none',
             dataPoints : this.state.ichimokuCloud.laggingSpan
           },
           {
-            name: "200 EMA",
+            name: "EMA 21",
             type: "line",
             lineThickness: lineThickness,
-            visible: showIchimoku,
+            visible: !this.props.showIchimoku,
+            axisYType: "secondary",
+            color: '#0d8ce3',
+            markerType: 'none',
+            dataPoints : this.state.ema['21']
+          },
+          {
+            name: "EMA 50",
+            type: "line",
+            lineThickness: lineThickness,
+            visible: !this.props.showIchimoku,
+            axisYType: "secondary",
+            color: '#b1adeb',
+            markerType: 'none',
+            dataPoints : this.state.ema['50']
+          },
+          {
+            name: "EMA 100",
+            type: "line",
+            lineThickness: lineThickness,
+            visible: !this.props.showIchimoku,
+            axisYType: "secondary",
+            color: '#df9fd7',
+            markerType: 'none',
+            dataPoints : this.state.ema['100']
+          },
+          {
+            name: "EMA 200",
+            type: "line",
+            lineThickness: lineThickness,
+            visible: !this.props.showIchimoku,
             axisYType: "secondary",
             color: '#7cf8e0',
             markerType: 'none',
-            dataPoints : this.state.ema
+            dataPoints : this.state.ema['200']
           },
           {
             name: 'Senkou',
             type: "rangeSplineArea",
             lineThickness: lineThickness,
-            visible: showIchimoku,
+            visible:this.props.showIchimoku,
             axisYType: 'secondary',
             markerType: 'none',
             color: '#07df3d',
@@ -133,7 +171,7 @@ class LineChart extends Component {
             name: 'Red Senkou',
             type: "rangeSplineArea",
             lineThickness: lineThickness,
-            visible: showIchimoku,
+            visible:this.props.showIchimoku,
             axisYType: 'secondary',
             markerType: 'none',
             color: '#f00000',
@@ -230,6 +268,7 @@ class LineChart extends Component {
                 type:'line',
                 lineThickness: lineThickness,
                 color: '#d5589d',
+                visible:this.props.showIchimoku,
                 maximum: 100,
                 dataPoints: this.state.conversionLinePercent,
               },
@@ -239,6 +278,7 @@ class LineChart extends Component {
                 type:'line',
                 lineThickness: lineThickness,
                 color: '#f59a38',
+                visible:this.props.showIchimoku,
                 maximum: 100,
                 dataPoints: this.state.baseLinePercent,
               },
@@ -248,6 +288,7 @@ class LineChart extends Component {
                 type:'line',
                 lineThickness: lineThickness,
                 color: '#07df3d',
+                visible:this.props.showIchimoku,
                 maximum: 100,
                 dataPoints: this.state.ichimokuSpanAPercent,
               },
@@ -257,6 +298,7 @@ class LineChart extends Component {
                 type:'line',
                 lineThickness: lineThickness,
                 color: '#f00000',
+                visible:this.props.showIchimoku,
                 maximum: 100,
                 dataPoints: this.state.ichimokuSpanBPercent,
               },
@@ -276,9 +318,40 @@ class LineChart extends Component {
                 xValueType: "dateTime",
                 type:'line',
                 lineThickness: lineThickness,
-                color: '#7cf8e0',
+                color: '#0d8ce3',
+                visible: !this.props.showIchimoku,
                 maximum: 100,
-                dataPoints: this.state.emaPercent200,
+                dataPoints: this.state.emaPercent['21'],
+              },
+              {
+                axisYType: "secondary",
+                xValueType: "dateTime",
+                type:'line',
+                lineThickness: lineThickness,
+                color: '#b1adeb',
+                visible: !this.props.showIchimoku,
+                maximum: 100,
+                dataPoints: this.state.emaPercent['50'],
+              },
+              {
+                axisYType: "secondary",
+                xValueType: "dateTime",
+                type:'line',
+                lineThickness: lineThickness,
+                color: '#df9fd7',
+                visible: !this.props.showIchimoku,
+                maximum: 100,
+                dataPoints: this.state.emaPercent['100'],
+              },
+              {
+                axisYType: "secondary",
+                xValueType: "dateTime",
+                type:'line',
+                lineThickness: lineThickness,
+                color: '#7cf8e0',
+                visible: !this.props.showIchimoku,
+                maximum: 100,
+                dataPoints: this.state.emaPercent['200'],
               },
             ]
         },
@@ -332,12 +405,18 @@ class LineChart extends Component {
         bollingerBandPercent = this.props.tf.bband.percent.slice(-range),
         psar = this.props.tf.psar.values.slice(-range),
         ichimokuCloud = this.props.tf.ichimokuCloud,
-        ema = this.props.tf.ema['200'].values.slice(-range),
+        ema21 = this.props.tf.ema['21'].values.slice(-range),
+        ema50 = this.props.tf.ema['50'].values.slice(-range),
+        ema100 = this.props.tf.ema['100'].values.slice(-range),
+        ema200 = this.props.tf.ema['200'].values.slice(-range),
         conversionLinePercent = this.props.tf.percentages.conversionLinePercent.slice(-range),
         baseLinePercent = this.props.tf.percentages.baseLinePercent.slice(-range),
         ichimokuSpanAPercent = this.props.tf.percentages.ichimokuSpanAPercent.slice(-range),
         ichimokuSpanBPercent = this.props.tf.percentages.ichimokuSpanBPercent.slice(-range),
         psarPercent = this.props.tf.percentages.psarPercent.slice(-range),
+        emaPercent21 = this.props.tf.percentages.emaPercent21.slice(-range),
+        emaPercent50 = this.props.tf.percentages.emaPercent50.slice(-range),
+        emaPercent100 = this.props.tf.percentages.emaPercent100.slice(-range),
         emaPercent200 = this.props.tf.percentages.emaPercent200.slice(-range)
 
     this.setState({
@@ -350,13 +429,23 @@ class LineChart extends Component {
       ichimokuCloud: ichimokuCloud,
       bollingerBand: {sma: bollingerBandSma, bands: bollingerBandBands, percent: bollingerBandPercent},
       psar: psar,
-      ema:ema,
+      ema:{
+        21: ema21,
+        50: ema50,
+        100: ema100,
+        200: ema200
+      },
       conversionLinePercent: conversionLinePercent,
       baseLinePercent: baseLinePercent,
       ichimokuSpanAPercent: ichimokuSpanAPercent,
       ichimokuSpanBPercent: ichimokuSpanBPercent,
       psarPercent: psarPercent,
-      emaPercent200: emaPercent200,
+      emaPercent: {
+        21: emaPercent21,
+        50: emaPercent50,
+        100: emaPercent100,
+        200: emaPercent200
+      }
     })
   }
 }

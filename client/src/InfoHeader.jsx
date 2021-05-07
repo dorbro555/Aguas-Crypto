@@ -12,14 +12,17 @@ class InfoHeader extends Component {
       conversionLine: 0,
       sma: 0,
       psar: 0,
+      ema21: 0,
+      ema50: 0,
+      ema100: 0,
       ema200: 0,
-      isToggled: true,
+      isToggledPercent: true,
     }
     this.handleClick = this.handleClick.bind(this)
   }
 
   handleClick(){
-    this.setState({isToggled: !this.state.isToggled})
+    this.setState({isToggledPercent: !this.state.isToggledPercent})
   }
 
   render(){
@@ -29,19 +32,25 @@ class InfoHeader extends Component {
         deltaConversionLine = (this.state.conversionLine-this.state.price)/this.state.price*100,
         deltaSMA = (this.state.sma-this.state.price)/this.state.price*100,
         deltaPsar = (this.state.psar-this.state.price)/this.state.price*100,
-        deltaEma = (this.state.ema200-this.state.price)/this.state.price*100,
-        isToggled = this.state.isToggled
+        deltaEma21 = (this.state.ema21-this.state.price)/this.state.price*100,
+        deltaEma50 = (this.state.ema50-this.state.price)/this.state.price*100,
+        deltaEma100 = (this.state.ema100-this.state.price)/this.state.price*100,
+        deltaEma200 = (this.state.ema200-this.state.price)/this.state.price*100,
+        isToggledPercent = this.state.isToggledPercent
     return (
         <div className='box has-background-dark mb-0' onClick={this.handleClick}>
           <div className='columns is-multiline is-centered is-gapless is-mobile'>
             <div className='column mx-1' style={this.state.rsi < 70 && this.state.rsi > 30 ? {color: '#6272a4'} : {color: '#ffeedb'}}>RSI: {this.state.rsi.toFixed(2)}</div>
-            <div className='column mx-1' style={{color: '#07df3d'}}>SpanA: {isToggled ? deltaSpanA.toFixed(2)+'%' : '$'+this.state.spanA.toFixed(2)}</div>
-            <div className='column mx-1' style={{color: '#f00000'}}>SpanB: {isToggled ? deltaSpanB.toFixed(2)+'%' : '$'+this.state.spanB.toFixed(2)}</div>
-            <div className='column mx-1' style={{color: '#f59a38'}}>BL: {isToggled ? deltaBaseLine.toFixed(2)+'%' : '$'+this.state.baseLine.toFixed(2)}</div>
-            <div className='column mx-1' style={{color: '#d5589d'}}>CL: {isToggled ? deltaConversionLine.toFixed(2)+'%' : '$'+this.state.conversionLine.toFixed(2)}</div>
-            <div className='column mx-1' style={{color: '#ffeedb'}}>SMA: {isToggled ? deltaSMA.toFixed(2)+'%' : '$'+this.state.sma.toFixed(2)}</div>
-            <div className='column mx-1' style={{color: '#81c6f4'}}>Psar: {isToggled ? deltaPsar.toFixed(2)+'%' : '$'+this.state.psar.toFixed(2)}</div>
-            <div className='column mx-1' style={{color: '#7cf8e0'}}>EMA: {isToggled ? deltaEma.toFixed(2)+'%' : '$'+this.state.ema200.toFixed(2)}</div>
+            {this.props.showIchimoku && <div className='column mx-1' style={{color: '#07df3d'}}>SpanA: {isToggledPercent ? deltaSpanA.toFixed(2)+'%' : '$'+this.state.spanA.toFixed(2)}</div>}
+            {this.props.showIchimoku && <div className='column mx-1' style={{color: '#f00000'}}>SpanB: {isToggledPercent ? deltaSpanB.toFixed(2)+'%' : '$'+this.state.spanB.toFixed(2)}</div>}
+            {this.props.showIchimoku && <div className='column mx-1' style={{color: '#f59a38'}}>BL: {isToggledPercent ? deltaBaseLine.toFixed(2)+'%' : '$'+this.state.baseLine.toFixed(2)}</div>}
+            {this.props.showIchimoku && <div className='column mx-1' style={{color: '#d5589d'}}>CL: {isToggledPercent ? deltaConversionLine.toFixed(2)+'%' : '$'+this.state.conversionLine.toFixed(2)}</div>}
+            <div className='column mx-1' style={{color: '#ffeedb'}}>SMA: {isToggledPercent ? deltaSMA.toFixed(2)+'%' : '$'+this.state.sma.toFixed(2)}</div>
+            <div className='column mx-1' style={{color: '#81c6f4'}}>Psar: {isToggledPercent ? deltaPsar.toFixed(2)+'%' : '$'+this.state.psar.toFixed(2)}</div>
+            {!this.props.showIchimoku && <div className='column mx-1' style={{color: '#0d8ce3'}}>21 EMA: {isToggledPercent ? deltaEma21.toFixed(2)+'%' : '$'+this.state.ema21.toFixed(2)}</div>}
+            {!this.props.showIchimoku && <div className='column mx-1' style={{color: '#b1adeb'}}>50 EMA: {isToggledPercent ? deltaEma50.toFixed(2)+'%' : '$'+this.state.ema50.toFixed(2)}</div>}
+            {!this.props.showIchimoku && <div className='column mx-1' style={{color: '#df9fd7'}}>100 EMA: {isToggledPercent ? deltaEma100.toFixed(2)+'%' : '$'+this.state.ema100.toFixed(2)}</div>}
+            {!this.props.showIchimoku && <div className='column mx-1' style={{color: '#7cf8e0'}}>200 EMA: {isToggledPercent ? deltaEma200.toFixed(2)+'%' : '$'+this.state.ema200.toFixed(2)}</div>}
           </div>
         </div>
     )
@@ -54,6 +63,9 @@ class InfoHeader extends Component {
         conversionLine = this.props.tf.ichimokuCloud.conversionLine[this.props.tf.ichimokuCloud.conversionLine.length-1],
         sma = this.props.tf.bband.sma[this.props.tf.bband.sma.length-1],
         psar = this.props.tf.psar.values[this.props.tf.psar.values.length-1],
+        ema21 = this.props.tf.ema['21'].values[this.props.tf.ema['21'].values.length-1],
+        ema50 = this.props.tf.ema['50'].values[this.props.tf.ema['50'].values.length-1],
+        ema100 = this.props.tf.ema['100'].values[this.props.tf.ema['100'].values.length-1],
         ema200 = this.props.tf.ema['200'].values[this.props.tf.ema['200'].values.length-1],
         price = this.props.tf.prices[this.props.tf.prices.length-1][4]
 
@@ -65,6 +77,9 @@ class InfoHeader extends Component {
       conversionLine: conversionLine.y,
       sma : sma.y,
       psar : psar.y,
+      ema21 : ema21.y,
+      ema50 : ema50.y,
+      ema100 : ema100.y,
       ema200 : ema200.y,
       price: price
     })
