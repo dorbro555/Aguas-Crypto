@@ -29,6 +29,7 @@ class LineChart extends Component {
     const showIchimoku = true
     const dataPointMinWidth = 6
     const interactivityEnabled = false
+    const lineThickness = 1.2
     const options = this.state.isLoaded ? {
       theme: "dark2",
       // title:{
@@ -81,6 +82,7 @@ class LineChart extends Component {
           {
             name: "Conversion Line",
             type: "line",
+            lineThickness: lineThickness,
             visible: showIchimoku,
             axisYType: "secondary",
             markerType: 'none',
@@ -90,6 +92,7 @@ class LineChart extends Component {
           {
             name: "Base Line",
             type: "line",
+            lineThickness: lineThickness,
             visible: showIchimoku,
             axisYType: "secondary",
             markerType: 'none',
@@ -99,6 +102,7 @@ class LineChart extends Component {
           {
             name: "Chikou",
             type: "line",
+            lineThickness: lineThickness,
             visible: showIchimoku,
             axisYType: "secondary",
             color: '#725ce5',
@@ -108,6 +112,7 @@ class LineChart extends Component {
           {
             name: "200 EMA",
             type: "line",
+            lineThickness: lineThickness,
             visible: showIchimoku,
             axisYType: "secondary",
             color: '#7cf8e0',
@@ -117,6 +122,7 @@ class LineChart extends Component {
           {
             name: 'Senkou',
             type: "rangeSplineArea",
+            lineThickness: lineThickness,
             visible: showIchimoku,
             axisYType: 'secondary',
             markerType: 'none',
@@ -126,6 +132,7 @@ class LineChart extends Component {
           {
             name: 'Red Senkou',
             type: "rangeSplineArea",
+            lineThickness: lineThickness,
             visible: showIchimoku,
             axisYType: 'secondary',
             markerType: 'none',
@@ -135,6 +142,7 @@ class LineChart extends Component {
           {
             name: 'Bollinger Band',
             type: "rangeSplineArea",
+            lineThickness: lineThickness,
             axisYType: 'secondary',
             markerType: 'none',
             color: '#6272a4',
@@ -210,8 +218,9 @@ class LineChart extends Component {
                 axisYType: "secondary",
                 xValueType: "dateTime",
                 type:'line',
-                color: '#ffeedb',
+                color: '#ffff00',
                 lineDashType: 'shortDash',
+                lineThickness: lineThickness,
                 maximum: 100,
                 dataPoints: this.state.bollingerBand.percent,
               },
@@ -219,6 +228,7 @@ class LineChart extends Component {
                 axisYType: "secondary",
                 xValueType: "dateTime",
                 type:'line',
+                lineThickness: lineThickness,
                 color: '#d5589d',
                 maximum: 100,
                 dataPoints: this.state.conversionLinePercent,
@@ -227,6 +237,7 @@ class LineChart extends Component {
                 axisYType: "secondary",
                 xValueType: "dateTime",
                 type:'line',
+                lineThickness: lineThickness,
                 color: '#f59a38',
                 maximum: 100,
                 dataPoints: this.state.baseLinePercent,
@@ -235,6 +246,7 @@ class LineChart extends Component {
                 axisYType: "secondary",
                 xValueType: "dateTime",
                 type:'line',
+                lineThickness: lineThickness,
                 color: '#07df3d',
                 maximum: 100,
                 dataPoints: this.state.ichimokuSpanAPercent,
@@ -243,6 +255,7 @@ class LineChart extends Component {
                 axisYType: "secondary",
                 xValueType: "dateTime",
                 type:'line',
+                lineThickness: lineThickness,
                 color: '#f00000',
                 maximum: 100,
                 dataPoints: this.state.ichimokuSpanBPercent,
@@ -262,6 +275,7 @@ class LineChart extends Component {
                 axisYType: "secondary",
                 xValueType: "dateTime",
                 type:'line',
+                lineThickness: lineThickness,
                 color: '#7cf8e0',
                 maximum: 100,
                 dataPoints: this.state.emaPercent,
