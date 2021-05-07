@@ -49,6 +49,9 @@ app.get('/api/ohlc/:pair', (req, res) => {
             ichimokuSpanAPercent = utils.calculateBBandPercentage(bband, ichimokuCloud.leadingSpans.slice(0, -26).map(dp => dp.y[0]))
             ichimokuSpanBPercent = utils.calculateBBandPercentage(bband, ichimokuCloud.leadingSpans.slice(0, -26).map(dp => dp.y[1]))
             psarPercent = utils.calculateBBandPercentage(bband, psar.values.map(dp => dp.y))
+            emaPercent21 = utils.calculateBBandPercentage(bband, ema21.values.map(dp => dp.y))
+            emaPercent50 = utils.calculateBBandPercentage(bband, ema50.values.map(dp => dp.y))
+            emaPercent100 = utils.calculateBBandPercentage(bband, ema100.values.map(dp => dp.y))
             emaPercent200 = utils.calculateBBandPercentage(bband, ema200.values.map(dp => dp.y))
 
         return {
@@ -71,6 +74,9 @@ app.get('/api/ohlc/:pair', (req, res) => {
             ichimokuSpanAPercent: ichimokuSpanAPercent,
             ichimokuSpanBPercent: ichimokuSpanBPercent,
             psarPercent: psarPercent,
+            emaPercent21: emaPercent21,
+            emaPercent50: emaPercent50,
+            emaPercent100: emaPercent100,
             emaPercent200: emaPercent200,
 
           }
