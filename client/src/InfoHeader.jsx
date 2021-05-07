@@ -12,7 +12,7 @@ class InfoHeader extends Component {
       conversionLine: 0,
       sma: 0,
       psar: 0,
-      ema: 0,
+      ema200: 0,
       isToggled: true,
     }
     this.handleClick = this.handleClick.bind(this)
@@ -29,7 +29,7 @@ class InfoHeader extends Component {
         deltaConversionLine = (this.state.conversionLine-this.state.price)/this.state.price*100,
         deltaSMA = (this.state.sma-this.state.price)/this.state.price*100,
         deltaPsar = (this.state.psar-this.state.price)/this.state.price*100,
-        deltaEma = (this.state.ema-this.state.price)/this.state.price*100,
+        deltaEma = (this.state.ema200-this.state.price)/this.state.price*100,
         isToggled = this.state.isToggled
     return (
         <div className='box has-background-dark mb-0' onClick={this.handleClick}>
@@ -41,7 +41,7 @@ class InfoHeader extends Component {
             <div className='column mx-1' style={{color: '#d5589d'}}>CL: {isToggled ? deltaConversionLine.toFixed(2)+'%' : '$'+this.state.conversionLine.toFixed(2)}</div>
             <div className='column mx-1' style={{color: '#ffeedb'}}>SMA: {isToggled ? deltaSMA.toFixed(2)+'%' : '$'+this.state.sma.toFixed(2)}</div>
             <div className='column mx-1' style={{color: '#81c6f4'}}>Psar: {isToggled ? deltaPsar.toFixed(2)+'%' : '$'+this.state.psar.toFixed(2)}</div>
-            <div className='column mx-1' style={{color: '#7cf8e0'}}>EMA: {isToggled ? deltaEma.toFixed(2)+'%' : '$'+this.state.ema.toFixed(2)}</div>
+            <div className='column mx-1' style={{color: '#7cf8e0'}}>EMA: {isToggled ? deltaEma.toFixed(2)+'%' : '$'+this.state.ema200.toFixed(2)}</div>
           </div>
         </div>
     )
@@ -54,7 +54,7 @@ class InfoHeader extends Component {
         conversionLine = this.props.tf.ichimokuCloud.conversionLine[this.props.tf.ichimokuCloud.conversionLine.length-1],
         sma = this.props.tf.bband.sma[this.props.tf.bband.sma.length-1],
         psar = this.props.tf.psar.values[this.props.tf.psar.values.length-1],
-        ema = this.props.tf.ema.values[this.props.tf.ema.values.length-1],
+        ema200 = this.props.tf.ema['200'].values[this.props.tf.ema['200'].values.length-1],
         price = this.props.tf.prices[this.props.tf.prices.length-1][4]
 
     this.setState({
@@ -65,7 +65,7 @@ class InfoHeader extends Component {
       conversionLine: conversionLine.y,
       sma : sma.y,
       psar : psar.y,
-      ema : ema.y,
+      ema200 : ema200.y,
       price: price
     })
   }

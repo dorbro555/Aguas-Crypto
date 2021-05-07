@@ -39,14 +39,17 @@ app.get('/api/ohlc/:pair', (req, res) => {
             rsi = utils.calculateRsi(dates, closes, 100),
             psar = utils.calculatePSar(dates, highs, lows, 100),
             bband = utils.calculateBollingerBand(dates, closes, 100)
-            ema = utils.calculateEMA(dates, closes, 100),
+            ema200 = utils.calculateEMA(200, dates, closes, 100),
+            ema100 = utils.calculateEMA(100, dates, closes, 100),
+            ema50 = utils.calculateEMA(50, dates, closes, 100),
+            ema21 = utils.calculateEMA(21, dates, closes, 100),
             ichimokuCloud = utils.calculateIchimokuClouds(dates, highs, lows, closes, parseInt(key))
             conversionLinePercent = utils.calculateBBandPercentage(bband, ichimokuCloud.conversionLine.map(dp => dp.y))
             baseLinePercent = utils.calculateBBandPercentage(bband, ichimokuCloud.baseLine.map(dp => dp.y))
             ichimokuSpanAPercent = utils.calculateBBandPercentage(bband, ichimokuCloud.leadingSpans.slice(0, -26).map(dp => dp.y[0]))
             ichimokuSpanBPercent = utils.calculateBBandPercentage(bband, ichimokuCloud.leadingSpans.slice(0, -26).map(dp => dp.y[1]))
             psarPercent = utils.calculateBBandPercentage(bband, psar.values.map(dp => dp.y))
-            emaPercent = utils.calculateBBandPercentage(bband, ema.values.map(dp => dp.y))
+            emaPercent200 = utils.calculateBBandPercentage(bband, ema200.values.map(dp => dp.y))
 
         return {
           timeframe: key,
@@ -55,7 +58,12 @@ app.get('/api/ohlc/:pair', (req, res) => {
           rsi: rsi,
           psar: psar,
           bband: bband,
-          ema: ema,
+          ema: {
+            21: ema21,
+            50: ema50,
+            100: ema100,
+            200: ema200
+          },
           ichimokuCloud: ichimokuCloud,
           percentages: {
             conversionLinePercent: conversionLinePercent,
@@ -63,7 +71,7 @@ app.get('/api/ohlc/:pair', (req, res) => {
             ichimokuSpanAPercent: ichimokuSpanAPercent,
             ichimokuSpanBPercent: ichimokuSpanBPercent,
             psarPercent: psarPercent,
-            emaPercent: emaPercent,
+            emaPercent200: emaPercent200,
 
           }
         }

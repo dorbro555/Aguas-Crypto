@@ -278,7 +278,7 @@ class LineChart extends Component {
                 lineThickness: lineThickness,
                 color: '#7cf8e0',
                 maximum: 100,
-                dataPoints: this.state.emaPercent,
+                dataPoints: this.state.emaPercent200,
               },
             ]
         },
@@ -332,13 +332,13 @@ class LineChart extends Component {
         bollingerBandPercent = this.props.tf.bband.percent.slice(-range),
         psar = this.props.tf.psar.values.slice(-range),
         ichimokuCloud = this.props.tf.ichimokuCloud,
-        ema = this.props.tf.ema.values.slice(-range),
+        ema = this.props.tf.ema['200'].values.slice(-range),
         conversionLinePercent = this.props.tf.percentages.conversionLinePercent.slice(-range),
         baseLinePercent = this.props.tf.percentages.baseLinePercent.slice(-range),
         ichimokuSpanAPercent = this.props.tf.percentages.ichimokuSpanAPercent.slice(-range),
         ichimokuSpanBPercent = this.props.tf.percentages.ichimokuSpanBPercent.slice(-range),
         psarPercent = this.props.tf.percentages.psarPercent.slice(-range),
-        emaPercent = this.props.tf.percentages.emaPercent.slice(-range)
+        emaPercent200 = this.props.tf.percentages.emaPercent200.slice(-range)
 
     this.setState({
       isLoaded: true,
@@ -356,7 +356,7 @@ class LineChart extends Component {
       ichimokuSpanAPercent: ichimokuSpanAPercent,
       ichimokuSpanBPercent: ichimokuSpanBPercent,
       psarPercent: psarPercent,
-      emaPercent: emaPercent,
+      emaPercent200: emaPercent200,
     })
   }
 }
