@@ -49,8 +49,8 @@ class InfoHeader extends Component {
             <div className='column mx-1' style={{color: '#81c6f4'}}>Psar: {isToggledPercent ? deltaPsar.toFixed(2)+'%' : '$'+this.state.psar.toFixed(2)}</div>
             {!this.props.showIchimoku && <div className='column mx-1' style={{color: '#0d8ce3'}}>21 EMA: {isToggledPercent ? deltaEma21.toFixed(2)+'%' : '$'+this.state.ema21.toFixed(2)}</div>}
             {!this.props.showIchimoku && <div className='column mx-1' style={{color: '#b1adeb'}}>50 EMA: {isToggledPercent ? deltaEma50.toFixed(2)+'%' : '$'+this.state.ema50.toFixed(2)}</div>}
-            {!this.props.showIchimoku && <div className='column mx-1' style={{color: '#df9fd7'}}>100 EMA: {isToggledPercent ? deltaEma100.toFixed(2)+'%' : '$'+this.state.ema100.toFixed(2)}</div>}
-            {!this.props.showIchimoku && <div className='column mx-1' style={{color: '#7cf8e0'}}>200 EMA: {isToggledPercent ? deltaEma200.toFixed(2)+'%' : '$'+this.state.ema200.toFixed(2)}</div>}
+            {!this.props.showIchimoku && <div className='column mx-1 is-size-7' style={{color: '#df9fd7'}}>100 EMA: {isToggledPercent ? deltaEma100.toFixed(2)+'%' : '$'+this.state.ema100.toFixed(2)}</div>}
+            {!this.props.showIchimoku && <div className='column mx-1 is-size-7' style={{color: '#7cf8e0'}}>200 EMA: {isToggledPercent ? deltaEma200.toFixed(2)+'%' : '$'+this.state.ema200.toFixed(2)}</div>}
           </div>
         </div>
     )

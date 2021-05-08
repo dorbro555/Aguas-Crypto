@@ -64,7 +64,7 @@ class LineChart extends Component {
             }
           },
           axisY2: {
-            title: "Price",
+            title: "",
             prefix: "$",
             tickLength: 0,
             scaleBreaks: {
