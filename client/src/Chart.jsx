@@ -21,11 +21,11 @@ class Chart extends Component{
 
   render(){
     return(
-      <div className='column is-4' onClick={this.handleClick}>
+      <div className='column is-4'>
         <div className='card'>
           <div className='card-image'>
             <figure className='image'>
-              <div>
+              <div onClick={this.handleClick}>
                 <LineChart tf={this.props.tf} timeframe={this.props.timeframe} activePair={this.props.activePair} showIchimoku={this.state.showIchimoku}/>
               </div>
             </figure>
