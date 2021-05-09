@@ -15,6 +15,7 @@ client/*.lock
 /build
 /client/build
 /client/src/css
+dump.rdb
 
 # misc
 .DS_Store
