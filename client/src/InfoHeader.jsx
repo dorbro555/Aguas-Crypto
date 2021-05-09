@@ -38,7 +38,7 @@ class InfoHeader extends Component {
         deltaEma200 = (this.state.ema200-this.state.price)/this.state.price*100,
         isToggledPercent = this.state.isToggledPercent
     return (
-        <div className='box has-background-dark mb-0' onClick={this.handleClick}>
+        <div className='box has-background-dark mb-0 is-clickable is-unselectable' onClick={this.handleClick}>
           <div className='columns is-multiline is-centered is-gapless is-mobile'>
             <div className='column mx-1' style={this.state.rsi < 70 && this.state.rsi > 30 ? {color: '#6272a4'} : {color: '#ffeedb'}}>RSI: {this.state.rsi.toFixed(2)}</div>
             {this.props.showIchimoku && <div className='column mx-1' style={{color: '#07df3d'}}>SpanA: {isToggledPercent ? deltaSpanA.toFixed(2)+'%' : '$'+this.state.spanA.toFixed(2)}</div>}
