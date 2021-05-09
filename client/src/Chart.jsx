@@ -9,7 +9,7 @@ class Chart extends Component{
   constructor(props){
     super(props);
     this.state = {
-      showIchimoku: true
+      showIchimoku: false
     }
 
     this.handleClick = this.handleClick.bind(this)
