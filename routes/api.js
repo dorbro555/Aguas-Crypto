@@ -1,11 +1,15 @@
 const express = require('express')
 const router = express.Router()
 
+require('dotenv').config()
 const got = require('got');
 const RateLimit = require('express-rate-limit')
 const RedisStore = require('rate-limit-redis')
 const Redis = require('ioredis')
-const client = new Redis(6379)
+const client = new Redis({
+  port: process.env.DB_PORT,
+  password: process.env.DB_PASS
+})
 const utils = require('../utils/utils');
 
 const limiter = new RateLimit({
