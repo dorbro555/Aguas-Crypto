@@ -18,9 +18,6 @@ const limiter = new RateLimit({
 router.use(limiter)
 
 router
-  .get('/hello', (req, res) => {
-    res.send({ express: 'Hello From Express'});
-  })
   .get('/ohlc/:pair', (req, res) => {
     (async () => {
     	try {
@@ -87,7 +84,8 @@ router
 
 
         res.json({
-          windows: Object.fromEntries(windows)
+          windows: Object.fromEntries(windows),
+          allowance: req.rateLimit
         })
     		//=> '<!doctype html> ...'
     	} catch (error) {
