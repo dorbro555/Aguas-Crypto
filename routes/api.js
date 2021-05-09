@@ -2,11 +2,24 @@ const express = require('express')
 const router = express.Router()
 
 const got = require('got');
+const RateLimit = require('express-rate-limit')
+const RedisStore = require('rate-limit-redis')
+const Redis = require('ioredis')
+const client = new Redis(6379)
 const utils = require('../utils/utils');
+
+const limiter = new RateLimit({
+  store: new RedisStore({
+    client: client,
+    expiry: 6 *  60 * 60, // 6 hours
+  }),
+  max: 1000, // 100 requests per window
+})
+router.use(limiter)
 
 router
   .get('/hello', (req, res) => {
-    res.send({ express: 'Hello From Express' });
+    res.send({ express: 'Hello From Express'});
   })
   .get('/ohlc/:pair', (req, res) => {
     (async () => {
@@ -89,4 +102,6 @@ router
       `I received your POST request. This is what you sent me: ${req.body.post}`,
     );
   })
+
+
 module.exports = router
