@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import Charts from './Charts'
 import PairButtons from './PairButtons'
+import CreditsNotification from './CreditsNotification'
 
 class MarketView extends Component {
   constructor(){
@@ -8,8 +9,10 @@ class MarketView extends Component {
     this.state = {
       data: [],
       activePair:'',
+      showCreditsNotification: false,
     };
     this.setActivePair = this.setActivePair.bind(this)
+    this.toggleCreditsNotification = this.toggleCreditsNotification.bind(this)
   }
 
   setActivePair(pair){
@@ -25,12 +28,17 @@ class MarketView extends Component {
     });
   }
 
+  toggleCreditsNotification(){
+    this.setState({showCreditsNotification: !this.state.showCreditsNotification})
+  }
+
   render(){
 
     return(
       <div>
         <PairButtons onClick={this.setActivePair}/>
         <Charts activePair={this.state.activePair} windows={this.state.data.windows}/>
+        {this.state.data.allowance && <CreditsNotification allowance={this.state.data.allowance} visible={this.state.showCreditsNotification} handleClick={this.toggleCreditsNotification}/>}
       </div>
     )
   }
@@ -41,10 +49,12 @@ class MarketView extends Component {
 		.then(res => {
       this.setState({
         activePair: 'eth',
-        data: res
+        data: res,
+        showCreditsNotification: true,
       })
 		});
   }
+
 }
 
 export default MarketView
