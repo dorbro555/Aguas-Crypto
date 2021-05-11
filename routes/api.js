@@ -37,21 +37,18 @@ router
               closes = ohlcs.map(dp => dp[4]),
               rsi = utils.calculateRsi(dates, closes, 100),
               psar = utils.calculatePSar(dates, highs, lows, 100),
-              bband = utils.calculateBollingerBand(dates, closes, 100)
-              ema200 = utils.calculateEMA(200, dates, closes, 100),
-              ema100 = utils.calculateEMA(100, dates, closes, 100),
-              ema50 = utils.calculateEMA(50, dates, closes, 100),
-              ema21 = utils.calculateEMA(21, dates, closes, 100),
+              bband = utils.calculateBollingerBand(dates, closes, 100),
+              [ema21, ema50, ema100, ema200] = utils.calculateEMA([21, 50, 100, 200],dates, closes, 100),
               ichimokuCloud = utils.calculateIchimokuClouds(dates, highs, lows, closes, parseInt(key))
               conversionLinePercent = utils.calculateBBandPercentage(bband, ichimokuCloud.conversionLine.map(dp => dp.y))
               baseLinePercent = utils.calculateBBandPercentage(bband, ichimokuCloud.baseLine.map(dp => dp.y))
               ichimokuSpanAPercent = utils.calculateBBandPercentage(bband, ichimokuCloud.leadingSpans.slice(0, -26).map(dp => dp.y[0]))
               ichimokuSpanBPercent = utils.calculateBBandPercentage(bband, ichimokuCloud.leadingSpans.slice(0, -26).map(dp => dp.y[1]))
               psarPercent = utils.calculateBBandPercentage(bband, psar.values.map(dp => dp.y))
-              emaPercent21 = utils.calculateBBandPercentage(bband, ema21.values.map(dp => dp.y))
-              emaPercent50 = utils.calculateBBandPercentage(bband, ema50.values.map(dp => dp.y))
-              emaPercent100 = utils.calculateBBandPercentage(bband, ema100.values.map(dp => dp.y))
-              emaPercent200 = utils.calculateBBandPercentage(bband, ema200.values.map(dp => dp.y))
+              emaPercent21 = utils.calculateBBandPercentage(bband, ema21.map(dp => dp.y))
+              emaPercent50 = utils.calculateBBandPercentage(bband, ema50.map(dp => dp.y))
+              emaPercent100 = utils.calculateBBandPercentage(bband, ema100.map(dp => dp.y))
+              emaPercent200 = utils.calculateBBandPercentage(bband, ema200.map(dp => dp.y))
 
           return {
             timeframe: key,

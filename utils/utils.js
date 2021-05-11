@@ -97,22 +97,26 @@ function calculateBollingerBand(dates, closes, range){
   }
 }
 
-function calculateEMA(period, dates, closes, range){
-  period = period || 200
-  
-  let start = tulind.indicators.ema.start([period]),
-      preciseDates = dates.slice(-(range+start))
-      preciseCloses = closes.slice(-(range+start)),
-      ema = []
+function calculateEMA(periods, dates, closes, range){
+  periods = periods || [21, 50, 100, 200]
+  let emas = []
 
 
-  tulind.indicators.ema.indicator([closes], [period], (err, results) => {
-    ema = results[0].slice(-(range+start)).map((dp, idx) => {return {x: preciseDates[idx+start]*1000, y: dp}})
+  periods.forEach(period => {
+
+    let start = tulind.indicators.ema.start([period]),
+        preciseDates = dates.slice(-(range+start))
+        preciseCloses = closes.slice(-(range+start)),
+        ema = []
+
+
+    tulind.indicators.ema.indicator([closes], [period], (err, results) => {
+      ema = results[0].slice(-(range+start)).map((dp, idx) => {return {x: preciseDates[idx+start]*1000, y: dp}})
+    })
+    emas.push(ema)
   })
 
-  return {
-    values : ema
-  }
+  return emas
 }
 
 function calculateIchimokuClouds(dates, highs, lows, closes, interval){

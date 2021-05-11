@@ -63,10 +63,10 @@ class InfoHeader extends Component {
         conversionLine = this.props.tf.ichimokuCloud.conversionLine[this.props.tf.ichimokuCloud.conversionLine.length-1],
         sma = this.props.tf.bband.sma[this.props.tf.bband.sma.length-1],
         psar = this.props.tf.psar.values[this.props.tf.psar.values.length-1],
-        ema21 = this.props.tf.ema['21'].values[this.props.tf.ema['21'].values.length-1],
-        ema50 = this.props.tf.ema['50'].values[this.props.tf.ema['50'].values.length-1],
-        ema100 = this.props.tf.ema['100'].values[this.props.tf.ema['100'].values.length-1],
-        ema200 = this.props.tf.ema['200'].values[this.props.tf.ema['200'].values.length-1],
+        ema21 = this.props.tf.ema['21'][this.props.tf.ema['21'].length-1],
+        ema50 = this.props.tf.ema['50'][this.props.tf.ema['50'].length-1],
+        ema100 = this.props.tf.ema['100'][this.props.tf.ema['100'].length-1],
+        ema200 = this.props.tf.ema['200'][this.props.tf.ema['200'].length-1],
         price = this.props.tf.prices[this.props.tf.prices.length-1][4]
 
     this.setState({
