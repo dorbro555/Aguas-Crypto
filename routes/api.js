@@ -17,7 +17,7 @@ const limiter = new RateLimit({
     client: client,
     expiry: 6 *  60 * 60, // 6 hours
   }),
-  max: 1000, // 100 requests per window
+  max: 600, // 600 requests per window
 })
 router.use(limiter)
 
