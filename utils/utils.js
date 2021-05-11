@@ -41,14 +41,20 @@ function calculateBLBB(bollingerBand, baseLine){
 }
 
 function calculateBBandPercentage(bollingerBand, data){
-  let percent = bollingerBand.bands.slice(-data.length).map((dp, idx) => {
-    return {
-      x: dp.x,
-      y: (data[idx]-dp.y[0])/(dp.y[1]-dp.y[0])*100
-    }
+  let percentages = []
+
+  data.forEach(val => {
+    let percent = bollingerBand.bands.slice(-val.length).map((dp, idx) => {
+      return {
+        x: dp.x,
+        y: (val[idx]-dp.y[0])/(dp.y[1]-dp.y[0])*100
+      }
+    })
+    percentages.push(percent)
   })
 
-  return percent
+
+  return percentages
 }
 
 function calculatePSar(dates, highs, lows, range){
@@ -103,7 +109,6 @@ function calculateEMA(periods, dates, closes, range){
 
 
   periods.forEach(period => {
-
     let start = tulind.indicators.ema.start([period]),
         preciseDates = dates.slice(-(range+start))
         preciseCloses = closes.slice(-(range+start)),
