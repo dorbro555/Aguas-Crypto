@@ -124,6 +124,14 @@ function calculateEMA(periods, dates, closes, range){
   return emas
 }
 
+function calculateEMAIndicator(ema1, ema2){
+  let ema1Head = ema1[ema1.length-1]
+      ema2Head = ema2[ema2.length-1]
+    if(ema1Head.y > ema2Head.y) return {x: ema1Head.x, y:1, color: green}
+    else if(ema1Head.y < ema2Head.y) return {x: ema1Head.x, y: 1, color: red}
+    else return {x: ema1Head.x, y: 1, color: ''}
+}
+
 function calculateIchimokuClouds(dates, highs, lows, closes, interval){
   let conversionPeriod = 9,
       basePeriod = 26,
@@ -210,4 +218,5 @@ module.exports = {
   calculateEMA: calculateEMA,
   calculateIchimokuClouds: calculateIchimokuClouds,
   calculateBBandPercentage: calculateBBandPercentage,
+  calculateEMAIndicator: calculateEMAIndicator
 }

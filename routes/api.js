@@ -42,7 +42,10 @@ router
               ichimokuCloud = utils.calculateIchimokuClouds(dates, highs, lows, closes, parseInt(key)),
               [conversionLinePercent, baseLinePercent, ichimokuSpanAPercent, ichimokuSpanBPercent] = utils.calculateBBandPercentage(bband, [ichimokuCloud.conversionLine.map(dp => dp.y),ichimokuCloud.baseLine.map(dp => dp.y),ichimokuCloud.leadingSpans.slice(0, -26).map(dp => dp.y[0]), ichimokuCloud.leadingSpans.slice(0, -26).map(dp => dp.y[1])]),
               [psarPercent] = utils.calculateBBandPercentage(bband, [psar.values.map(dp => dp.y)]),
-              [emaPercent21, emaPercent50, emaPercent100, emaPercent200] = utils.calculateBBandPercentage(bband, [ema21.map(dp => dp.y),ema50.map(dp => dp.y),ema100.map(dp => dp.y),ema200.map(dp => dp.y)])
+              [emaPercent21, emaPercent50, emaPercent100, emaPercent200] = utils.calculateBBandPercentage(bband, [ema21.map(dp => dp.y),ema50.map(dp => dp.y),ema100.map(dp => dp.y),ema200.map(dp => dp.y)]),
+              ema21over50 = utils.calculateEMAIndicator(ema21, ema50)
+              ema21over200 = utils.calculateEMAIndicator(ema21, ema200)
+              ema50over100 = utils.calculateEMAIndicator(ema50, ema100)
 
 
           return {
@@ -69,7 +72,11 @@ router
               emaPercent50: emaPercent50,
               emaPercent100: emaPercent100,
               emaPercent200: emaPercent200,
-
+            },
+            emaIndicator: {
+              ema21over50: ema21over50,
+              ema21over200: ema21over200,
+              ema50over100: ema50over100,
             }
           }
         })
