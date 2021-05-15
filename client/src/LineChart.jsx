@@ -29,7 +29,6 @@ class LineChart extends Component {
   }
 
   handleClick(){
-    console.log('clicked!')
     this.setState({showIchimoku: !this.state.showIchimoku})
   }
 
