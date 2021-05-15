@@ -4,6 +4,7 @@ import {formateTimeFrame} from './utils' ;
 import LineChart from './LineChart'
 import IchimokuChartButton from './IchimokuChartButton'
 import InfoHeader from './InfoHeader'
+import EmaIndicator from './emaIndicator'
 
 class Chart extends Component{
   constructor(props){
@@ -33,6 +34,7 @@ class Chart extends Component{
           <div className='content has-background-dark'>
             <InfoHeader tf={this.props.tf} showIchimoku={this.state.showIchimoku}/>
             <IchimokuChartButton tf={this.props.tf}/>
+            <EmaIndicator emaIndicators={this.props.tf.emaIndicator}/>
           </div>
         </div>
       </div>
