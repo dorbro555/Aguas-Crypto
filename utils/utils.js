@@ -4,6 +4,65 @@ const technicalindicators = require('technicalindicators');
 const green = '#07df3d'
 const red = '#f00000'
 
+function parseMarketData(data){
+  var windows = Object.keys(data).map((key, idx) => {
+        let ohlcs = data[key],//we slice twice the range, to provide extra data that may be needed to compute more accurate results
+            dates = ohlcs.map(dp => dp[0]),
+            opens = ohlcs.map(dp => dp[1]),
+            highs = ohlcs.map(dp => dp[2]),
+            lows  = ohlcs.map(dp => dp[3]),
+            closes = ohlcs.map(dp => dp[4]),
+            rsi = calculateRsi(dates, closes, 100),
+            psar = calculatePSar(dates, highs, lows, 100),
+            bband = calculateBollingerBand(dates, closes, 100),
+            [ema21, ema50, ema100, ema200] = calculateEMA([21, 50, 100, 200],dates, closes, 100),
+            ichimokuCloud = calculateIchimokuClouds(dates, highs, lows, closes, parseInt(key)),
+            [conversionLinePercent, baseLinePercent, ichimokuSpanAPercent, ichimokuSpanBPercent] = calculateBBandPercentage(bband, [ichimokuCloud.conversionLine.map(dp => dp.y),ichimokuCloud.baseLine.map(dp => dp.y),ichimokuCloud.leadingSpans.slice(0, -26).map(dp => dp.y[0]), ichimokuCloud.leadingSpans.slice(0, -26).map(dp => dp.y[1])]),
+            [psarPercent] = calculateBBandPercentage(bband, [psar.values.map(dp => dp.y)]),
+            [emaPercent21, emaPercent50, emaPercent100, emaPercent200] = calculateBBandPercentage(bband, [ema21.map(dp => dp.y),ema50.map(dp => dp.y),ema100.map(dp => dp.y),ema200.map(dp => dp.y)]),
+            ema21over50 = calculateEMAIndicator(ema21, ema50)
+            ema21over200 = calculateEMAIndicator(ema21, ema200)
+            ema50over100 = calculateEMAIndicator(ema50, ema100)
+            emaPriceOver200 = calculateEMAIndicator(ohlcs.map(dp => {return {x: dp[0], y: dp[4]}}).slice(-ema200.length),ema200)
+
+
+        return {
+          timeframe: key,
+          dates: dates,
+          prices: ohlcs,
+          rsi: rsi,
+          psar: psar,
+          bband: bband,
+          ema: {
+            21: ema21,
+            50: ema50,
+            100: ema100,
+            200: ema200
+          },
+          ichimokuCloud: ichimokuCloud,
+          percentages: {
+            conversionLinePercent: conversionLinePercent,
+            baseLinePercent: baseLinePercent,
+            ichimokuSpanAPercent: ichimokuSpanAPercent,
+            ichimokuSpanBPercent: ichimokuSpanBPercent,
+            psarPercent: psarPercent,
+            emaPercent21: emaPercent21,
+            emaPercent50: emaPercent50,
+            emaPercent100: emaPercent100,
+            emaPercent200: emaPercent200,
+          },
+          emaIndicator: {
+            ema21over50: ema21over50,
+            ema21over200: ema21over200,
+            ema50over100: ema50over100,
+            emaPriceOver200: emaPriceOver200,
+          }
+        }
+      })
+
+      return windows
+}
+
 function calculateRsi(dates, closes, range){
   let values = [],
       start = tulind.indicators.rsi.start([14])
@@ -218,5 +277,6 @@ module.exports = {
   calculateEMA: calculateEMA,
   calculateIchimokuClouds: calculateIchimokuClouds,
   calculateBBandPercentage: calculateBBandPercentage,
-  calculateEMAIndicator: calculateEMAIndicator
+  calculateEMAIndicator: calculateEMAIndicator,
+  parseMarketData:parseMarketData,
 }
