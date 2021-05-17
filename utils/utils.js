@@ -20,11 +20,11 @@ function parseMarketData(data){
             [conversionLinePercent, baseLinePercent, ichimokuSpanAPercent, ichimokuSpanBPercent] = calculateBBandPercentage(bband, [ichimokuCloud.conversionLine.map(dp => dp.y),ichimokuCloud.baseLine.map(dp => dp.y),ichimokuCloud.leadingSpans.slice(0, -26).map(dp => dp.y[0]), ichimokuCloud.leadingSpans.slice(0, -26).map(dp => dp.y[1])]),
             [psarPercent] = calculateBBandPercentage(bband, [psar.values.map(dp => dp.y)]),
             [emaPercent21, emaPercent50, emaPercent100, emaPercent200] = calculateBBandPercentage(bband, [ema21.map(dp => dp.y),ema50.map(dp => dp.y),ema100.map(dp => dp.y),ema200.map(dp => dp.y)]),
-            ema21over50 = calculateEMAIndicator(ema21, ema50)
-            ema21over200 = calculateEMAIndicator(ema21, ema200)
-            ema50over100 = calculateEMAIndicator(ema50, ema100)
-            emaPriceOver200 = calculateEMAIndicator(ohlcs.map(dp => {return {x: dp[0], y: dp[4]}}).slice(-ema200.length),ema200)
-
+            ema21over50 = calculateEMAIndicators(ema21, ema50)
+            ema21over200 = calculateEMAIndicators(ema21, ema200)
+            ema50over100 = calculateEMAIndicators(ema50, ema100)
+            emaPriceOver200 = calculateEMAIndicators(ohlcs.map(dp => {return {x: dp[0], y: dp[4]}}).slice(-ema200.length),ema200)
+            ema200Crossover = scanEmasForCrossovers(emaPriceOver200)
 
         return {
           timeframe: key,
@@ -56,6 +56,9 @@ function parseMarketData(data){
             ema21over200: ema21over200,
             ema50over100: ema50over100,
             emaPriceOver200: emaPriceOver200,
+          },
+          watchlist: {
+            ema200Crossover: ema200Crossover
           }
         }
       })
@@ -183,12 +186,40 @@ function calculateEMA(periods, dates, closes, range){
   return emas
 }
 
-function calculateEMAIndicator(ema1, ema2){
+// compares the most recent values from both ema's
+// returns true if the first value is over the second
+function calculateEMAIndicatorHead(ema1, ema2){
   let ema1Head = ema1[ema1.length-1]
       ema2Head = ema2[ema2.length-1]
     if(ema1Head.y > ema2Head.y) return {x: ema1Head.x, y:1, color: green}
     else if(ema1Head.y < ema2Head.y) return {x: ema1Head.x, y: 1, color: red}
     else return {x: ema1Head.x, y: 1, color: ''}
+}
+
+//returns a list of ema comparisons
+function calculateEMAIndicators(ema1, ema2){
+  let results = []
+  results = ema1.map((dp, idx) => {
+    if(dp.y > ema2[idx].y) return {x: dp.x, y:1, color: green}
+    else if(dp.y < ema2[idx].y) return {x: dp.x, y: 1, color: red}
+    else return {x: dp.x, y: 1, color: ''}
+  })
+
+  return {
+    head: results[results.length-1],
+    values: results 
+  }
+}
+//takes an array of ema indicator results, and returns
+//a list of times where crossovers occur
+function scanEmasForCrossovers(emaIndicator){
+  let crossoverList = []
+  for(var i = 1; i < emaIndicator.length-1; i++){
+    if(emaIndicator[i].color != emaIndicator[i-1].color){
+      crossoverList.push(emaIndicator[i])
+    }
+  }
+  return crossoverList
 }
 
 function calculateIchimokuClouds(dates, highs, lows, closes, interval){
@@ -277,6 +308,6 @@ module.exports = {
   calculateEMA: calculateEMA,
   calculateIchimokuClouds: calculateIchimokuClouds,
   calculateBBandPercentage: calculateBBandPercentage,
-  calculateEMAIndicator: calculateEMAIndicator,
+  calculateEMAIndicatorHead: calculateEMAIndicatorHead,
   parseMarketData:parseMarketData,
 }

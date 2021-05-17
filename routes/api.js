@@ -28,7 +28,7 @@ router
     		const response = await got(`https://api.cryptowat.ch/markets/kraken/${req.params.pair}usd/ohlc`);
         let candles = JSON.parse(response.body),
             results = candles.result
-        windows = utils.parseMarketData(results)
+            windows = utils.parseMarketData(results)
         windows = windows.map(dp => {
           return [dp.timeframe, dp]
         })
