@@ -207,7 +207,7 @@ function calculateEMAIndicators(ema1, ema2){
 
   return {
     head: results[results.length-1],
-    values: results 
+    values: results
   }
 }
 //takes an array of ema indicator results, and returns
@@ -220,6 +220,23 @@ function scanEmasForCrossovers(emaIndicator){
     }
   }
   return crossoverList
+}
+
+function populateWatchlist(marketData){
+  let windows = marketData.windows
+      emaList = []
+
+  Object.keys(marketData).forEach(tf => {
+    let emaIndicators = marketData[tf].emaIndicator
+    Object.keys(emaIndicators).forEach(key => {
+      let results = scanEmasForCrossovers(emaIndicators[key].values)
+      if(results.length > 0){emaList.push({window: tf, type: key, crossovers: results})}
+    })
+  })
+
+
+
+  return emaList
 }
 
 function calculateIchimokuClouds(dates, highs, lows, closes, interval){
@@ -310,4 +327,6 @@ module.exports = {
   calculateBBandPercentage: calculateBBandPercentage,
   calculateEMAIndicatorHead: calculateEMAIndicatorHead,
   parseMarketData:parseMarketData,
+  populateWatchlist: populateWatchlist,
+  longColor: green
 }

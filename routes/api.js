@@ -32,10 +32,20 @@ router
         windows = windows.map(dp => {
           return [dp.timeframe, dp]
         })
-        // windows['180'].emaIndicator.ema21over50
+        // scanning for crossvers and storing results in redis
+        var watchlist = utils.populateWatchlist(Object.fromEntries(windows))
+        watchlist.forEach(scan => {
+          let redisLongKey = 'wl:' + scan.type + ':long'
+              redisShortKey = 'wl:' + scan.type + ':short'
+          scan.crossovers.forEach(crossover => {
+            let valueString = req.params.pair + ':' + scan.window + ':' + scan.type + ':' + crossover.x
+            client.zadd((crossover.color === utils.longColor ? redisLongKey : redisShortKey), crossover.x, valueString)
+          })
+        })
 
         res.json({
           windows: Object.fromEntries(windows),
+          watchlist: watchlist,
           allowance: req.rateLimit
         })
     		//=> '<!doctype html> ...'
