@@ -13,3 +13,13 @@ body {
 .pair-button {
   background: linear-gradient(to right top, #4f6e6a, #d9f8fd)
 }
+
+.sidebar {
+  height: 100%;
+  width: 60px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-x: hidden;
+
+}
