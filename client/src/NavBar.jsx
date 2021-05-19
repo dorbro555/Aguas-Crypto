@@ -2,7 +2,7 @@
 function NavBar(props){
 
   return(
-    <div className='level mb-3'>
+    <div className='level mb-3 title-bar'>
       <div className='level-left ml-1'>
         <div className='level-item'>
           <h1 className='title is-2 py-0 has-text-white'>¡Aguas! Crypto</h1>
