@@ -29,6 +29,7 @@ router
         let candles = JSON.parse(response.body),
             results = candles.result
             windows = utils.parseMarketData(results)
+            alertsLong = []
         windows = windows.map(dp => {
           return [dp.timeframe, dp]
         })
@@ -42,10 +43,21 @@ router
             client.zadd((crossover.color === utils.longColor ? redisLongKey : redisShortKey), crossover.x, valueString)
           })
         })
+        // we call the redis client for scans stored as strings, which we tokenize
+        // to create and return and array of alert objects
+        alertsLong = await client.zrange('wl:ema21over50:long', 0, -1).then((res) => {
+          var alertsList = []
+          res.forEach(str => {
+            var tokens = str.split(':')
+            alertsList.push({asset: tokens[0], tf: tokens[1], scan: tokens[2], time: tokens[3]})
+          })
+          // console.log(alertsList.filter(alert => alert.asset === 'eth'))
+          return alertsList
+        })
 
         res.json({
           windows: Object.fromEntries(windows),
-          watchlist: watchlist,
+          alerts: alertsLong,
           allowance: req.rateLimit
         })
     		//=> '<!doctype html> ...'
