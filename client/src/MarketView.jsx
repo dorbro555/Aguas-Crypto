@@ -18,7 +18,10 @@ class MarketView extends Component {
   }
 
   setActivePair(pair){
-    this.setState({data: []})
+    this.setState({
+      data: [], //we must clear the data or the graph wont update
+      showWatchlist: false //hide watchlist after clicking an item
+    })
     fetch(`https://www.ahernandez.dev/trade/api/ohlc/${pair}`)
     .then(res => res.json())
     .then(res => {
@@ -37,42 +40,39 @@ class MarketView extends Component {
 
     return(
       <div>
-        <PairButtons onClick={this.setActivePair}/>
-        <div className='columns'>
-          <div className='column'>
-            <div className="sidebar has-background-dark">
-              <div className='columns'>
-                <div className='column'>
-                  <div className='menu mt-6'>
-                    <ul className='menu-list'>
-                      <a href="#" onClick={() => {this.setState({showWatchlist: !this.state.showWatchlist})}}>
-                        <span className='icon'>
-                          <i class="fas fa-list has-text-white"></i>
-                        </span>
-                      </a>
-                      <a href="#">
-                        <span className='icon'>
-                          <i class="far fa-bell has-text-white"></i>
-                        </span>
-                      </a>
-                      <a href="#">
-                        <span className='icon'>
-                          <i class="fas fa-retweet has-text-white"></i>
-                        </span>
-                      </a>
-                    </ul>
-                  </div>
-
-                </div>
+        <div className="sidebar has-background-dark">
+          <div className='columns'>
+            <div className='column'>
+              <div className='menu mt-6'>
+                <ul className='menu-list'>
+                  <a href="#" onClick={() => {this.setState({showWatchlist: !this.state.showWatchlist})}}>
+                    <span className='icon'>
+                      <i class="fas fa-list has-text-white"></i>
+                    </span>
+                  </a>
+                  <a href="#">
+                    <span className='icon'>
+                      <i class="far fa-bell has-text-white"></i>
+                    </span>
+                  </a>
+                  <a href="#">
+                    <span className='icon'>
+                      <i class="fas fa-retweet has-text-white"></i>
+                    </span>
+                  </a>
+                </ul>
               </div>
+
             </div>
           </div>
+        </div>
+        <div className='columns'>
           {this.state.showWatchlist &&
             <div className='column is-3'>
-                <WatchList/>
+                <WatchList onClick={this.setActivePair}/>
             </div>
           }
-          <div className={'column'  + this.state.showWatchlist ? 'is-9' : 'is-12'}>
+          <div className={this.state.showWatchlist ? 'column is-9' : 'column is-12'}>
             <Charts activePair={this.state.activePair} windows={this.state.data.windows}/>
             {this.state.data.allowance && <CreditsNotification allowance={this.state.data.allowance} visible={this.state.showCreditsNotification} handleClick={this.toggleCreditsNotification}/>}
           </div>

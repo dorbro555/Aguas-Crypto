@@ -22,18 +22,18 @@ class ChartsRangeButton extends Component {
 
     return(
       <div>
-      <div className='button is-fullwidth' onClick={this.handleClick}>
-        {this.props.title}
-      </div>
-      {this.state.isToggled &&
-        <div className='columns is-multiline'>
-            {this.props.range.map( (val,idx) => {
-              return (
-                <Chart key={idx} tf={this.props.windows[val]} timeframe={val} activePair={this.props.activePair}/>
-              )
-            })}
-        </div>}
-      </div>
+        <div className='button is-fullwidth' onClick={this.handleClick}>
+          {this.props.title}
+        </div>
+        {this.state.isToggled &&
+          <div className='columns is-multiline'>
+              {this.props.range.map( (val,idx) => {
+                return (
+                  <Chart key={idx} tf={this.props.windows[val]} timeframe={val} activePair={this.props.activePair}/>
+                )
+              })}
+          </div>}
+        </div>
     )
   }
 }

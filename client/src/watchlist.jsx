@@ -10,6 +10,7 @@ const pairs = ['btc','eth','xrp','bch','ada', 'link','dash','eos',
       <div className='buttons are-small has-text-white'>
         {pairs.map((pair, idx) => {
           return <button className='button is-dark'
+                          onClick={() => props.onClick(pair)}
                           key={idx}>
             {pair.toUpperCase()}
                 </button>}
