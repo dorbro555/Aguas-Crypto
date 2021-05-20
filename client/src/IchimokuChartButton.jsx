@@ -19,7 +19,7 @@ class IchimokuChartButton extends Component {
     let ichimokuCloud = this.props.tf.ichimokuCloud
     return(
       <div>
-        <div className='button is-black is-fullwidth' onClick={this.handleClick}>
+        <div className='level is-mobile is-black has-text-white mb-1 has-text-weight-medium' onClick={this.handleClick}>
           Ichimoku Clouds
           <div className='buttons are-small'>
             <span className={ichimokuCloud.cloudIndicator[ichimokuCloud.cloudIndicator.length-1].color === '#07df3d'? 'button is-rounded is-success':'button is-rounded is-danger'}></span>

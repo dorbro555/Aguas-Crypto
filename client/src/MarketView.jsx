@@ -46,7 +46,7 @@ class MarketView extends Component {
         <Sidebar onClickWatchlist={() => {this.setState({showWatchlist: !this.state.showWatchlist, showAlertsList: false})}}
                  onClickAlertsList={() => {this.setState({showAlertsList: !this.state.showAlertsList, showWatchlist: false})}}
           />
-        <div className='columns'>
+        <div className='columns is-gapless'>
           {this.state.showWatchlist &&
             <div className='column is-2'>
                 <WatchList onClick={this.setActivePair}/>
