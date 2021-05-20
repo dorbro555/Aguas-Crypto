@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import Charts from './Charts'
 import PairButtons from './PairButtons'
 import WatchList from './watchlist'
+import AlertsList from './AlertsList'
 import CreditsNotification from './CreditsNotification'
 import Sidebar from './Sidebar'
 
@@ -12,7 +13,8 @@ class MarketView extends Component {
       data: [],
       activePair:'',
       showCreditsNotification: false,
-      showWatchlist: false
+      showWatchlist: false,
+      showAlertsList: false
     };
     this.setActivePair = this.setActivePair.bind(this)
     this.toggleCreditsNotification = this.toggleCreditsNotification.bind(this)
@@ -38,17 +40,25 @@ class MarketView extends Component {
   }
 
   render(){
-
+    let alerts = this.state.data.alerts || []
     return(
       <div>
-        <Sidebar onClick={() => {this.setState({showWatchlist: !this.state.showWatchlist})}}/>
+        <Sidebar onClickWatchlist={() => {this.setState({showWatchlist: !this.state.showWatchlist, showAlertsList: false})}}
+                 onClickAlertsList={() => {this.setState({showAlertsList: !this.state.showAlertsList, showWatchlist: false})}}
+          />
         <div className='columns'>
           {this.state.showWatchlist &&
-            <div className='column is-3'>
+            <div className='column is-2'>
                 <WatchList onClick={this.setActivePair}/>
             </div>
           }
-          <div className={this.state.showWatchlist ? 'column is-9' : 'column is-12'}>
+          {
+            this.state.showAlertsList &&
+            <div className='column is-2'>
+              <AlertsList alerts={alerts}/>
+            </div>
+          }
+          <div className={this.state.showWatchlist || this.state.showAlertsList ? 'column is-10' : 'column is-12'}>
             <Charts activePair={this.state.activePair} windows={this.state.data.windows}/>
             {this.state.data.allowance && <CreditsNotification allowance={this.state.data.allowance} visible={this.state.showCreditsNotification} handleClick={this.toggleCreditsNotification}/>}
           </div>

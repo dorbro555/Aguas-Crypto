@@ -1,5 +1,5 @@
 
-const Sidebar = ({onClick}) => {
+const Sidebar = ({onClickWatchlist, onClickAlertsList}) => {
 
   return(
     <div className="sidebar has-background-dark">
@@ -7,12 +7,12 @@ const Sidebar = ({onClick}) => {
         <div className='column'>
           <div className='menu mt-6'>
             <ul className='menu-list'>
-              <a onClick={onClick}>
+              <a onClick={onClickWatchlist}>
                 <span className='icon'>
                   <i class="fas fa-list has-text-white"></i>
                 </span>
               </a>
-              <a>
+              <a onClick={onClickAlertsList}>
                 <span className='icon'>
                   <i class="far fa-bell has-text-white"></i>
                 </span>
