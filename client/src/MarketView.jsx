@@ -3,6 +3,7 @@ import Charts from './Charts'
 import PairButtons from './PairButtons'
 import WatchList from './watchlist'
 import CreditsNotification from './CreditsNotification'
+import Sidebar from './Sidebar'
 
 class MarketView extends Component {
   constructor(){
@@ -40,32 +41,7 @@ class MarketView extends Component {
 
     return(
       <div>
-        <div className="sidebar has-background-dark">
-          <div className='columns'>
-            <div className='column'>
-              <div className='menu mt-6'>
-                <ul className='menu-list'>
-                  <a href="#" onClick={() => {this.setState({showWatchlist: !this.state.showWatchlist})}}>
-                    <span className='icon'>
-                      <i class="fas fa-list has-text-white"></i>
-                    </span>
-                  </a>
-                  <a href="#">
-                    <span className='icon'>
-                      <i class="far fa-bell has-text-white"></i>
-                    </span>
-                  </a>
-                  <a href="#">
-                    <span className='icon'>
-                      <i class="fas fa-retweet has-text-white"></i>
-                    </span>
-                  </a>
-                </ul>
-              </div>
-
-            </div>
-          </div>
-        </div>
+        <Sidebar onClick={() => {this.setState({showWatchlist: !this.state.showWatchlist})}}/>
         <div className='columns'>
           {this.state.showWatchlist &&
             <div className='column is-3'>
