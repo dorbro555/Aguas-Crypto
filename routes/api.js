@@ -45,7 +45,7 @@ router
         })
         // we call the redis client for scans stored as strings, which we tokenize
         // to create and return and array of alert objects
-        alertsLong = await client.zrevrange('wl:ema21over50:long', 0, -1).then((res) => {
+        alertsLong = await client.zrevrange('wl:ema21over50:long', 0, 100).then((res) => {
           var alertsList = []
           res.forEach(str => {
             var tokens = str.split(':')
