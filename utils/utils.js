@@ -56,9 +56,6 @@ function parseMarketData(data){
             ema21over200: ema21over200,
             ema50over100: ema50over100,
             emaPriceOver200: emaPriceOver200,
-          },
-          watchlist: {
-            ema200Crossover: ema200Crossover
           }
         }
       })

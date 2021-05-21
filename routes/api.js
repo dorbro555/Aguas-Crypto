@@ -45,11 +45,11 @@ router
         })
         // we call the redis client for scans stored as strings, which we tokenize
         // to create and return and array of alert objects
-        alertsLong = await client.zrange('wl:ema21over50:long', 0, -1).then((res) => {
+        alertsLong = await client.zrevrange('wl:ema21over50:long', 0, -1).then((res) => {
           var alertsList = []
           res.forEach(str => {
             var tokens = str.split(':')
-            alertsList.push({asset: tokens[0], tf: tokens[1], scan: tokens[2], time: tokens[3]})
+            alertsList.push({asset: tokens[0], tf: tokens[1], scan: tokens[2], time: parseInt(tokens[3])})
           })
           // console.log(alertsList.filter(alert => alert.asset === 'eth'))
           return alertsList
