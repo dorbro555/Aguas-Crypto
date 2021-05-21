@@ -10,6 +10,7 @@
     "server": "npx nodemon server.js",
     "dev": "concurrently --kill-others-on-fail\"yarn server\" \"yarn client\"",
     "build-client": "cd client && yarn build",
+    "start-redis": "redis-server redis.conf",
     "production": "PORT=6341 node server.js"
   },
   "dependencies": {
