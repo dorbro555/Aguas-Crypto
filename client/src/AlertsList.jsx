@@ -1,11 +1,28 @@
 import {formateTimeFrame} from './utils'
 
-const AlertsList = ({alerts}) => {
+const AlertsList = ({alerts, close}) => {
 
   return(
-    <div className='alert-list'>
+    <div className='alert-list columns is-multiline is-gapless'>
+      <div className='column is-12'>
+        <div className='level'>
+          <div className='level-left'>
+            <div className='level-item'>
+              <h4 className='title is-4 has-text-white'>Alerts</h4>
+            </div>
+          </div>
+          <div className='level-right'>
+            <div classNam='level-item'>
+              <span className='icon is-clickable' onClick={close}>
+                <i class="fas fa-window-close has-text-white"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
     {alerts.map((alert, idx) => {
       return(
+        <div className='column is-12'>
         <div className='card has-background-dark has-text-white is-unselectable'>
           <div className='card-content'>
             <div className='media my-0'>
@@ -33,6 +50,7 @@ const AlertsList = ({alerts}) => {
             </div>
           </div>
         </div>
+      </div>
       )
     })}
   </div>

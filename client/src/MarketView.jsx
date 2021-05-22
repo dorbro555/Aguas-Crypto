@@ -55,7 +55,7 @@ class MarketView extends Component {
           {
             this.state.showAlertsList &&
             <div className='column is-2'>
-              <AlertsList alerts={alerts}/>
+              <AlertsList alerts={alerts} close={() => {this.setState({showAlertsList: !this.state.showAlertsList, showWatchlist: false})}}/>
             </div>
           }
           <div className={this.state.showWatchlist || this.state.showAlertsList ? 'column is-10' : 'column is-12'}>
