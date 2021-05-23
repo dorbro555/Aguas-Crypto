@@ -15,14 +15,17 @@ function App() {
   const [alertsListVisible, setAlertsListVisible] = useState(false)
 
   return (
-      <div className='App columns has-background-dark is-gapless mb-0'>
+      <div className='App columns has-background-dark is-gapless'>
         <div className='column'>
           <NavBar/>
-          <MarketView watchListVisible={watchListVisible} alertsListVisible={alertsListVisible}/>
+          <MarketView watchListVisible={watchListVisible}
+                      alertsListVisible={alertsListVisible}
+                      closeWatchlist={() => {setWatchListVisible(false)}}
+                      closeAlertsList={() => {setAlertsListVisible(false)}}/>
         </div>
         <div className='column is-narrow'>
-          <Sidebar onClickWatchlist={() => {setWatchListVisible(!watchListVisible)}}
-                    onClickAlertsList={() => {setAlertsListVisible(!alertsListVisible)}}/>
+          <Sidebar onClickWatchlist={() => {setWatchListVisible(!watchListVisible); setAlertsListVisible(false)}}
+                    onClickAlertsList={() => {setAlertsListVisible(!alertsListVisible); setWatchListVisible(false)}}/>
         </div>
         <TabBar onClickWatchlist={() => {setWatchListVisible(!watchListVisible)}}
                  onClickAlertsList={() => {setAlertsListVisible(!alertsListVisible)}}

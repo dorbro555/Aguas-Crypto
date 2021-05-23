@@ -6,6 +6,21 @@ const pairs = ['btc','eth','xrp','bch','ada', 'link','dash','eos',
               'fil','rep','omg','xlm','xmr','usdt','zec', 'doge']
 
   return(
+    <div className=''>
+        <div className='level mx-2'>
+          <div className='level-left'>
+            <div className='level-item'>
+              <h4 className='title is-4 has-text-white'>Watchlist</h4>
+            </div>
+          </div>
+          <div className='level-right'>
+            <div classNam='level-item'>
+              <span className='icon is-clickable' onClick={props.close}>
+                <i class="fas fa-window-close has-text-white"></i>
+              </span>
+            </div>
+          </div>
+        </div>
       <div className='buttons are-small has-text-white'>
         {pairs.map((pair, idx) => {
           return <button className='button is-dark'
@@ -15,6 +30,7 @@ const pairs = ['btc','eth','xrp','bch','ada', 'link','dash','eos',
                 </button>}
         )}
       </div>
+    </div>
   )
 }
 

@@ -24,7 +24,7 @@ class MarketView extends Component {
       data: [], //we must clear the data or the graph wont update
       showWatchlist: false //hide watchlist after clicking an item
     })
-    fetch(`api/ohlc/${pair}`)
+    fetch(`https://www.ahernandez.dev/trade/api/ohlc/${pair}`)
     .then(res => res.json())
     .then(res => {
       this.setState({
@@ -48,13 +48,13 @@ class MarketView extends Component {
           {this.state.data.allowance && <CreditsNotification allowance={this.state.data.allowance} visible={this.state.showCreditsNotification} handleClick={this.toggleCreditsNotification}/>}
           {this.props.watchListVisible &&
             <div className='column is-2'>
-              <WatchList onClick={this.setActivePair}/>
+              <WatchList onClick={this.setActivePair} close={this.props.closeWatchlist}/>
             </div>
           }
           {
             this.props.alertsListVisible &&
             <div className='column is-2'>
-              <AlertsList alerts={alerts} close={() => {this.setState({showAlertsList: !this.state.showAlertsList, showWatchlist: false})}}/>
+              <AlertsList alerts={alerts} close={this.props.closeAlertsList}/>
             </div>
           }
         </div>
@@ -62,7 +62,7 @@ class MarketView extends Component {
   }
 
   componentDidMount(){
-    fetch(`api/ohlc/eth`)
+    fetch(`https://www.ahernandez.dev/trade/api/ohlc/eth`)
     .then(res => res.json())
 		.then(res => {
       this.setState({
