@@ -1,9 +1,9 @@
 import {formateTimeFrame} from './utils'
 
-const AlertsList = ({alerts, close}) => {
+const AlertsList = ({alerts, close, isMobile}) => {
 
   return(
-    <div className='alert-list columns is-multiline is-gapless'>
+    <div className={'alert-list columns is-multiline is-gapless' + (isMobile ? ' is-overlay' : '')}>
       <div className='column is-12 has-background-dark'>
         <div className='level is-mobile mx-2'>
           <div className='level-left'>

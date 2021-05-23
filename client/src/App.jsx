@@ -13,6 +13,7 @@ function App() {
   //
   const [watchListVisible, setWatchListVisible] = useState(false)
   const [alertsListVisible, setAlertsListVisible] = useState(false)
+  const [isMobile, setMobile] = useState(false)
 
   return (
       <div className='App columns has-background-dark is-gapless'>
@@ -20,15 +21,16 @@ function App() {
           <NavBar/>
           <MarketView watchListVisible={watchListVisible}
                       alertsListVisible={alertsListVisible}
-                      closeWatchlist={() => {setWatchListVisible(false)}}
-                      closeAlertsList={() => {setAlertsListVisible(false)}}/>
+                      closeWatchlist={() => {setWatchListVisible(false);setMobile(false)}}
+                      closeAlertsList={() => {setAlertsListVisible(false);setMobile(false)}}
+                      hideChart={isMobile}/>
         </div>
         <div className='column is-narrow'>
           <Sidebar onClickWatchlist={() => {setWatchListVisible(!watchListVisible); setAlertsListVisible(false)}}
                     onClickAlertsList={() => {setAlertsListVisible(!alertsListVisible); setWatchListVisible(false)}}/>
         </div>
-        <TabBar onClickWatchlist={() => {setWatchListVisible(!watchListVisible)}}
-                 onClickAlertsList={() => {setAlertsListVisible(!alertsListVisible)}}
+        <TabBar onClickWatchlist={() => {setWatchListVisible(!watchListVisible); setMobile(!isMobile)}}
+                 onClickAlertsList={() => {setAlertsListVisible(!alertsListVisible); setMobile(!isMobile)}}
           />
       </div>
   );
