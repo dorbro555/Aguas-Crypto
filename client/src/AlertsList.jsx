@@ -1,6 +1,8 @@
 import {formateTimeFrame} from './utils'
+import React, { useState } from 'react'
 
 const AlertsList = ({alerts, close, isMobile}) => {
+  const [showLong, setShowLong] = useState(true)
 
   return(
     <div className={'alert-list columns is-multiline is-gapless' + (isMobile ? ' is-overlay' : '')}>
@@ -20,10 +22,20 @@ const AlertsList = ({alerts, close, isMobile}) => {
           </div>
         </div>
       </div>
-    {alerts.map((alert, idx) => {
+
+      <div className='buttons are-small mb-1'>
+        <div className='button is-success' onClick={() => {setShowLong(true)}}>
+          long
+        </div>
+        <div className='button is-danger' onClick={() => {setShowLong(false)}}>
+          short
+        </div>
+      </div>
+
+    {(showLong ? alerts.alertsLong : alerts.alertsShort).map((alert, idx) => {
       return(
         <div className='column is-12'>
-        <div className='card has-background-dark has-text-white is-unselectable'>
+        <div className={`card has-background-${showLong?'success':'danger'}-light has-text-${showLong?'success':'danger'}-dark is-unselectable`}>
           <div className='card-content'>
             <div className='media my-0'>
               <div className='media-content'>
