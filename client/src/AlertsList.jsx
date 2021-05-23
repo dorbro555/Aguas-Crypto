@@ -4,8 +4,8 @@ const AlertsList = ({alerts, close}) => {
 
   return(
     <div className='alert-list columns is-multiline is-gapless'>
-      <div className='column is-12'>
-        <div className='level mx-2'>
+      <div className='column is-12 has-background-dark'>
+        <div className='level is-mobile mx-2'>
           <div className='level-left'>
             <div className='level-item'>
               <h4 className='title is-4 has-text-white'>Alerts</h4>

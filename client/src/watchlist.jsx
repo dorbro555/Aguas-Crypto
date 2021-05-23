@@ -7,7 +7,7 @@ const pairs = ['btc','eth','xrp','bch','ada', 'link','dash','eos',
 
   return(
     <div className=''>
-        <div className='level mx-2'>
+        <div className='level is-mobile mx-2'>
           <div className='level-left'>
             <div className='level-item'>
               <h4 className='title is-4 has-text-white'>Watchlist</h4>
