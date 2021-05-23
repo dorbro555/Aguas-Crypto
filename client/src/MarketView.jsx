@@ -4,11 +4,10 @@ import PairButtons from './PairButtons'
 import WatchList from './watchlist'
 import AlertsList from './AlertsList'
 import CreditsNotification from './CreditsNotification'
-import Sidebar from './Sidebar'
 
 class MarketView extends Component {
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = {
       data: [],
       activePair:'',
@@ -43,25 +42,22 @@ class MarketView extends Component {
     let alerts = this.state.data.alerts || []
     return(
       <div>
-        <Sidebar onClickWatchlist={() => {this.setState({showWatchlist: !this.state.showWatchlist, showAlertsList: false})}}
-                 onClickAlertsList={() => {this.setState({showAlertsList: !this.state.showAlertsList, showWatchlist: false})}}
-          />
         <div className='columns is-gapless'>
-          {this.state.showWatchlist &&
+          <div className={this.props.watchListVisible || this.props.alertsListVisible ? 'column is-10' : 'column is-12'}>
+            <Charts activePair={this.state.activePair} windows={this.state.data.windows}/>
+            {this.state.data.allowance && <CreditsNotification allowance={this.state.data.allowance} visible={this.state.showCreditsNotification} handleClick={this.toggleCreditsNotification}/>}
+          </div>
+          {this.props.watchListVisible &&
             <div className='column is-2'>
-                <WatchList onClick={this.setActivePair}/>
+              <WatchList onClick={this.setActivePair}/>
             </div>
           }
           {
-            this.state.showAlertsList &&
+            this.props.alertsListVisible &&
             <div className='column is-2'>
               <AlertsList alerts={alerts} close={() => {this.setState({showAlertsList: !this.state.showAlertsList, showWatchlist: false})}}/>
             </div>
           }
-          <div className={this.state.showWatchlist || this.state.showAlertsList ? 'column is-10' : 'column is-12'}>
-            <Charts activePair={this.state.activePair} windows={this.state.data.windows}/>
-            {this.state.data.allowance && <CreditsNotification allowance={this.state.data.allowance} visible={this.state.showCreditsNotification} handleClick={this.toggleCreditsNotification}/>}
-          </div>
         </div>
       </div>
     )

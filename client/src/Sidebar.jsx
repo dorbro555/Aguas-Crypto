@@ -2,7 +2,7 @@
 const Sidebar = ({onClickWatchlist, onClickAlertsList}) => {
 
   return(
-    <div className="sidebar has-background-dark">
+    <div className="sidebar has-background-dark is-hidden-touch">
       <div className='columns'>
         <div className='column'>
           <div className='menu mt-6'>

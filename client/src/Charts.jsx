@@ -14,19 +14,17 @@ class Charts extends Component {
     const moderateRange = ['7200', '14400', '21600']
     const LongRange = ['43200', '86400', '259200']
     return(
-      <div>
-        {
-          this.props.windows &&
-          <div className='columns is-multiline'>
+        <div className='columns is-multiline'>
+          {
+            this.props.windows &&
             <div className='column is-12'>
               <ChartsRangeButton range={volatileRange} title={'Volatile Range'} windows={this.props.windows} activePair={this.props.activePair}/>
               <ChartsRangeButton range={shortRange} title={'Short Range'} windows={this.props.windows} activePair={this.props.activePair} isToggled={true}/>
               <ChartsRangeButton range={moderateRange} title={'Intermediary Range'} windows={this.props.windows} activePair={this.props.activePair}/>
               <ChartsRangeButton range={LongRange} title={'Long Range'} windows={this.props.windows} activePair={this.props.activePair}/>
             </div>
-          </div>
-        }
-      </div>
+          }
+        </div>
     )
   }
 

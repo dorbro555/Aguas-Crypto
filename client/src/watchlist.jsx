@@ -6,7 +6,6 @@ const pairs = ['btc','eth','xrp','bch','ada', 'link','dash','eos',
               'fil','rep','omg','xlm','xmr','usdt','zec', 'doge']
 
   return(
-    <div className=''>
       <div className='buttons are-small has-text-white'>
         {pairs.map((pair, idx) => {
           return <button className='button is-dark'
@@ -16,7 +15,6 @@ const pairs = ['btc','eth','xrp','bch','ada', 'link','dash','eos',
                 </button>}
         )}
       </div>
-    </div>
   )
 }
 
