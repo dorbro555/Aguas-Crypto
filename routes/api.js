@@ -55,9 +55,22 @@ router
           return alertsList
         })
 
+        alertsShort = await client.zrevrange('wl:ema21over50:short', 0, 100).then((res) => {
+          var alertsList = []
+          res.forEach(str => {
+            var tokens = str.split(':')
+            alertsList.push({asset: tokens[0], tf: tokens[1], scan: tokens[2], time: parseInt(tokens[3])})
+          })
+          // console.log(alertsList.filter(alert => alert.asset === 'eth'))
+          return alertsList
+        })
+
         res.json({
           windows: Object.fromEntries(windows),
-          alerts: alertsLong,
+          alerts: {
+            alertsLong: alertsLong,
+            alertsShort: alertsShort
+          },
           allowance: req.rateLimit
         })
     		//=> '<!doctype html> ...'
