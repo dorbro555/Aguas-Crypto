@@ -36,41 +36,29 @@ router
         // scanning for crossvers and storing results in redis
         var watchlist = utils.populateWatchlist(Object.fromEntries(windows))
         watchlist.forEach(scan => {
-          let redisLongKey = 'wl:' + scan.type + ':long'
-              redisShortKey = 'wl:' + scan.type + ':short'
+          let redisKey = 'wl:' + scan.type
           scan.crossovers.forEach(crossover => {
-            let valueString = req.params.pair + ':' + scan.window + ':' + scan.type + ':' + crossover.x
-            client.zadd((crossover.color === utils.longColor ? redisLongKey : redisShortKey), crossover.x, valueString)
+            let valueString = req.params.pair + ':' + scan.window + ':' + scan.type + ':' + crossover.x + ':' + (crossover.color === utils.longColor ? 'long' : 'short')
+            client.zadd(redisKey, crossover.x, valueString)
           })
         })
         // we call the redis client for scans stored as strings, which we tokenize
         // to create and return and array of alert objects
-        alertsLong = await client.zrevrange('wl:ema21over50:long', 0, 100).then((res) => {
-          var alertsList = []
-          res.forEach(str => {
-            var tokens = str.split(':')
-            alertsList.push({asset: tokens[0], tf: tokens[1], scan: tokens[2], time: parseInt(tokens[3])})
-          })
-          // console.log(alertsList.filter(alert => alert.asset === 'eth'))
-          return alertsList
-        })
+        const scanTypes = ['wl:ema21over50', 'wl:ema50over100', 'wl:ema21over200', 'wl:emaPriceOver200']
 
-        alertsShort = await client.zrevrange('wl:ema21over50:short', 0, 100).then((res) => {
-          var alertsList = []
-          res.forEach(str => {
-            var tokens = str.split(':')
-            alertsList.push({asset: tokens[0], tf: tokens[1], scan: tokens[2], time: parseInt(tokens[3])})
+        const scans = await Promise.all(scanTypes.map(async (scan) => {
+          var alertsList = await client.zrevrange(scan, 0, 100).then(res => {
+            return res.map(str => {
+              var tokens = str.split(':')
+              return {asset: tokens[0], tf: tokens[1], scan: tokens[2], time: parseInt(tokens[3]), position: tokens[4]}
+            })
           })
-          // console.log(alertsList.filter(alert => alert.asset === 'eth'))
           return alertsList
-        })
+        }))
 
         res.json({
           windows: Object.fromEntries(windows),
-          alerts: {
-            alertsLong: alertsLong,
-            alertsShort: alertsShort
-          },
+          alerts: scans,
           allowance: req.rateLimit
         })
     		//=> '<!doctype html> ...'
