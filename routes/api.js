@@ -53,12 +53,12 @@ router
               return {asset: tokens[0], tf: tokens[1], scan: tokens[2], time: parseInt(tokens[3]), position: tokens[4]}
             })
           })
-          return alertsList
+          return [scan, alertsList]
         }))
 
         res.json({
           windows: Object.fromEntries(windows),
-          alerts: scans,
+          alerts: Object.fromEntries(scans),
           allowance: req.rateLimit
         })
     		//=> '<!doctype html> ...'
