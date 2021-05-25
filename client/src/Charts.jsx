@@ -14,7 +14,7 @@ class Charts extends Component {
     const moderateRange = ['7200', '14400', '21600']
     const LongRange = ['43200', '86400', '259200']
     return(
-        <div className='columns is-multiline'>
+        <div className='columns is-multiline mb-5'>
           {
             this.props.windows &&
             <div className='column is-12'>
