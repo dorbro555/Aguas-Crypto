@@ -22,8 +22,8 @@ class MarketView extends Component {
   setActivePair(pair){
     this.setState({
       data: [], //we must clear the data or the graph wont update
-      showWatchlist: false //hide watchlist after clicking an item
     })
+    this.props.closeWatchlist() //hide watchlist after clicking an item
     fetch(`https://www.ahernandez.dev/trade/api/ohlc/${pair}`)
     .then(res => res.json())
     .then(res => {
