@@ -10,13 +10,13 @@ const AlertsList = ({alerts, close, isMobile}) => {
       ema50over100Short = alerts['wl:ema50over100'].filter(scan => scan.position === 'short'),
       ema21over200Long = alerts['wl:ema21over200'].filter(scan => scan.position === 'long'),
       ema21over200Short = alerts['wl:ema21over200'].filter(scan => scan.position === 'short'),
-      emaPriceOver200Short = alerts['wl:emaPriceOver200'].filter(scan => scan.position === 'long'),
-      emaPriceOver200Long = alerts['wl:emaPriceOver200'].filter(scan => scan.position === 'short'),
+      PriceOver200Short = alerts['wl:priceOver200'].filter(scan => scan.position === 'long'),
+      PriceOver200Long = alerts['wl:priceOver200'].filter(scan => scan.position === 'short'),
       scanMap = {
         'ema21/ema50': [ema21over50Long,ema21over50Short],
         'ema50/ema100': [ema50over100Long,ema50over100Short],
         'ema21/ema200': [ema21over200Long,ema21over200Short],
-        'Price/ema200': [emaPriceOver200Long,emaPriceOver200Short],
+        'Price/ema200': [PriceOver200Long,PriceOver200Short],
       }
   const [currentScan, setCurrentScan] = useState([ema21over50Long,ema21over50Short])
   const [scans, setScans] = useState({

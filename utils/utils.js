@@ -23,8 +23,7 @@ function parseMarketData(data){
             ema21over50 = calculateEMAIndicators(ema21, ema50)
             ema21over200 = calculateEMAIndicators(ema21, ema200)
             ema50over100 = calculateEMAIndicators(ema50, ema100)
-            emaPriceOver200 = calculateEMAIndicators(ohlcs.map(dp => {return {x: dp[0]*1000, y: dp[4]}}).slice(-ema200.length),ema200)
-            ema200Crossover = scanEmasForCrossovers(emaPriceOver200)
+            priceOver200 = calculateEMAIndicators(ohlcs.map(dp => {return {x: dp[0]*1000, y: dp[4]}}).slice(-ema200.length),ema200)
 
         return {
           timeframe: key,
@@ -55,7 +54,7 @@ function parseMarketData(data){
             ema21over50: ema21over50,
             ema21over200: ema21over200,
             ema50over100: ema50over100,
-            emaPriceOver200: emaPriceOver200,
+            priceOver200: priceOver200,
           }
         }
       })

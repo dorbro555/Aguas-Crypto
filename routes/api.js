@@ -44,7 +44,7 @@ router
         })
         // we call the redis client for scans stored as strings, which we tokenize
         // to create and return and array of alert objects
-        const scanTypes = ['wl:ema21over50', 'wl:ema50over100', 'wl:ema21over200', 'wl:emaPriceOver200']
+        const scanTypes = ['wl:ema21over50', 'wl:ema50over100', 'wl:ema21over200', 'wl:priceOver200']
 
         const scans = await Promise.all(scanTypes.map(async (scan) => {
           var alertsList = await client.zrevrange(scan, 0, 100).then(res => {
