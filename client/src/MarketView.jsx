@@ -9,7 +9,7 @@ class MarketView extends Component {
   constructor(props){
     super(props);
     this.state = {
-      data: [],
+      data: {},
       activePair:'',
       showCreditsNotification: false,
       showWatchlist: false,
@@ -39,27 +39,30 @@ class MarketView extends Component {
   }
 
   render(){
-    let alerts = this.state.data.alerts || []
     return(
-        <div className='columns is-gapless is-clipped'>
-          {!this.props.hideChart &&
-            <div className={this.props.watchListVisible || this.props.alertsListVisible ? 'column is-10' : 'column is-12'}>
-              <Charts activePair={this.state.activePair} windows={this.state.data.windows}/>
-            </div>
-          }
-          {this.state.data.allowance && <CreditsNotification allowance={this.state.data.allowance} visible={this.state.showCreditsNotification} handleClick={this.toggleCreditsNotification}/>}
-          {this.props.watchListVisible &&
-            <div className='column is-2'>
-              <WatchList onClick={this.setActivePair} close={this.props.closeWatchlist} isMobile={this.props.hideChart}/>
-            </div>
-          }
-          {
-            this.props.alertsListVisible &&
-            <div className='column is-2'>
-              <AlertsList alerts={alerts} close={this.props.closeAlertsList} isMobile={this.props.hideChart}/>
-            </div>
-          }
-        </div>
+        <div>
+          { !!this.state.data ? <div className='columns is-gapless is-clipped'>
+            {!this.props.hideChart &&
+              <div className={this.props.watchListVisible || this.props.alertsListVisible ? 'column is-10' : 'column is-12'}>
+                <Charts activePair={this.state.activePair} windows={this.state.data.windows}/>
+              </div>
+            }
+            {this.state.data.allowance && <CreditsNotification allowance={this.state.data.allowance} visible={this.state.showCreditsNotification} handleClick={this.toggleCreditsNotification}/>}
+            {this.props.watchListVisible &&
+              <div className='column is-2'>
+                <WatchList onClick={this.setActivePair} close={this.props.closeWatchlist} isMobile={this.props.hideChart}/>
+              </div>
+            }
+            {
+              this.props.alertsListVisible &&
+              <div className='column is-2'>
+                <AlertsList alerts={this.state.data.alerts} onClick={this.setActivePair} close={this.props.closeAlertsList} isMobile={this.props.hideChart}/>
+              </div>
+            }
+          </div>
+          : <div>Loading</div>
+        }
+      </div>
     )
   }
 
