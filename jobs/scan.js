@@ -21,6 +21,10 @@ let analyzeMarket = async (asset) => {
     let candles = JSON.parse(response.body),
         results = candles.result
         windows = utils.parseMarketData(results)
+<<<<<<< HEAD
+=======
+        windows = utils.parseMarketData(response)
+>>>>>>> dad0a2a1bb169ced412b3ddfdf54f2f9bc9e0848
         alertsLong = []
     windows = windows.map(dp => {
       return [dp.timeframe, dp]
