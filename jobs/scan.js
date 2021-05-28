@@ -16,9 +16,12 @@ const client = new Redis({
 
 let analyzeMarket = async (asset) => {
   try {
-    // const response = await got(`https://api.cryptowat.ch/markets/kraken/${asset}usd/ohlc`);
-    const response = await cwClient.getOHLC('kraken', `${asset}usd`)
-    let windows = utils.parseMarketData(response)
+    const response = await got(`https://api.cryptowat.ch/markets/kraken/${asset}usd/ohlc`);
+    // const response = await cwClient.getOHLC('kraken', `${asset}usd`)
+    let candles = JSON.parse(response.body),
+        results = candles.result
+        windows = utils.parseMarketData(results)
+        windows = utils.parseMarketData(response)
         alertsLong = []
     windows = windows.map(dp => {
       return [dp.timeframe, dp]
