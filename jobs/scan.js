@@ -43,8 +43,8 @@ let analyzeMarket = async (asset) => {
 }
   const assets = [
     'btc','eth',
-    // 'bch', 'ada','link','dash','eos',
-    // 'ltc','dot','xtz','trx','algo','atom'
+    'bch', 'ada','link','dash','eos',
+    'ltc','dot','xtz','trx','algo','atom'
               ]
 
 //Begin runtime

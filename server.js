@@ -6,6 +6,8 @@ const got = require('got');
 const expressSession = require('express-session')
 const passport = require('passport');
 const auth0Strategy = require('passport-auth0');
+const util = require('util')
+const { spawn } = require('child_process')
 require("dotenv").config();
 
 // const { RESTClient } = require('cw-sdk-node')
@@ -13,18 +15,11 @@ const utils = require('./utils/utils');
 const apiRoutes = require('./routes/api')
 const authRoutes = require('./routes/auth')
 
-
-
 const app = express();
 const port = process.env.PORT || 5000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-//
-// const client = new RESTClient({
-//   creds: {
-//     apiKey: "NPB0Z2I1QFUJQZ7JYA0C" // your cw api key
-//   }
-// });
+
 
 const session = {
   secret: process.env.SESSION_SECRET,
@@ -58,6 +53,51 @@ const strategy = new auth0Strategy(
   }
 )
 
+// setImmediatePromise(setTimeout(()=>5, 8000)).then((val) => {console.log('scanning done!: ' + val)})
+
+// async function runJobs(){
+//   let theval = await setImmediatePromise(analyzeMarket('btc'))
+//   console.log('Initial scan finished!: ' + theval)
+//   setInterval(console.log, 2000, 'ada')
+// }
+// runJobs()
+setImmediate(() => {
+  const child = spawn('node', ['jobs/scan.js'])
+  child.stdout.on('data', data => {
+    console.log(`stdout:\n${data}`);
+  });
+
+  child.stderr.on('data', data => {
+    console.error(`stderr: ${data}`);
+  });
+
+  child.on('error', (error) => {
+    console.error(`error: ${error.message}`);
+  });
+
+  child.on('close', (code) => {
+    console.log(`child process exited with code ${code}`);
+  });
+})
+setInterval(() => {
+
+  const child = spawn('node', ['jobs/scan.js'])
+  child.stdout.on('data', data => {
+    console.log(`stdout:\n${data}`);
+  });
+
+  child.stderr.on('data', data => {
+    console.error(`stderr: ${data}`);
+  });
+
+  child.on('error', (error) => {
+    console.error(`error: ${error.message}`);
+  });
+
+  child.on('close', (code) => {
+    console.log(`child process exited with code ${code}`);
+  });
+}, 1800000)
 
 app.use(express.static(path.join(__dirname, "client", "build")))
 
