@@ -1,17 +1,19 @@
-import {formateTimeFrame} from './utils'
 import React, { useState } from 'react'
+import Alert from './Alert'
+import {formateTimeFrame} from './utils'
 
-const AlertsList = ({alerts, close, isMobile}) => {
+const AlertsList = ({alerts, close, isMobile, onClick}) => {
   const [showLong, setShowLong] = useState(true)
   const scanTypes = ['ema21/ema50', 'ema50/ema100', 'ema21/ema200', 'Price/ema200']
+  const rangeTypes = ['volatile', 'short', 'intermediary', 'long', 'all']
   let ema21over50Long = alerts['wl:ema21over50'].filter(scan => scan.position === 'long'),
       ema21over50Short = alerts['wl:ema21over50'].filter(scan => scan.position === 'short'),
       ema50over100Long= alerts['wl:ema50over100'].filter(scan => scan.position === 'long'),
       ema50over100Short = alerts['wl:ema50over100'].filter(scan => scan.position === 'short'),
       ema21over200Long = alerts['wl:ema21over200'].filter(scan => scan.position === 'long'),
       ema21over200Short = alerts['wl:ema21over200'].filter(scan => scan.position === 'short'),
-      PriceOver200Short = alerts['wl:priceOver200'].filter(scan => scan.position === 'long'),
-      PriceOver200Long = alerts['wl:priceOver200'].filter(scan => scan.position === 'short'),
+      PriceOver200Long = alerts['wl:priceOver200'].filter(scan => scan.position === 'long'),
+      PriceOver200Short = alerts['wl:priceOver200'].filter(scan => scan.position === 'short'),
       scanMap = {
         'ema21/ema50': [ema21over50Long,ema21over50Short],
         'ema50/ema100': [ema50over100Long,ema50over100Short],
@@ -19,6 +21,7 @@ const AlertsList = ({alerts, close, isMobile}) => {
         'Price/ema200': [PriceOver200Long,PriceOver200Short],
       }
   const [currentScan, setCurrentScan] = useState([ema21over50Long,ema21over50Short])
+  const [range, setRange] = useState('all')
   const [scans, setScans] = useState({
     'ema21/ema50' : ema21over50Long
   })
@@ -34,7 +37,7 @@ const AlertsList = ({alerts, close, isMobile}) => {
             </div>
           </div>
           <div className='level-right'>
-            <div classNam='level-item'>
+            <div className='level-item'>
               <span className='icon is-clickable' onClick={close}>
                 <i class="fas fa-window-close has-text-white is-size-4 mt-1"></i>
               </span>
@@ -66,35 +69,7 @@ const AlertsList = ({alerts, close, isMobile}) => {
 
     {(showLong ? currentScan[0] : currentScan[1]).map((alert, idx) => {
       return(
-        <div className='alert column is-12'>
-        <div className={`card has-background-${showLong?'success':'danger'}-light has-text-${showLong?'success':'danger'}-dark is-unselectable`}>
-          <div className='card-content'>
-            <div className='media my-0'>
-              <div className='media-content'>
-                <div className='level has-text-weight-semibold'>
-                  <div className='level-left'>
-                    <div className='level-item'>
-                      {alert.asset}
-                    </div>
-                  </div>
-                  <div className='level-right'>
-                    <time className='level-item is-size-7'>
-                      {new Date(alert.time).toLocaleString('en-US')}
-                    </time>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className='level'>
-              <div className='level-left'>
-                <div className='level-item is-size-7'>
-                  {alert.scan} [{formateTimeFrame(alert.tf)}]
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        <Alert alert={alert} onClick={onClick} isLong={showLong} />
       )
     })}
   </div>
