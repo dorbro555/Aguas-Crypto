@@ -25,7 +25,7 @@ router
   .get('/ohlc/:pair', (req, res) => {
     (async () => {
     	try {
-    		const response = await got(`https://api.cryptowat.ch/markets/kraken/${req.params.pair}usd/ohlc`);
+        const response = await got(`https://api.cryptowat.ch/markets/kraken/${req.params.pair}usd/ohlc?apikey=${process.env.API_KEY}`);
         let candles = JSON.parse(response.body),
             results = candles.result
             windows = utils.parseMarketData(results)

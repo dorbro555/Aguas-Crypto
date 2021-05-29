@@ -2,12 +2,6 @@ const got = require('got');
 const utils = require('../utils/utils');
 require('dotenv').config()
 
-const { RESTClient } = require('cw-sdk-node')
-const cwClient = new RESTClient({
-  creds: {
-    apiKey: process.env.API_KEY // your cw api key
-  }
-});
 const Redis = require('ioredis')
 const client = new Redis({
   port: process.env.DB_PORT,
@@ -16,7 +10,7 @@ const client = new Redis({
 
 let analyzeMarket = async (asset) => {
   try {
-    const response = await got(`https://api.cryptowat.ch/markets/kraken/${asset}usd/ohlc`);
+    const response = await got(`https://api.cryptowat.ch/markets/kraken/${asset}usd/ohlc?apikey=${process.env.API_KEY}`);
     // const response = await cwClient.getOHLC('kraken', `${asset}usd`)
     let candles = JSON.parse(response.body),
         results = candles.result
