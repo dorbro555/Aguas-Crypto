@@ -47,7 +47,7 @@ router
         const scanTypes = ['wl:ema21over50', 'wl:ema50over100', 'wl:ema21over200', 'wl:priceOver200']
 
         const scans = await Promise.all(scanTypes.map(async (scan) => {
-          var alertsList = await client.zrevrange(scan, 0, 100).then(res => {
+          var alertsList = await client.zrevrange(scan, 0, -1).then(res => {
             return res.map(str => {
               var tokens = str.split(':')
               return {asset: tokens[0], tf: tokens[1], scan: tokens[2], time: parseInt(tokens[3]), position: tokens[4]}

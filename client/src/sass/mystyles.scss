@@ -1,4 +1,11 @@
 @charset "utf-8";
+// import the two below to work with bulmas initial variables and functions
+@import "../../node_modules/bulma/sass/utilities/initial-variables";
+@import "../../node_modules/bulma/sass/utilities/functions";
+
+//import the bottom to alter the $colors map
+@import "../../node_modules/bulma/sass/utilities/derived-variables";
+
 @import "../../node_modules/bulma/bulma.sass";
 
 html, body {
@@ -34,4 +41,13 @@ body {
   overflow: scroll;
   height: 100vh;
   z-index: 1;
+}
+
+.asset-alerts-list{
+  overflow: scroll;
+  height: 100vh;
+}
+
+.alert {
+  border-color: hsl(141, 71%, 48%);
 }
