@@ -5,15 +5,7 @@ import {formateTimeFrame} from './utils'
 const AlertsList = ({alerts, close, onClick}) => {
   const scanTypes = ['ema21/ema50', 'ema50/ema100', 'ema21/ema200', 'Price/ema200']
   const rangeTypes = ['volatile', 'short', 'intermediary', 'long', 'all']
-  let ema21over50Long = alerts['wl:ema21over50'].filter(scan => scan.position === 'long'),
-      ema21over50Short = alerts['wl:ema21over50'].filter(scan => scan.position === 'short'),
-      ema50over100Long= alerts['wl:ema50over100'].filter(scan => scan.position === 'long'),
-      ema50over100Short = alerts['wl:ema50over100'].filter(scan => scan.position === 'short'),
-      ema21over200Long = alerts['wl:ema21over200'].filter(scan => scan.position === 'long'),
-      ema21over200Short = alerts['wl:ema21over200'].filter(scan => scan.position === 'short'),
-      PriceOver200Long = alerts['wl:priceOver200'].filter(scan => scan.position === 'long'),
-      PriceOver200Short = alerts['wl:priceOver200'].filter(scan => scan.position === 'short'),
-      alertFilter = (alerts) => {
+  let alertFilter = (alerts) => {
         let assets = new Map(),
             ema21over50 = alerts.map(scan => {
               assets.has(scan.asset)

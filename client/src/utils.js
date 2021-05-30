@@ -1,7 +1,7 @@
 function formateTimeFrame(seconds){
   let newTime = seconds /60,
-      unit = ' mins'
-  if (newTime > 60) {newTime /= 60; unit = ' hours'}
+      unit = 'M'
+  if (newTime > 60) {newTime /= 60; unit = 'H'}
   return newTime + unit
 }
 

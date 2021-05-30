@@ -5,7 +5,7 @@ const Alert = ({alerts, onClick}) => {
       recentAlerts = alerts.slice(0, 4) || alerts.slice(0, alerts.len-1)
 
   return(
-    <div className='alert column is-12' onClick={() => {onClick(alert.asset)}}>
+    <div className='alert column is-12' onClick={() => {onClick(alerts)}}>
       <div className={`card has-background-dark has-text-light is-unselectable`}>
         <div className='card-content'>
           <div className='media my-0'>
