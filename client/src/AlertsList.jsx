@@ -3,7 +3,6 @@ import Alert from './Alert'
 import {formateTimeFrame} from './utils'
 
 const AlertsList = ({alerts, close, isMobile, onClick}) => {
-  const [showLong, setShowLong] = useState(true)
   const scanTypes = ['ema21/ema50', 'ema50/ema100', 'ema21/ema200', 'Price/ema200']
   const rangeTypes = ['volatile', 'short', 'intermediary', 'long', 'all']
   let ema21over50Long = alerts['wl:ema21over50'].filter(scan => scan.position === 'long'),
@@ -14,18 +13,27 @@ const AlertsList = ({alerts, close, isMobile, onClick}) => {
       ema21over200Short = alerts['wl:ema21over200'].filter(scan => scan.position === 'short'),
       PriceOver200Long = alerts['wl:priceOver200'].filter(scan => scan.position === 'long'),
       PriceOver200Short = alerts['wl:priceOver200'].filter(scan => scan.position === 'short'),
+      alertFilter = (alerts) => {
+        let assets = new Map(),
+            ema21over50 = alerts.map(scan => {
+              assets.has(scan.asset)
+                ? assets.set(scan.asset, assets.get(scan.asset).concat([scan]))
+                : assets.set(scan.asset, [scan])
+            })
+        return assets
+      },
+      ema21over50 = [...alertFilter(alerts['wl:ema21over50']).values()],
+      ema50over100 = [...alertFilter(alerts['wl:ema50over100']).values()],
+      ema21over200 = [...alertFilter(alerts['wl:ema21over200']).values()],
+      priceOver200 = [...alertFilter(alerts['wl:priceOver200']).values()],
       scanMap = {
-        'ema21/ema50': [ema21over50Long,ema21over50Short],
-        'ema50/ema100': [ema50over100Long,ema50over100Short],
-        'ema21/ema200': [ema21over200Long,ema21over200Short],
-        'Price/ema200': [PriceOver200Long,PriceOver200Short],
+        'ema21/ema50': ema21over50,
+        'ema50/ema100': ema50over100,
+        'ema21/ema200': ema21over200,
+        'Price/ema200': priceOver200,
       }
-  const [currentScan, setCurrentScan] = useState([ema21over50Long,ema21over50Short])
+  const [currentScan, setCurrentScan] = useState(ema21over50)
   const [range, setRange] = useState('all')
-  const [scans, setScans] = useState({
-    'ema21/ema50' : ema21over50Long
-  })
-
   return(
     !!alerts &&
     <div className={'alert-list columns is-multiline is-gapless' + (isMobile ? ' is-overlay' : '')}>
@@ -48,7 +56,7 @@ const AlertsList = ({alerts, close, isMobile, onClick}) => {
 
       <div className='column is-12 has-background-dark'>
         {scanTypes.map((scan, idx) => {
-          return  <div className=''>
+          return  <div className='' key={idx}>
                     <label className='checkbox has-text-white is-size-7 is-unselectable'
                            onClick={() => setCurrentScan(scanMap[scan])}>
                       <input type='checkbox'></input>
@@ -58,18 +66,9 @@ const AlertsList = ({alerts, close, isMobile, onClick}) => {
           })}
       </div>
 
-      <div className='buttons are-small mb-1 has-background-dark'>
-        <div className='button is-success' onClick={() => {setShowLong(true)}}>
-          long
-        </div>
-        <div className='button is-danger' onClick={() => {setShowLong(false)}}>
-          short
-        </div>
-      </div>
-
-    {(showLong ? currentScan[0] : currentScan[1]).map((alert, idx) => {
+    {currentScan.map((alerts, idx) => {
       return(
-        <Alert alert={alert} onClick={onClick} isLong={showLong} />
+        <Alert alerts={alerts} onClick={onClick} key={idx}/>
       )
     })}
   </div>

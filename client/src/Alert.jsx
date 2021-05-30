@@ -1,10 +1,12 @@
 import {formateTimeFrame} from './utils'
 
-const Alert = ({alert, onClick, isLong}) => {
+const Alert = ({alerts, onClick}) => {
+  let alert = alerts[0],
+      recentAlerts = alerts.slice(0, 4) || alerts.slice(0, alerts.len-1)
 
   return(
     <div className='alert column is-12' onClick={() => {onClick(alert.asset)}}>
-      <div className={`card has-background-${isLong?'success':'danger'}-light has-text-${isLong?'success':'danger'}-dark is-unselectable`}>
+      <div className={`card has-background-dark has-text-light is-unselectable`}>
         <div className='card-content'>
           <div className='media my-0'>
             <div className='media-content'>
@@ -14,21 +16,27 @@ const Alert = ({alert, onClick, isLong}) => {
                     {alert.asset}
                   </div>
                 </div>
+
+              </div>
+            </div>
+          </div>
+
+          {
+            recentAlerts.map((alert, idx) =>
+              <div className={`level my-0 has-text-${alert.position==='long' ?'success':'danger'}`} key={idx}>
+                <div className='level-left'>
+                  <div className='level-item is-size-7'>
+                    {alert.scan} [{formateTimeFrame(alert.tf)}]
+                  </div>
+                </div>
                 <div className='level-right'>
-                  <time className='level-item is-size-7'>
-                    {new Date(alert.time).toLocaleString('en-US')}
+                  <time className='level-item is-size-7 has-text-weight-semibold'>
+                    {new Date(alert.time).toLocaleTimeString('en-US')}
                   </time>
                 </div>
               </div>
-            </div>
-          </div>
-          <div className='level'>
-            <div className='level-left'>
-              <div className='level-item is-size-7'>
-                {alert.scan} [{formateTimeFrame(alert.tf)}]
-              </div>
-            </div>
-          </div>
+            )
+          }
         </div>
       </div>
     </div>

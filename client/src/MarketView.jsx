@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import Charts from './Charts'
 import PairButtons from './PairButtons'
 import WatchList from './watchlist'
-import AlertsList from './AlertsList'
+import Alerts from './Alerts'
 import CreditsNotification from './CreditsNotification'
 
 class MarketView extends Component {
@@ -56,7 +56,7 @@ class MarketView extends Component {
             {
               this.props.alertsListVisible &&
               <div className='column is-2'>
-                <AlertsList alerts={this.state.data.alerts} onClick={this.setActivePair} close={this.props.closeAlertsList} isMobile={this.props.hideChart}/>
+                <Alerts alerts={this.state.data.alerts} close={this.props.closeAlertsList} isMobile={this.props.hideChart}/>
               </div>
             }
           </div>
