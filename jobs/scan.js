@@ -15,7 +15,7 @@ let analyzeMarket = async (asset) => {
     let candles = JSON.parse(response.body),
         results = candles.result
         windows = utils.parseMarketData(results)
-        alertsLong = []
+        scanTypes = new Set()
     windows = windows.map(dp => {
       return [dp.timeframe, dp]
     })
@@ -26,9 +26,22 @@ let analyzeMarket = async (asset) => {
         let redisKey = 'wl:' + scan.type
         scan.crossovers.forEach(async crossover => {
             let valueString = asset + ':' + scan.window + ':' + scan.type + ':' + crossover.x + ':' + (crossover.color === utils.longColor ? 'long' : 'short')
+            //record scans type
+            scanTypes.add(scan.type)
             //run redis sorted set add
             await client.zadd(redisKey, crossover.x, valueString)
       })
+    })
+    // checks if sets are above certain length and truncates them
+    scanTypes.forEach(async type => {
+      let scanKey = 'wl:' + type,
+          length = await client.zcard(scanKey)
+      if(length > 500){
+        await client.zremrangebyrank(scanKey, 0, -201)
+      }
+      console.log(scanKey + ':' + length)
+
+
     })
     console.log('ok')
   } catch(err) {
@@ -47,7 +60,6 @@ let analyzeMarket = async (asset) => {
 //declare an asynchronous arrow function to analyze the market, and run it
 ;(async () => {
   Promise.all(assets.map(asset => {
-    console.log('now scanning ' + asset + '...')
     console.log(analyzeMarket(asset))
   }))
 })()

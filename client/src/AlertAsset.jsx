@@ -11,7 +11,7 @@ const AlertAssetPage = ({assets, close, back}) => {
           <div className='level-left'>
             <div className='level-item'>
               <span className='icon is-clickable' onClick={back}>
-                <i class="fas fa-chevron-left has-text-white is-size-4 mr-1"></i>
+                <i className="fas fa-chevron-left has-text-white is-size-4 mr-1"></i>
               </span>
               <h4 className='title is-4 has-text-white'>Alerts</h4>
             </div>
