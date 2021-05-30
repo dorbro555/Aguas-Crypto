@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
+import {formateTimeFrame} from './utils'
 
-const AlertAsset = ({close, back}) => {
-
+const AlertAssetPage = ({assets, close, back}) => {
+  console.log(assets)
   return(
+    !!assets &&
     <div>
       <div className='column is-12 has-background-dark'>
         <div className='level is-mobile mx-2'>
@@ -22,14 +24,37 @@ const AlertAsset = ({close, back}) => {
             </div>
           </div>
         </div>
+        <div className='title has-text-light'>{assets[0].asset.toUpperCase()}</div>
 
-        <div>
-
-        </div>
+        {assets.map((asset, idx) =>
+          <div className={`card has-background-${asset.position==='long'?'success':'danger'}-light has-text-${asset.position==='long'?'success':'danger'}-dark is-unselectable`} key={idx}>
+            <div className='card-content'>
+              <div className='media my-0'>
+                <div className='media-content'>
+                  <div className='level has-text-weight-semibold'>
+                    <div className='level-right'>
+                      <time className='level-item is-size-7'>
+                        {new Date(asset.time).toLocaleString('en-US')}
+                      </time>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className='level'>
+                <div className='level-left'>
+                  <div className='level-item is-size-7'>
+                    {asset.scan} [{formateTimeFrame(asset.tf)}]
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+      }
       </div>
 
     </div>
   )
 }
 
-export default AlertAsset
+export default AlertAssetPage
