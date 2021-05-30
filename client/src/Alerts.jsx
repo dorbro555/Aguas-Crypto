@@ -7,10 +7,11 @@ const Alerts = ({ alerts, close, isMobile}) => {
   const [asset, setAsset] = useState(null)
 
   return(
-    <div>
+    !!alerts &&
+    <div className={'' + (isMobile ? ' is-overlay' : '')}>
       {
-        listVisible ? <AlertsList alerts={alerts} onClick={asset => {setAsset(asset); setListVisible(false)}} close={close} isMobile={isMobile}/>
-      : <AlertAsset close={close} back={() => {setListVisible(true)}}/>
+        listVisible ? <AlertsList alerts={alerts} onClick={asset => {setAsset(asset); setListVisible(false)}} close={close}/>
+      : <AlertAsset asset={asset} close={close} back={() => {setListVisible(true)}}/>
       }
     </div>
   )

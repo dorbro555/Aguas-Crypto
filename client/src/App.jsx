@@ -29,8 +29,8 @@ function App() {
           <Sidebar onClickWatchlist={() => {setWatchListVisible(!watchListVisible); setAlertsListVisible(false)}}
                     onClickAlertsList={() => {setAlertsListVisible(!alertsListVisible); setWatchListVisible(false)}}/>
         </div>
-        <TabBar onClickWatchlist={() => {setWatchListVisible(!watchListVisible); setMobile(false)}}
-                 onClickAlertsList={() => {setAlertsListVisible(!alertsListVisible); setMobile(false)}}
+        <TabBar onClickWatchlist={() => {setWatchListVisible(!watchListVisible); setMobile(!isMobile)}}
+                 onClickAlertsList={() => {setAlertsListVisible(!alertsListVisible); setMobile(!isMobile)}}
           />
       </div>
   );

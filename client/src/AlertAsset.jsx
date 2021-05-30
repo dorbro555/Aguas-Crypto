@@ -22,7 +22,12 @@ const AlertAsset = ({close, back}) => {
             </div>
           </div>
         </div>
+
+        <div>
+
+        </div>
       </div>
+
     </div>
   )
 }

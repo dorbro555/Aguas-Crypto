@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Alert from './Alert'
 import {formateTimeFrame} from './utils'
 
-const AlertsList = ({alerts, close, isMobile, onClick}) => {
+const AlertsList = ({alerts, close, onClick}) => {
   const scanTypes = ['ema21/ema50', 'ema50/ema100', 'ema21/ema200', 'Price/ema200']
   const rangeTypes = ['volatile', 'short', 'intermediary', 'long', 'all']
   let ema21over50Long = alerts['wl:ema21over50'].filter(scan => scan.position === 'long'),
@@ -36,7 +36,7 @@ const AlertsList = ({alerts, close, isMobile, onClick}) => {
   const [range, setRange] = useState('all')
   return(
     !!alerts &&
-    <div className={'alert-list columns is-multiline is-gapless' + (isMobile ? ' is-overlay' : '')}>
+    <div className='alert-list columns is-multiline is-gapless'>
       <div className='column is-12 has-background-dark'>
         <div className='level is-mobile mx-2'>
           <div className='level-left'>

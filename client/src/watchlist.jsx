@@ -6,7 +6,7 @@ const pairs = ['btc','eth','xrp','bch','ada', 'link','dash','eos',
               'fil','rep','omg','xlm','xmr','usdt','zec', 'doge']
 
   return(
-    <div className={'has-background-dark' + (props.isMobile ? ' is-overlay' : '')}>
+    <div className='has-background-dark'>
         <div className='level is-mobile mx-2'>
           <div className='level-left'>
             <div className='level-item'>
