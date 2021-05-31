@@ -21,8 +21,8 @@ class ChartsRangeButton extends Component {
   render(){
 
     return(
-      <div>
-        <div className='button is-fullwidth is-primary has-text-white' onClick={this.handleClick}>
+      <div className='chart-range-button'>
+        <div className='button is-fullwidth is-dark has-text-white' onClick={this.handleClick}>
           {this.props.title}
         </div>
         {this.state.isToggled &&

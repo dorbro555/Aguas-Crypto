@@ -2,7 +2,7 @@
 const TabBar = ({onClickWatchlist, onClickAlertsList}) => {
 
   return (
-    <div className='tabs mb-0 tab-bar is-fullwidth has-background-dark is-hidden-desktop'>
+    <div className='tabs mb-0 tab-bar is-fullwidth has-background-primary is-hidden-desktop'>
       <ul>
         <li><a onClick={onClickWatchlist}>
           <span className='icon'>

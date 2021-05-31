@@ -54,5 +54,15 @@ body {
 .alert {
   border-bottom-style: solid;
   border-width: thin;
-  border-color: white;
+  border-color: #dc9651;
+}
+
+.chart-range-button {
+  border-bottom-style: solid;
+  border-width: thin;
+  border-color: #dc9651;
+}
+
+.chart-range-button:hover {
+  color: #235a67
 }
