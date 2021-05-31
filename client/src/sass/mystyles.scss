@@ -4,8 +4,12 @@
 @import "../../node_modules/bulma/sass/utilities/functions";
 
 //import the bottom to alter the $colors map
-@import "../../node_modules/bulma/sass/utilities/derived-variables";
-
+// @import "../../node_modules/bulma/sass/utilities/derived-variables";
+$primary: #235a67;
+$success: #73d963;
+$danger: #a43d68;
+$dark: #2a2438;
+$white: #dc9651;
 @import "../../node_modules/bulma/bulma.sass";
 
 html, body {
@@ -13,9 +17,8 @@ html, body {
 }
 
 body {
-  background-color: #4a4a4a;
+  background-color:#2a2438;
 }
-
 
 .title-bar {
   background: linear-gradient(to right top, #4f6e6a, #d9f8fd);
@@ -49,5 +52,7 @@ body {
 }
 
 .alert {
-  border-color: hsl(141, 71%, 48%);
+  border-bottom-style: solid;
+  border-width: thin;
+  border-color: white;
 }

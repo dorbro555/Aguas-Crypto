@@ -33,7 +33,7 @@ const AlertsList = ({alerts, close, onClick}) => {
         <div className='level is-mobile mx-2'>
           <div className='level-left'>
             <div className='level-item'>
-              <h4 className='title is-4 has-text-white'>Alerts</h4>
+              <h4 className='title is-4 has-text-white is-unselectable'>Alerts</h4>
             </div>
           </div>
           <div className='level-right'>

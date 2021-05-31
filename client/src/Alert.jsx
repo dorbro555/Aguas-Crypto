@@ -6,7 +6,7 @@ const Alert = ({alerts, onClick}) => {
 
   return(
     <div className='alert column is-12' onClick={() => {onClick(alerts)}}>
-      <div className={`card has-background-dark has-text-light is-unselectable`}>
+      <div className={`card has-background-dark has-text-white is-unselectable`}>
         <div className='card-content'>
           <div className='media my-0'>
             <div className='media-content'>

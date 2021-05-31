@@ -10,7 +10,7 @@ const pairs = ['btc','eth','xrp','bch','ada', 'link','dash','eos',
         <div className='level is-mobile mx-2'>
           <div className='level-left'>
             <div className='level-item'>
-              <h4 className='title is-4 has-text-white'>Watchlist</h4>
+              <h4 className='title is-4 has-text-white is-unselectable'>Watchlist</h4>
             </div>
           </div>
           <div className='level-right'>
@@ -23,7 +23,7 @@ const pairs = ['btc','eth','xrp','bch','ada', 'link','dash','eos',
         </div>
       <div className='buttons are-small has-text-white'>
         {pairs.map((pair, idx) => {
-          return <button className='button is-dark'
+          return <button className='button is-dark has-text-white'
                           onClick={() => props.onClick(pair)}
                           key={idx}>
             {pair.toUpperCase()}

@@ -13,7 +13,7 @@ const AlertAssetPage = ({assets, close, back}) => {
               <span className='icon is-clickable' onClick={back}>
                 <i className="fas fa-chevron-left has-text-white is-size-4 mr-1"></i>
               </span>
-              <h4 className='title is-4 has-text-white'>Alerts</h4>
+              <h4 className='title is-4 has-text-white is-unselectable'>Alerts</h4>
             </div>
           </div>
           <div className='level-right'>
@@ -24,11 +24,11 @@ const AlertAssetPage = ({assets, close, back}) => {
             </div>
           </div>
         </div>
-        <div className='title has-text-light'>{assets[0].asset.toUpperCase()}</div>
+        <div className='title has-text-white'>{assets[0].asset.toUpperCase()}</div>
 
         <div className='asset-alerts-list'>
           {assets.map((asset, idx) =>
-            <div className={`card has-background-${asset.position==='long'?'success':'danger'}-light has-text-${asset.position==='long'?'success':'danger'}-dark is-unselectable`} key={idx}>
+            <div className={`alert card has-background-dark has-text-${asset.position==='long'?'success':'danger'} is-unselectable`} key={idx}>
               <div className='card-content'>
                 <div className='media my-0'>
                   <div className='media-content'>

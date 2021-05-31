@@ -2,7 +2,10 @@ import React, { Component } from 'react'
 import CanvasJSReact from './assets/canvasjs.stock.react'
 import {formateTimeFrame} from './utils' ;
 var CanvasJSStockChart = CanvasJSReact.CanvasJSStockChart;
-
+const longColor = '#73d963'
+const shortColor = '#a43d68'
+const darkColor = '#2a2438'
+const textColor = '#dc9651'
 
 class LineChart extends Component {
   constructor(props) {
@@ -38,12 +41,13 @@ class LineChart extends Component {
     const interactivityEnabled = false
     const lineThickness = 1.2
     const options = this.state.isLoaded ? {
-      theme: "dark2",
+      backgroundColor: darkColor,
       // title:{
       //   text: formateTimeFrame(this.props.timeframe) + ` ${this.props.activePair.toUpperCase()} Price`
       // },
       subtitles: [{
-        text: formateTimeFrame(this.props.timeframe) + ` ${this.props.activePair.toUpperCase()} Price: $${this.props.tf.prices[this.props.tf.prices.length-1][4]}`
+        text: formateTimeFrame(this.props.timeframe) + ` ${this.props.activePair.toUpperCase()} Price: $${this.props.tf.prices[this.props.tf.prices.length-1][4]}`,
+        fontColor: textColor,
       }],
       height:485,
       charts: [
@@ -64,6 +68,7 @@ class LineChart extends Component {
           },
           axisY2: {
             title: "",
+            labelFontColor: textColor,
             prefix: "$",
             tickLength: 0,
             scaleBreaks: {
@@ -82,8 +87,8 @@ class LineChart extends Component {
             xValueType: "dateTime",
             type: "candlestick",
             axisYType: "secondary",
-            risingColor: '#000000',
-            color:'#ff5555',
+            risingColor: darkColor,
+            color:shortColor,
             dataPoints : this.state.price
           },
           {
@@ -179,7 +184,7 @@ class LineChart extends Component {
             lineThickness: lineThickness,
             axisYType: 'secondary',
             markerType: 'none',
-            color: '#6272a4',
+            color: '#2d6086',
             fillOpacity: .1,
             dataPoints: this.state.bollingerBand.bands
           },
@@ -240,10 +245,15 @@ class LineChart extends Component {
         {
 
             height: 150,
+            axisX: {
+              labelFontColor: textColor
+            },
             axisY2: {
               maximum: 100,
               minimum: 0,
               title:"%B",
+              titleFontColor: textColor,
+              labelFontColor: textColor
             },
             dataPointMinWidth: dataPointMinWidth,
             interactivityEnabled: interactivityEnabled,
@@ -387,7 +397,7 @@ class LineChart extends Component {
       dps1.push({
         x: readableDate,
         y: result[i].slice(1, 5),
-        color: result[i][1] < result[i][4] ? '#50fa7b' : '#ff5555'
+        color: result[i][1] < result[i][4] ? longColor : shortColor
       });
       dps2.push({x: readableDate, y: result[i][6]})
     }
