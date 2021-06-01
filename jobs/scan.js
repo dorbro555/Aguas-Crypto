@@ -59,9 +59,13 @@ let analyzeMarket = async (asset) => {
 //Begin runtime
 //declare an asynchronous arrow function to analyze the market, and run it
 ;(async () => {
-  Promise.all(assets.map(asset => {
-    console.log(analyzeMarket(asset))
-  }))
+  try {
+    Promise.all(assets.map(asset => {
+      return analyzeMarket(asset)
+    })).then((res) => {client.quit()})
+  } catch(err) {
+    console.error(`error:  ${err.message}\n${err.stack}`)
+  }
 })()
 process.on('exit', function(code) {
     return console.log(`About to exit with code ${code}`);
