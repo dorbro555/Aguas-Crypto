@@ -3,6 +3,7 @@ const router = express.Router()
 
 require('dotenv').config()
 const got = require('got');
+const { spawn } = require('child_process')
 const RateLimit = require('express-rate-limit')
 const RedisStore = require('rate-limit-redis')
 const Redis = require('ioredis')
@@ -12,6 +13,34 @@ const client = new Redis({
 })
 const utils = require('../utils/utils');
 
+//create func that returns a scan subprocess
+var subprocessScan
+var scanCount = 0
+const createSubprocessScan = () => {
+  subprocessScan = setInterval(() => {
+
+    const child = spawn('node', ['jobs/scan.js'])
+    child.stdout.on('data', data => {
+      console.log(`stdout:\n${data}`);
+    });
+
+    child.stderr.on('data', data => {
+      console.error(`stderr: ${data}`);
+    });
+
+    child.on('error', (error) => {
+      console.error(`error: ${error.message}`);
+    });
+
+    child.on('close', (code) => {
+      scanCount++;
+      if(scanCount > 6){clearInterval(subprocessScan)}
+      console.log(`child process exited with code ${code}`);
+    });
+  }, 1800000)
+}
+
+//create the rate limiter for the api route
 const limiter = new RateLimit({
   store: new RedisStore({
     client: client,
@@ -56,6 +85,12 @@ router
           return [scan, alertsList]
         }))
 
+        //make sure the subprocess is cleared
+        clearInterval(subprocessScan)
+        scanCount = 0
+        //start the timer for the scan subprocess
+        await createSubprocessScan()
+        //return the response
         res.json({
           windows: Object.fromEntries(windows),
           alerts: Object.fromEntries(scans),
