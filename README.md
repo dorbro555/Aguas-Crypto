@@ -101,7 +101,7 @@ A webapp that compiles crypto market data into a form that is more easily digest
 * [Redis](https://redis.io/)
 * [Bulma](https://bulma.io/)
 * [Got](https://github.com/sindresorhus/got#readme)
-* [express-rate-limit](https://github.com/nfriedly/express-rate-limit
+* [express-rate-limit](https://github.com/nfriedly/express-rate-limit)
 * [tulind](https://github.com/TulipCharts/tulipnode#readme)
 
 
@@ -152,10 +152,8 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [] Feature 1
-- [] Feature 2
-- [] Feature 3
-    - [] Nested Feature
+- [] Add user accounts
+  - [] Allow users to add personal cryptowatch api key
 
 See the [open issues](https://github.com/BleedingEffigy/Aguas-Crypto/issues) for a full list of proposed features (and known issues).
 
