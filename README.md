@@ -1,4 +1,3 @@
-# Aguas-Crypto
 My porfolio remade with eleventy
 <div id="top"></div>
 <!--
@@ -133,10 +132,6 @@ This is an example of how to list things you need to use the software and how to
 2. Install NPM packages
    ```sh
    npm install
-   ```
-4. Start the react frontend and redis backend simultaneously
-   ```js
-  npm start ;
    ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
