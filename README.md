@@ -31,7 +31,7 @@ My porfolio remade with eleventy
 <br />
 <div align="center">
   <a href="https://github.com/BleedingEffigy/Aguas-Crypto">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="client/public/water_drop.png" alt="Logo" width="80" height="80">
   </a>
 
 <h3 align="center">Aguas Crypto</h3>
@@ -83,7 +83,7 @@ My porfolio remade with eleventy
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+[![Aguas Crypto][product-screenshot]](https://example.com)
 
 
 ¡Aguas! Crypto
@@ -191,7 +191,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@bleedingeffigy](https://twitter.com/bleedingeffigy) - ahern077@gmail.com.com
+Alexander Hernandez - [@bleedingeffigy](https://twitter.com/bleedingeffigy) - ahern077@gmail.com.com
 
 Project Link: [https://github.com/BleedingEffigy/Aguas-Crypto](https://github.com/BleedingEffigy/Aguas-Crypto)
 
@@ -215,4 +215,4 @@ Project Link: [https://github.com/BleedingEffigy/Aguas-Crypto](https://github.co
 [license-url]: https://github.com/BleedingEffigy/Aguas-Crypto/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/alex-hernandez-cloud-dev
-[product-screenshot]: images/screenshot.png
+[product-screenshot]: https://rosamint.org/images/Aguas_Crypto_Homepage.webp
