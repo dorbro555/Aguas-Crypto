@@ -41,7 +41,7 @@
     <a href="https://github.com/BleedingEffigy/Aguas-Crypto"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/BleedingEffigy/Aguas-Crypto">View Demo</a>
+    <a href="https://www.rosamint.org/trade/">View Demo</a>
     ·
     <a href="https://github.com/BleedingEffigy/Aguas-Crypto/issues">Report Bug</a>
     ·
