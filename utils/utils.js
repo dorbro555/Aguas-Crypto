@@ -62,6 +62,66 @@ function parseMarketData(data){
       return windows
 }
 
+// TODO changes prices to actual market prices instead of opens array
+function parseMarketDataBitQuery(data){
+  // we are given an array of ohlc values for a single interval and asset
+  var windows = Object.keys(data).map((key, idx) => {
+        let ohlcs = data[key],//we slice twice the range, to provide extra data that may be needed to compute more accurate results
+            dates = ohlcs.map(dp => convertToUnixTimestamp(dp.timeInterval.minute)),
+            opens = ohlcs.map(dp => parseFloat(dp.open)),
+            highs = ohlcs.map(dp => dp.high),
+            lows  = ohlcs.map(dp => dp.low),
+            closes = ohlcs.map(dp => parseFloat(dp.close)),
+            rsi = calculateRsi(dates, closes, 100),
+            psar = calculatePSar(dates, highs, lows, 100),
+            bband = calculateBollingerBand(dates, closes, 100),
+            [ema21, ema50, ema100, ema200] = calculateEMA([21, 50, 100, 200],dates, closes, 100),
+            ichimokuCloud = calculateIchimokuClouds(dates, highs, lows, closes, parseInt(key)),
+            [conversionLinePercent, baseLinePercent, ichimokuSpanAPercent, ichimokuSpanBPercent] = calculateBBandPercentage(bband, [ichimokuCloud.conversionLine.map(dp => dp.y),ichimokuCloud.baseLine.map(dp => dp.y),ichimokuCloud.leadingSpans.slice(0, -26).map(dp => dp.y[0]), ichimokuCloud.leadingSpans.slice(0, -26).map(dp => dp.y[1])]),
+            [psarPercent] = calculateBBandPercentage(bband, [psar.values.map(dp => dp.y)]),
+            [emaPercent21, emaPercent50, emaPercent100, emaPercent200] = calculateBBandPercentage(bband, [ema21.map(dp => dp.y),ema50.map(dp => dp.y),ema100.map(dp => dp.y),ema200.map(dp => dp.y)]),
+            ema21over50 = calculateEMAIndicators(ema21, ema50)
+            ema21over200 = calculateEMAIndicators(ema21, ema200)
+            ema50over100 = calculateEMAIndicators(ema50, ema100)
+            priceOver200 = calculateEMAIndicators(ohlcs.map(dp => {return {x: dp[0]*1000, y: dp[4]}}).slice(-ema200.length),ema200)
+
+        return {
+          timeframe: key, // interval window
+          dates: dates, //timestamp
+          prices: opens,
+          rsi: rsi,
+          psar: psar,
+          bband: bband,
+          ema: {
+            21: ema21,
+            50: ema50,
+            100: ema100,
+            200: ema200
+          },
+          ichimokuCloud: ichimokuCloud,
+          percentages: {
+            conversionLinePercent: conversionLinePercent,
+            baseLinePercent: baseLinePercent,
+            ichimokuSpanAPercent: ichimokuSpanAPercent,
+            ichimokuSpanBPercent: ichimokuSpanBPercent,
+            psarPercent: psarPercent,
+            emaPercent21: emaPercent21,
+            emaPercent50: emaPercent50,
+            emaPercent100: emaPercent100,
+            emaPercent200: emaPercent200,
+          },
+          emaIndicator: {
+            ema21over50: ema21over50,
+            ema21over200: ema21over200,
+            ema50over100: ema50over100,
+            priceOver200: priceOver200,
+          }
+        }
+      })
+
+      return windows
+}
+
 function calculateRsi(dates, closes, range){
   let values = [],
       start = tulind.indicators.rsi.start([14])
@@ -313,6 +373,10 @@ function calculateIchimokuTimes(startTime, interval, ichimokuPeriod, range){
   return futureTimes
 }
 
+function convertToUnixTimestamp(dateString) {
+  const date = new Date(dateString.replace(' ', 'T') + 'Z'); // Convert to ISO format and treat it as UTC
+  return Math.floor(date.getTime() / 1000); // Get the Unix timestamp in seconds
+}
 
 module.exports = {
   calculateRsi: calculateRsi,
@@ -323,6 +387,7 @@ module.exports = {
   calculateBBandPercentage: calculateBBandPercentage,
   calculateEMAIndicatorHead: calculateEMAIndicatorHead,
   parseMarketData:parseMarketData,
+  parseMarketDataBitQuery:parseMarketDataBitQuery,
   populateWatchlist: populateWatchlist,
   longColor: green
 }

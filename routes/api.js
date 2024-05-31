@@ -48,16 +48,107 @@ const limiter = new RateLimit({
   }),
   max: 600, // 600 requests per window
 })
-router.use(limiter)
+// TODO reimplement rate-limiting
+// router.use(limiter)
+
+const currentDate = new Date()
+const sinceDate = new Date(currentDate)
+sinceDate.setDate(currentDate.getDate() - 10)
+
+const query = `
+{
+  ethereum(network: ethereum) {
+    oneMin: dexTrades(
+      options: {limit: 100, desc: "timeInterval.minute"}
+      date: {since: "${sinceDate.toISOString()}", till: "${currentDate.toISOString()}"}
+      baseCurrency: {is: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"}
+      quoteCurrency: {is: "0xdAC17F958D2ee523a2206206994597C13D831ec7"}
+    ) {
+      timeInterval {
+        minute(count: 1)
+      }
+      baseCurrency {
+        symbol
+      }
+      quoteCurrency {
+        symbol
+      }
+      high: quotePrice(calculate: maximum)
+      low: quotePrice(calculate: minimum)
+      open: minimum(of: block, get: quote_price)
+      close: maximum(of: block, get: quote_price)
+      volume: quoteAmount
+    }
+    fiveMin: dexTrades(
+      options: {limit: 100, desc: "timeInterval.minute"}
+      date: {since: "2024-05-20", till: "2024-05-30"}
+      baseCurrency: {is: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"}
+      quoteCurrency: {is: "0xdAC17F958D2ee523a2206206994597C13D831ec7"}
+    ) {
+      timeInterval {
+        minute(count: 5)
+      }
+      baseCurrency {
+        symbol
+      }
+      quoteCurrency {
+        symbol
+      }
+      high: quotePrice(calculate: maximum)
+      low: quotePrice(calculate: minimum)
+      open: minimum(of: block, get: quote_price)
+      close: maximum(of: block, get: quote_price)
+      volume: quoteAmount
+    }
+    fifteenMin: dexTrades(
+      options: {limit: 100, desc: "timeInterval.minute"}
+      date: {since: "2024-05-20", till: "2024-05-30"}
+      baseCurrency: {is: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"}
+      quoteCurrency: {is: "0xdAC17F958D2ee523a2206206994597C13D831ec7"}
+    ) {
+      timeInterval {
+        minute(count: 15)
+      }
+      baseCurrency {
+        symbol
+      }
+      quoteCurrency {
+        symbol
+      }
+      high: quotePrice(calculate: maximum)
+      low: quotePrice(calculate: minimum)
+      open: minimum(of: block, get: quote_price)
+      close: maximum(of: block, get: quote_price)
+      volume: quoteAmount
+    }
+  }
+}
+`
+
+const url = "https://graphql.bitquery.io/"
+const options = {
+  method: "POST",
+  headers: {
+    'X-API-KEY': process.env.BITQUERY_API_KEY,
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    query: query
+  })
+}
 
 router
   .get('/ohlc/:pair', (req, res) => {
     (async () => {
     	try {
-        const response = await got(`https://api.cryptowat.ch/markets/kraken/${req.params.pair}usd/ohlc?apikey=${process.env.API_KEY}`);
-        let candles = JSON.parse(response.body),
-            results = candles.result
-            windows = utils.parseMarketData(results)
+        // const response = await got(`https://api.cryptowat.ch/markets/kraken/${req.params.pair}usd/ohlc?apikey=${process.env.API_KEY}`);
+        // const response = await got(`https://api.kraken.com/0/public/OHLC?pair=${req.params.pair}usd`);
+        const response = await got.post(url, options)
+        console.log(JSON.parse(response.body).data.ethereum)
+        // console.log(currentDate.toISOString() + ' ' + sinceDate.toISOString())
+        let candles = JSON.parse(response.body).data
+            results = candles.ethereum
+            windows = utils.parseMarketDataBitQuery(results)
             alertsLong = []
         windows = windows.map(dp => {
           return [dp.timeframe, dp]
@@ -107,6 +198,12 @@ router
     console.log(req.body);
     res.send(
       `I received your POST request. This is what you sent me: ${req.body.post}`,
+    );
+  })
+  .get('/world', (req, res) => {
+    console.log(req.body)
+    res.send(
+      `The api is up and running`
     );
   })
 
