@@ -6,17 +6,17 @@ const TabBar = ({onClickWatchlist, onClickAlertsList}) => {
       <ul>
         <li><a onClick={onClickWatchlist}>
           <span className='icon'>
-            <i class="fas fa-list has-text-white"></i>
+            <i className="fas fa-list has-text-white"></i>
           </span>
         </a></li>
         <li><a onClick={onClickAlertsList}>
           <span className='icon'>
-            <i class="far fa-bell has-text-white"></i>
+            <i className="far fa-bell has-text-white"></i>
           </span>
         </a></li>
         <li><a>
           <span className='icon'>
-            <i class="fas fa-retweet has-text-white"></i>
+            <i className="fas fa-retweet has-text-white"></i>
           </span>
         </a></li>
       </ul>

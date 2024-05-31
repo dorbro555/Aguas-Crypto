@@ -14,9 +14,9 @@ const pairs = ['btc','eth','xrp','bch','ada', 'link','dash','eos',
             </div>
           </div>
           <div className='level-right'>
-            <div classNam='level-item'>
+            <div className='level-item'>
               <span className='icon is-clickable' onClick={props.close}>
-                <i class="fas fa-window-close has-text-white"></i>
+                <i className="fas fa-window-close has-text-white"></i>
               </span>
             </div>
           </div>

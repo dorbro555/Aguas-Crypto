@@ -19,7 +19,7 @@ const AlertAssetPage = ({assets, close, back}) => {
           <div className='level-right'>
             <div className='level-item'>
               <span className='icon is-clickable' onClick={close}>
-                <i class="fas fa-times has-text-white is-size-4 mt-1"></i>
+                <i className="fas fa-times has-text-white is-size-4 mt-1"></i>
               </span>
             </div>
           </div>

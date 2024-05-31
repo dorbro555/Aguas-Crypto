@@ -39,7 +39,7 @@ const AlertsList = ({alerts, close, onClick}) => {
           <div className='level-right'>
             <div className='level-item'>
               <span className='icon is-clickable' onClick={close}>
-                <i class="fas fa-window-close has-text-white is-size-4 mt-1"></i>
+                <i className="fas fa-window-close has-text-white is-size-4 mt-1"></i>
               </span>
             </div>
           </div>
