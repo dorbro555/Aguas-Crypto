@@ -10,6 +10,8 @@ function formatTimeFrame(timeframe_name){
     'oneMin': '1 Min',
     'threeMin': '3 Min',
     'fiveMin': '5 Min',
+    'fifteenMin': '15 Min',
+    'oneHour': '1 Hr',
   } 
   return timeframe_map[timeframe_name]
 }

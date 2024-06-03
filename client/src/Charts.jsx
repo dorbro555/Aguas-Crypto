@@ -18,7 +18,7 @@ class Charts extends Component {
           {
             this.props.windows &&
             <div className='column is-12'>
-              <ChartsRangeButton range={volatileRange} title={'Volatile Range'} windows={this.props.windows} activePair={this.props.activePair}/>
+              <ChartsRangeButton range={volatileRange} title={'Volatile Range'} windows={this.props.windows} activePair={this.props.activePair} isToggled={true}/>
               {/* <ChartsRangeButton range={shortRange} title={'Short Range'} windows={this.props.windows} activePair={this.props.activePair} isToggled={true}/>
               <ChartsRangeButton range={moderateRange} title={'Intermediary Range'} windows={this.props.windows} activePair={this.props.activePair}/>
               <ChartsRangeButton range={LongRange} title={'Long Range'} windows={this.props.windows} activePair={this.props.activePair}/> */}
