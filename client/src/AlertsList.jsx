@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Alert from './Alert'
-import {formateTimeFrame} from './utils'
+import {formatTimeFrame} from './utils'
 
 const AlertsList = ({alerts, close, onClick}) => {
   const scanTypes = ['ema21/ema50', 'ema50/ema100', 'ema21/ema200', 'Price/ema200']

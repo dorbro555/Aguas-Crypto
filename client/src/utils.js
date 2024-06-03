@@ -5,4 +5,13 @@ function formateTimeFrame(seconds){
   return newTime + unit
 }
 
-export {formateTimeFrame}
+function formatTimeFrame(timeframe_name){
+  let timeframe_map = {
+    'oneMin': '1 Min',
+    'threeMin': '3 Min',
+    'fiveMin': '5 Min',
+  } 
+  return timeframe_map[timeframe_name]
+}
+
+export {formatTimeFrame}

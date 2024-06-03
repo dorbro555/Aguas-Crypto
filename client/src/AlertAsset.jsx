@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import {formateTimeFrame} from './utils'
+import {formatTimeFrame} from './utils'
 
 const AlertAssetPage = ({assets, close, back}) => {
   console.log(assets)
@@ -44,7 +44,7 @@ const AlertAssetPage = ({assets, close, back}) => {
                 <div className='level'>
                   <div className='level-left'>
                     <div className='level-item is-size-7'>
-                      {asset.scan} [{formateTimeFrame(asset.tf)}]
+                      {asset.scan} [{formatTimeFrame(asset.tf)}]
                     </div>
                   </div>
                 </div>

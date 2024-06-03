@@ -1,4 +1,4 @@
-import {formateTimeFrame} from './utils'
+import {formatTimeFrame} from './utils'
 
 const Alert = ({alerts, onClick}) => {
   let alert = alerts[0],
@@ -26,7 +26,7 @@ const Alert = ({alerts, onClick}) => {
               <div className={`level my-0 has-text-${alert.position==='long' ?'success':'danger'}`} key={idx}>
                 <div className='level-left'>
                   <div className='level-item is-size-7'>
-                    {alert.scan} [{formateTimeFrame(alert.tf)}]
+                    {alert.scan} [{formatTimeFrame(alert.tf)}]
                   </div>
                 </div>
                 <div className='level-right'>
