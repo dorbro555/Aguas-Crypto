@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import CanvasJSReact from './assets/canvasjs.stock.react'
 import {formatTimeFrame} from './utils' ;
 var CanvasJSStockChart = CanvasJSReact.CanvasJSStockChart;
-const longColor = '#73d963'
-const shortColor = '#a43d68'
-const darkColor = '#2a2438'
-const textColor = '#dc9651'
+const longColor = '#50fa7b'
+const shortColor = '#ff5555'
+const darkColor = '#282a36'
+const textColor = '#ffb86c'
 
 class LineChart extends Component {
   constructor(props) {

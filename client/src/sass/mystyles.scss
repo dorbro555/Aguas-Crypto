@@ -5,11 +5,11 @@
 
 //import the bottom to alter the $colors map
 // @import "../../node_modules/bulma/sass/utilities/derived-variables";
-$primary: #235a67;
-$success: #73d963;
-$danger: #a43d68;
-$dark: #2a2438;
-$white: #dc9651;
+$primary: #bd93f9;
+$success: #50fa7b;
+$danger: #ff5555;
+$dark: #282a36;
+$white: #ffeedb;
 @import "../../node_modules/bulma/bulma.sass";
 
 html, body {
@@ -17,7 +17,12 @@ html, body {
 }
 
 body {
-  background-color:#2a2438;
+  background-color:#282a36;
+  color: $white;
+}
+
+.title {
+  color: $white;
 }
 
 .title-bar {
