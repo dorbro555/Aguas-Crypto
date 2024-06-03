@@ -202,16 +202,16 @@ function calculateBollingerBand(dates, closes, range){
   let period = 20,
       stdDev = 2,
       start = tulind.indicators.bbands.start([period, stdDev]),
-      preciseDates = dates.slice(-(range+start))
-      preciseCloses = closes.slice(-(range+start))
+      preciseDates = dates.slice(0, (range+start))
+      preciseCloses = closes.slice(0, (range+start))
       bands = [],
       sma = [],
       percent = []
 
   tulind.indicators.bbands.indicator([preciseCloses], [period, stdDev], (err, results) => {
-    bands = results[0].map((dp, idx) => {return {x: preciseDates[idx+start]*1000, y: [dp, results[2][idx]]}})
-    sma = results[1].map((dp, idx) => {return {x: preciseDates[idx+start]*1000, y: dp}})
-    percent = bands.map((dp, idx) => {return {x: dp.x, y: ((preciseCloses[idx+start]-dp.y[0])/(dp.y[1]-dp.y[0]))*100}})
+    bands = results[0].map((dp, idx) => {return {x: preciseDates[idx]*1000, y: [dp, results[2][idx]]}})
+    sma = results[1].map((dp, idx) => {return {x: preciseDates[idx]*1000, y: dp}})
+    percent = bands.map((dp, idx) => {return {x: dp.x, y: ((preciseCloses[idx]-dp.y[0])/(dp.y[1]-dp.y[0]))*100}})
   })
   // values = values.map((dp, idx) => {return {x: dates[idx+start-1], y: dp}})
 
