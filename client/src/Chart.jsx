@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import CanvasJSReact from './assets/canvasjs.stock.react'
-import {formateTimeFrame} from './utils' ;
+import {formatTimeFrame} from './utils' ;
 import LineChart from './LineChart'
 import IchimokuChartButton from './IchimokuChartButton'
 import InfoHeader from './InfoHeader'

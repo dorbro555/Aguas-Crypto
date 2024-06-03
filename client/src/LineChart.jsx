@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import CanvasJSReact from './assets/canvasjs.stock.react'
-import {formateTimeFrame} from './utils' ;
+import {formatTimeFrame} from './utils' ;
 var CanvasJSStockChart = CanvasJSReact.CanvasJSStockChart;
 const longColor = '#73d963'
 const shortColor = '#a43d68'
@@ -46,7 +46,7 @@ class LineChart extends Component {
       //   text: formateTimeFrame(this.props.timeframe) + ` ${this.props.activePair.toUpperCase()} Price`
       // },
       subtitles: [{
-        text: formateTimeFrame(this.props.timeframe) + ` ${this.props.activePair.toUpperCase()} Price: $${this.props.tf.prices[this.props.tf.prices.length-1][4]}`,
+        text: formatTimeFrame(this.props.timeframe) + ` ${this.props.activePair.toUpperCase()} Price: $${this.props.tf.prices[this.props.tf.prices.length-1][3].toFixed(2)}`,
         fontColor: textColor,
       }],
       height:485,
@@ -91,122 +91,122 @@ class LineChart extends Component {
             color:shortColor,
             dataPoints : this.state.price
           },
-          {
-            name: "Conversion Line",
-            type: "line",
-            lineThickness: lineThickness,
-            visible:this.props.showIchimoku,
-            axisYType: "secondary",
-            markerType: 'none',
-            color: '#d5589d',
-            dataPoints : this.state.ichimokuCloud.conversionLine
-          },
-          {
-            name: "Base Line",
-            type: "line",
-            lineThickness: lineThickness,
-            visible:this.props.showIchimoku,
-            axisYType: "secondary",
-            markerType: 'none',
-            color: '#f59a38',
-            dataPoints : this.state.ichimokuCloud.baseLine
-          },
-          {
-            name: "Chikou",
-            type: "line",
-            lineThickness: lineThickness,
-            visible:this.props.showIchimoku,
-            axisYType: "secondary",
-            color: '#725ce5',
-            markerType: 'none',
-            dataPoints : this.state.ichimokuCloud.laggingSpan
-          },
-          {
-            name: "EMA 21",
-            type: "line",
-            lineThickness: lineThickness,
-            visible: !this.props.showIchimoku,
-            axisYType: "secondary",
-            color: '#0d8ce3',
-            markerType: 'none',
-            dataPoints : this.state.ema['21']
-          },
-          {
-            name: "EMA 50",
-            type: "line",
-            lineThickness: lineThickness,
-            visible: !this.props.showIchimoku,
-            axisYType: "secondary",
-            color: '#b1adeb',
-            markerType: 'none',
-            dataPoints : this.state.ema['50']
-          },
-          {
-            name: "EMA 100",
-            type: "line",
-            lineThickness: lineThickness,
-            visible: !this.props.showIchimoku,
-            axisYType: "secondary",
-            color: '#df9fd7',
-            markerType: 'none',
-            dataPoints : this.state.ema['100']
-          },
-          {
-            name: "EMA 200",
-            type: "line",
-            lineThickness: lineThickness,
-            axisYType: "secondary",
-            color: '#7cf8e0',
-            markerType: 'none',
-            dataPoints : this.state.ema['200']
-          },
-          {
-            name: 'Senkou',
-            type: "rangeSplineArea",
-            lineThickness: lineThickness,
-            axisYType: 'secondary',
-            markerType: 'none',
-            color: '#07df3d',
-            dataPoints: this.state.ichimokuCloud.greenCloud
-          },
-          {
-            name: 'Red Senkou',
-            type: "rangeSplineArea",
-            lineThickness: lineThickness,
-            axisYType: 'secondary',
-            markerType: 'none',
-            color: '#f00000',
-            dataPoints: this.state.ichimokuCloud.redCloud
-          },
-          {
-            name: 'Bollinger Band',
-            type: "rangeSplineArea",
-            lineThickness: lineThickness,
-            axisYType: 'secondary',
-            markerType: 'none',
-            color: '#2d6086',
-            fillOpacity: .1,
-            dataPoints: this.state.bollingerBand.bands
-          },
-          {
-            name: "Bollinger Band SMA",
-            type: "line",
-            axisYType: "secondary",
-            markerType: 'none',
-            color: '#ffeedb',
-            lineDashType: 'shortDash',
-            dataPoints : this.state.bollingerBand.sma
-          },
-          {
-            name: "PSar",
-            type: "line",
-            lineThickness: 0.1,
-            markerSize: 3,
-            axisYType: "secondary",
-            markerType: 'circle',
-            color: '#81c6f4',
-            dataPoints : this.state.psar
-          },
+          // {
+          //   name: "Conversion Line",
+          //   type: "line",
+          //   lineThickness: lineThickness,
+          //   visible:this.props.showIchimoku,
+          //   axisYType: "secondary",
+          //   markerType: 'none',
+          //   color: '#d5589d',
+          //   dataPoints : this.state.ichimokuCloud.conversionLine
+          // },
+          // {
+          //   name: "Base Line",
+          //   type: "line",
+          //   lineThickness: lineThickness,
+          //   visible:this.props.showIchimoku,
+          //   axisYType: "secondary",
+          //   markerType: 'none',
+          //   color: '#f59a38',
+          //   dataPoints : this.state.ichimokuCloud.baseLine
+          // },
+          // {
+          //   name: "Chikou",
+          //   type: "line",
+          //   lineThickness: lineThickness,
+          //   visible:this.props.showIchimoku,
+          //   axisYType: "secondary",
+          //   color: '#725ce5',
+          //   markerType: 'none',
+          //   dataPoints : this.state.ichimokuCloud.laggingSpan
+          // },
+          // {
+          //   name: "EMA 21",
+          //   type: "line",
+          //   lineThickness: lineThickness,
+          //   visible: !this.props.showIchimoku,
+          //   axisYType: "secondary",
+          //   color: '#0d8ce3',
+          //   markerType: 'none',
+          //   dataPoints : this.state.ema['21']
+          // },
+          // {
+          //   name: "EMA 50",
+          //   type: "line",
+          //   lineThickness: lineThickness,
+          //   visible: !this.props.showIchimoku,
+          //   axisYType: "secondary",
+          //   color: '#b1adeb',
+          //   markerType: 'none',
+          //   dataPoints : this.state.ema['50']
+          // },
+          // {
+          //   name: "EMA 100",
+          //   type: "line",
+          //   lineThickness: lineThickness,
+          //   visible: !this.props.showIchimoku,
+          //   axisYType: "secondary",
+          //   color: '#df9fd7',
+          //   markerType: 'none',
+          //   dataPoints : this.state.ema['100']
+          // },
+          // {
+          //   name: "EMA 200",
+          //   type: "line",
+          //   lineThickness: lineThickness,
+          //   axisYType: "secondary",
+          //   color: '#7cf8e0',
+          //   markerType: 'none',
+          //   dataPoints : this.state.ema['200']
+          // },
+          // {
+          //   name: 'Senkou',
+          //   type: "rangeSplineArea",
+          //   lineThickness: lineThickness,
+          //   axisYType: 'secondary',
+          //   markerType: 'none',
+          //   color: '#07df3d',
+          //   dataPoints: this.state.ichimokuCloud.greenCloud
+          // },
+          // {
+          //   name: 'Red Senkou',
+          //   type: "rangeSplineArea",
+          //   lineThickness: lineThickness,
+          //   axisYType: 'secondary',
+          //   markerType: 'none',
+          //   color: '#f00000',
+          //   dataPoints: this.state.ichimokuCloud.redCloud
+          // },
+          // {
+          //   name: 'Bollinger Band',
+          //   type: "rangeSplineArea",
+          //   lineThickness: lineThickness,
+          //   axisYType: 'secondary',
+          //   markerType: 'none',
+          //   color: '#2d6086',
+          //   fillOpacity: .1,
+          //   dataPoints: this.state.bollingerBand.bands
+          // },
+          // {
+          //   name: "Bollinger Band SMA",
+          //   type: "line",
+          //   axisYType: "secondary",
+          //   markerType: 'none',
+          //   color: '#ffeedb',
+          //   lineDashType: 'shortDash',
+          //   dataPoints : this.state.bollingerBand.sma
+          // },
+          // {
+          //   name: "PSar",
+          //   type: "line",
+          //   lineThickness: 0.1,
+          //   markerSize: 3,
+          //   axisYType: "secondary",
+          //   markerType: 'circle',
+          //   color: '#81c6f4',
+          //   dataPoints : this.state.psar
+          // },
           ]
         },
         // {
@@ -242,122 +242,122 @@ class LineChart extends Component {
         //     dataPoints : this.state.volume
         //   }]
         // },
-        {
+        // {
 
-            height: 150,
-            axisX: {
-              labelFontColor: textColor
-            },
-            axisY2: {
-              maximum: 100,
-              minimum: 0,
-              title:"%B",
-              titleFontColor: textColor,
-              labelFontColor: textColor
-            },
-            dataPointMinWidth: dataPointMinWidth,
-            interactivityEnabled: interactivityEnabled,
-            data: [
-              {
-                axisYType: "secondary",
-                xValueType: "dateTime",
-                type:'line',
-                color: '#ffff00',
-                lineDashType: 'shortDash',
-                lineThickness: lineThickness,
-                maximum: 100,
-                dataPoints: this.state.bollingerBand.percent,
-              },
-              {
-                axisYType: "secondary",
-                xValueType: "dateTime",
-                type:'line',
-                lineThickness: lineThickness,
-                color: '#d5589d',
-                visible:this.props.showIchimoku,
-                maximum: 100,
-                dataPoints: this.state.conversionLinePercent,
-              },
-              {
-                axisYType: "secondary",
-                xValueType: "dateTime",
-                type:'line',
-                lineThickness: lineThickness,
-                color: '#f59a38',
-                visible:this.props.showIchimoku,
-                maximum: 100,
-                dataPoints: this.state.baseLinePercent,
-              },
-              {
-                axisYType: "secondary",
-                xValueType: "dateTime",
-                type:'line',
-                lineThickness: lineThickness,
-                color: '#07df3d',
-                maximum: 100,
-                dataPoints: this.state.ichimokuSpanAPercent,
-              },
-              {
-                axisYType: "secondary",
-                xValueType: "dateTime",
-                type:'line',
-                lineThickness: lineThickness,
-                color: '#f00000',
-                maximum: 100,
-                dataPoints: this.state.ichimokuSpanBPercent,
-              },
-              {
-                axisYType: "secondary",
-                xValueType: "dateTime",
-                type:'line',
-                lineThickness: 0.1,
-                markerSize: 4,
-                markerType: 'circle',
-                color: '#81c6f4',
-                maximum: 100,
-                dataPoints: this.state.psarPercent,
-              },
-              {
-                axisYType: "secondary",
-                xValueType: "dateTime",
-                type:'line',
-                lineThickness: lineThickness,
-                color: '#0d8ce3',
-                visible: !this.props.showIchimoku,
-                maximum: 100,
-                dataPoints: this.state.emaPercent['21'],
-              },
-              {
-                axisYType: "secondary",
-                xValueType: "dateTime",
-                type:'line',
-                lineThickness: lineThickness,
-                color: '#b1adeb',
-                visible: !this.props.showIchimoku,
-                maximum: 100,
-                dataPoints: this.state.emaPercent['50'],
-              },
-              {
-                axisYType: "secondary",
-                xValueType: "dateTime",
-                type:'line',
-                lineThickness: lineThickness,
-                color: '#df9fd7',
-                visible: !this.props.showIchimoku,
-                maximum: 100,
-                dataPoints: this.state.emaPercent['100'],
-              },
-              {
-                axisYType: "secondary",
-                xValueType: "dateTime",
-                type:'line',
-                lineThickness: lineThickness,
-                color: '#7cf8e0',
-                maximum: 100,
-                dataPoints: this.state.emaPercent['200'],
-              },
-            ]
-        },
+        //     height: 150,
+        //     axisX: {
+        //       labelFontColor: textColor
+        //     },
+        //     axisY2: {
+        //       maximum: 100,
+        //       minimum: 0,
+        //       title:"%B",
+        //       titleFontColor: textColor,
+        //       labelFontColor: textColor
+        //     },
+        //     dataPointMinWidth: dataPointMinWidth,
+        //     interactivityEnabled: interactivityEnabled,
+        //     data: [
+        //       {
+        //         axisYType: "secondary",
+        //         xValueType: "dateTime",
+        //         type:'line',
+        //         color: '#ffff00',
+        //         lineDashType: 'shortDash',
+        //         lineThickness: lineThickness,
+        //         maximum: 100,
+        //         dataPoints: this.state.bollingerBand.percent,
+        //       },
+        //       {
+        //         axisYType: "secondary",
+        //         xValueType: "dateTime",
+        //         type:'line',
+        //         lineThickness: lineThickness,
+        //         color: '#d5589d',
+        //         visible:this.props.showIchimoku,
+        //         maximum: 100,
+        //         dataPoints: this.state.conversionLinePercent,
+        //       },
+        //       {
+        //         axisYType: "secondary",
+        //         xValueType: "dateTime",
+        //         type:'line',
+        //         lineThickness: lineThickness,
+        //         color: '#f59a38',
+        //         visible:this.props.showIchimoku,
+        //         maximum: 100,
+        //         dataPoints: this.state.baseLinePercent,
+        //       },
+        //       {
+        //         axisYType: "secondary",
+        //         xValueType: "dateTime",
+        //         type:'line',
+        //         lineThickness: lineThickness,
+        //         color: '#07df3d',
+        //         maximum: 100,
+        //         dataPoints: this.state.ichimokuSpanAPercent,
+        //       },
+        //       {
+        //         axisYType: "secondary",
+        //         xValueType: "dateTime",
+        //         type:'line',
+        //         lineThickness: lineThickness,
+        //         color: '#f00000',
+        //         maximum: 100,
+        //         dataPoints: this.state.ichimokuSpanBPercent,
+        //       },
+        //       {
+        //         axisYType: "secondary",
+        //         xValueType: "dateTime",
+        //         type:'line',
+        //         lineThickness: 0.1,
+        //         markerSize: 4,
+        //         markerType: 'circle',
+        //         color: '#81c6f4',
+        //         maximum: 100,
+        //         dataPoints: this.state.psarPercent,
+        //       },
+        //       {
+        //         axisYType: "secondary",
+        //         xValueType: "dateTime",
+        //         type:'line',
+        //         lineThickness: lineThickness,
+        //         color: '#0d8ce3',
+        //         visible: !this.props.showIchimoku,
+        //         maximum: 100,
+        //         dataPoints: this.state.emaPercent['21'],
+        //       },
+        //       {
+        //         axisYType: "secondary",
+        //         xValueType: "dateTime",
+        //         type:'line',
+        //         lineThickness: lineThickness,
+        //         color: '#b1adeb',
+        //         visible: !this.props.showIchimoku,
+        //         maximum: 100,
+        //         dataPoints: this.state.emaPercent['50'],
+        //       },
+        //       {
+        //         axisYType: "secondary",
+        //         xValueType: "dateTime",
+        //         type:'line',
+        //         lineThickness: lineThickness,
+        //         color: '#df9fd7',
+        //         visible: !this.props.showIchimoku,
+        //         maximum: 100,
+        //         dataPoints: this.state.emaPercent['100'],
+        //       },
+        //       {
+        //         axisYType: "secondary",
+        //         xValueType: "dateTime",
+        //         type:'line',
+        //         lineThickness: lineThickness,
+        //         color: '#7cf8e0',
+        //         maximum: 100,
+        //         dataPoints: this.state.emaPercent['200'],
+        //       },
+        //     ]
+        // },
       ],
       navigator: {
         enabled: false
@@ -390,16 +390,17 @@ class LineChart extends Component {
   componentDidMount(){
     let result = this.props.tf.prices,
         range = 60
-    var dps1 = [], dps2 = [], dates = []
+     var dps1 = [], dps2 = [], dates = []
     for (var i = 0; i < result.length; i++) {
-      var readableDate = result[i][0]*1000
+      var readableDate = this.props.tf.dates[i]*1000
       dates.push(readableDate)
       dps1.push({
         x: readableDate,
-        y: result[i].slice(1, 5),
-        color: result[i][1] < result[i][4] ? longColor : shortColor
+        y: result[i].slice(0,4),
+        color: result[i][0] < result[i][3] ? longColor : shortColor
       });
-      dps2.push({x: readableDate, y: result[i][6]})
+      dps2.push({x: readableDate, y: result[i][4]})
+      console.log(result[i][3])
     }
     let price = dps1.slice(-range),
         volume = dps2.slice(-range),
@@ -421,7 +422,8 @@ class LineChart extends Component {
         emaPercent50 = this.props.tf.percentages.emaPercent50.slice(-range),
         emaPercent100 = this.props.tf.percentages.emaPercent100.slice(-range),
         emaPercent200 = this.props.tf.percentages.emaPercent200.slice(-range)
-
+      
+    console.log([price,volume])
     this.setState({
       isLoaded: true,
       dataPoints1: dps1,
