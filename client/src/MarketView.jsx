@@ -24,7 +24,13 @@ class MarketView extends Component {
       data: [], //we must clear the data or the graph wont update
     })
     this.props.closeWatchlist() //hide watchlist after clicking an item
-    fetch(`https://www.ahernandez.dev/trade/api/ohlc/${pair}`)
+
+    // TODO update apiUrl based on production environment
+    // const apiUrl = process.env.NODE_ENV === 'production'
+    // ? process.env.REACT_APP_API_URL_PROD
+    // : process.env.REACT_APP_API_URL_DEV;
+
+    fetch(`http://localhost:5000/api/ohlc/${pair}`)
     .then(res => res.json())
     .then(res => {
       this.setState({
@@ -67,7 +73,7 @@ class MarketView extends Component {
   }
 
   componentDidMount(){
-    fetch(`https://www.ahernandez.dev/trade/api/ohlc/eth`)
+    fetch(`http://localhost:5000/api/ohlc/eth`)
     .then(res => res.json())
 		.then(res => {
       this.setState({
