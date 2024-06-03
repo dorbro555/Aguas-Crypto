@@ -64,7 +64,7 @@ function parseMarketData(data){
 
 // TODO changes prices to actual market prices instead of opens array
 function parseMarketDataBitQuery(data){
-  // we are given an array of ohlc values for a single interval and asset
+  // we are given an array of ohlc values for a multiple intervals and a single asset
   var windows = Object.keys(data).map((key, idx) => {
         let ohlcs = data[key],//we slice twice the range, to provide extra data that may be needed to compute more accurate results
             dates = ohlcs.map(dp => convertToUnixTimestamp(dp.timeInterval.minute)),
@@ -72,6 +72,7 @@ function parseMarketDataBitQuery(data){
             highs = ohlcs.map(dp => dp.high),
             lows  = ohlcs.map(dp => dp.low),
             closes = ohlcs.map(dp => parseFloat(dp.close)),
+            prices = ohlcs.map(dp => [parseFloat(dp.open), dp.high, dp.low, parseFloat(dp.close), dp.volume])
             rsi = calculateRsi(dates, closes, 100),
             psar = calculatePSar(dates, highs, lows, 100),
             bband = calculateBollingerBand(dates, closes, 100),
@@ -88,7 +89,7 @@ function parseMarketDataBitQuery(data){
         return {
           timeframe: key, // interval window
           dates: dates, //timestamp
-          prices: opens,
+          prices: prices,
           rsi: rsi,
           psar: psar,
           bband: bband,

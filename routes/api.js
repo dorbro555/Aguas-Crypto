@@ -79,14 +79,14 @@ const query = `
       close: maximum(of: block, get: quote_price)
       volume: quoteAmount
     }
-    fiveMin: dexTrades(
+    threeMin: dexTrades(
       options: {limit: 100, desc: "timeInterval.minute"}
-      date: {since: "2024-05-20", till: "2024-05-30"}
+      date: {since: "${sinceDate.toISOString()}", till: "${currentDate.toISOString()}"}
       baseCurrency: {is: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"}
       quoteCurrency: {is: "0xdAC17F958D2ee523a2206206994597C13D831ec7"}
     ) {
       timeInterval {
-        minute(count: 5)
+        minute(count: 3)
       }
       baseCurrency {
         symbol
@@ -100,14 +100,14 @@ const query = `
       close: maximum(of: block, get: quote_price)
       volume: quoteAmount
     }
-    fifteenMin: dexTrades(
+    fiveMin: dexTrades(
       options: {limit: 100, desc: "timeInterval.minute"}
-      date: {since: "2024-05-20", till: "2024-05-30"}
+      date: {since: "${sinceDate.toISOString()}", till: "${currentDate.toISOString()}"}
       baseCurrency: {is: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"}
       quoteCurrency: {is: "0xdAC17F958D2ee523a2206206994597C13D831ec7"}
     ) {
       timeInterval {
-        minute(count: 15)
+        minute(count: 5)
       }
       baseCurrency {
         symbol
@@ -144,7 +144,7 @@ router
         // const response = await got(`https://api.cryptowat.ch/markets/kraken/${req.params.pair}usd/ohlc?apikey=${process.env.API_KEY}`);
         // const response = await got(`https://api.kraken.com/0/public/OHLC?pair=${req.params.pair}usd`);
         const response = await got.post(url, options)
-        console.log(JSON.parse(response.body).data.ethereum)
+        // console.log(JSON.parse(response.body).data.ethereum)
         // console.log(currentDate.toISOString() + ' ' + sinceDate.toISOString())
         let candles = JSON.parse(response.body).data
             results = candles.ethereum
