@@ -1,7 +1,7 @@
 {
-  "name": "AguasCrypto",
+  "name": "CryptoScout",
   "version": "0.1.0",
-  "homepage": "https://www.ahernandez.dev/trade",
+  "homepage": "https://trade.ahernandez.dev/",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
