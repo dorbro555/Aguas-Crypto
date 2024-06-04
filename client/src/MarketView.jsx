@@ -75,7 +75,9 @@ class MarketView extends Component {
   }
 
   componentDidMount(){
-    fetch(`http://localhost:5000/api/ohlc/eth`)
+    // TODO fix cors to reuse the below fetch
+    // fetch(`http://localhost:5000/api/ohlc/eth`)
+    fetch(`https://trade.ahernandez.dev/api/ohlc/eth`)
     .then(res => res.json())
 		.then(res => {
       this.setState({
