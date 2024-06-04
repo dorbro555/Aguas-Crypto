@@ -11,7 +11,7 @@
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
     "build-client": "cd client && NODE_ENV=production yarn build",
     "start-redis": "redis-server redis.conf",
-    "production": "PORT=6341 node server.js"
+  "production": "PORT=5000 node server.js"
   },
   "dependencies": {
     "axios": "^0.21.1",
