@@ -30,7 +30,9 @@ class MarketView extends Component {
     // ? process.env.REACT_APP_API_URL_PROD
     // : process.env.REACT_APP_API_URL_DEV;
 
-    fetch(`http://localhost:5000/api/ohlc/${pair}`)
+    // TODO add CORS to server to get the below fetch to work
+    //fetch(`http://localhost:5000/api/ohlc/${pair}`)
+    fetch(`trade.ahernandez.dev/api/ohlc/${pair}`)
     .then(res => res.json())
     .then(res => {
       this.setState({
