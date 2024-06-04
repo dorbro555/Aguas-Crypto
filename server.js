@@ -8,6 +8,7 @@ const expressSession = require('express-session')
 // const auth0Strategy = require('passport-auth0');
 const util = require('util')
 const { spawn } = require('child_process')
+const cors = require('cors');
 require("dotenv").config();
 
 // const { RESTClient } = require('cw-sdk-node')
@@ -109,6 +110,7 @@ app.use(express.static(path.join(__dirname, "client", "build")))
 // })
 app.use('/', authRoutes)
 app.use('/api', apiRoutes)
+app.use('/api', cors())
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'client', 'build','index.html'))
